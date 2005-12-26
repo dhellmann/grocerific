@@ -21,6 +21,26 @@
     <h1>Grocerific</h1>
     
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
+
+    <div py:def="loginBox()">
+      <form class="group" action="/user/login" method="post">
+        <TABLE>
+          <tr>
+            <th>Username:</th>
+            <td><input type="text" name="username" value="" /></td>
+          </tr>
+          <tr>
+            <th>Password:</th>
+            <td><input type="password" name="password" value="" /></td>
+          </tr>
+          <tr>
+            <td COLSPAN="2"><input class="standalone" TYPE="submit" NAME="loginBtn" VALUE="Login" /></td>
+          </tr>
+          <input type="hidden" name="debug" value="1"/>
+          <input type="hidden" name="debugOutput" value="1"/>
+        </TABLE>
+      </form>
+    </div>
     
     <div py:replace="item[:]"/>
   </body>

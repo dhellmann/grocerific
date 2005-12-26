@@ -4,13 +4,24 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>Welcome to TurboGears</title>
+    <title>Welcome to Grocerific</title>
 </head>
 
 <body>
-    <p>You are logged in.</p>
+    <div align="right" py:if="session_is_logged_in"><a
+        href="user/logout">Log Out</a></div>
 
-    <p><a href="login/logout">Log Out</a></p>
-        
+    <table width="100%">
+      <tr><td>&nbsp;</td><td><div style="menu_bar">Menu Goes Here</div></td></tr>
+      <tr valign="top">
+        <td width="15%">
+          <p py:if="not session_is_logged_in"><div py:replace="loginBox()"/></p>
+        </td>
+        <td>
+          Main body goes here!
+        </td>
+      </tr>
+    </table>
+    
 </body>
 </html>

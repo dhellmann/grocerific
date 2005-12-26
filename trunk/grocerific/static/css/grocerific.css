@@ -306,8 +306,8 @@ position: relative;
 
 .group {
 border: 1px solid black;
-margin: 1em 0em 1em 0em;
-padding: 0em 1em;
+margin: 0;
+padding: 0.5em 0.5em 0 0.5em;
 }
 span.legend {
 background: white;

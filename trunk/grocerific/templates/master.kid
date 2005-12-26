@@ -7,8 +7,8 @@
 
   <head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'">
     <!-- AJAX support libraries -->
-    <script src="/static/js/prototype.js" />
-    <script src="/static/js/rico.js" />
+    <!-- script src="/static/js/prototype.js" / -->
+    <!-- script src="/static/js/rico.js" / -->
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" media="all"
@@ -18,7 +18,7 @@
   </head>
 
   <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'">
-    <p align="center"><img src="http://www.turbogears.org/tgheader.png"/></p>
+    <h1>Grocerific</h1>
     
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
     

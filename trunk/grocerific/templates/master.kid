@@ -19,9 +19,18 @@
 
   <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'">
     <h1>Grocerific</h1>
+
+    <div align="right" py:if="session_is_logged_in">
+      <span py:content="session_user">Username</span>
+      <a href="/user/prefs">Preferences</a>
+      <a href="/user/logout">Log Out</a>
+    </div>
+
+    <div style="menu_bar"><a href="/">Home</a></div>
     
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 
+    <!-- LOGIN BOX -->
     <div py:def="loginBox()">
       <form class="group" action="/user/login" method="post">
         <TABLE>
@@ -36,10 +45,11 @@
           <tr>
             <td COLSPAN="2"><input class="standalone" TYPE="submit" NAME="loginBtn" VALUE="Login" /></td>
           </tr>
-          <input type="hidden" name="debug" value="1"/>
-          <input type="hidden" name="debugOutput" value="1"/>
         </TABLE>
+
+        <p>Not already a member?  <a href="/user/registration_form">Register here</a></p>
       </form>
+
     </div>
     
     <div py:replace="item[:]"/>

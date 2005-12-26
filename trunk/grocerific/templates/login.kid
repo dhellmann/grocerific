@@ -9,7 +9,7 @@
 
   <body>
 
-    <div py:replace="loginBox()" />
+    <center><div py:replace="loginBox()" /></center>
     
   </body>
 </html>

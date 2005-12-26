@@ -1,0 +1,637 @@
+/*
+** Based on the Plone style sheet for CSS2-capable browsers.
+** Copyright Alexander Limi, 2002-2003 - http://www.plonesolutions.com
+**
+** Thanks to Geir B\xe6kholt, Stian S\xf8iland for input and guidance.
+**
+** Style sheet documentation can be found at http://plone.org/documentation
+**
+** You should preferrably use ploneCustom.css to add your own CSS classes and to
+** customize your portal, as these are the base fundaments of Plone, and will
+** change and be refined in newer versions. Keeping your changes in
+** ploneCustom.css will make it easier to upgrade.
+**
+** Feel free to use whole or parts of this for your own designs, but give credit
+** where credit is due.
+**
+*/
+
+body {
+font: 65% Verdana, Helvetica, Arial, sans-serif;
+background: white;
+color: black;
+margin: 1em;
+padding: 0;
+}
+
+table {
+font-size: 100%;
+}
+
+a {
+text-decoration: underline;
+/*color: blue;
+background-color: transparent;*/
+}
+
+table {
+
+}
+
+
+img {
+border: none;
+vertical-align: middle;
+}
+
+p {
+margin: 0.5em 0em 1em 0em;
+text-align: justify;
+line-height: 1.5em;
+}
+
+p a {
+text-decoration: underline;
+}
+
+p a:visited {
+color: purple;
+background-color: transparent;
+}
+
+p a:active {
+color: red;
+background-color: transparent;
+}
+
+p img {
+border: 0;
+margin: 0;
+}
+
+
+hr {
+clear: both;
+height: 1px;
+color: black;
+background-color: transparent;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+color: black;
+clear: left;
+font: 100% Verdana, Helvetica, Arial, sans-serif;
+margin: 0;
+padding-top: 0.5em;
+border-bottom: 1px solid black;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a { color: black ! important; }
+
+
+h1 {
+font-size: 160%;
+}
+
+h2 {
+font-size: 150%;
+}
+
+h3 {
+font-size: 140%;
+}
+
+h4 {
+font-size: 120%;
+}
+
+h5 {
+font-size: 100%;
+}
+
+h6 {
+font-size: 80%;
+}
+
+ul {
+line-height: 1.5em;
+list-style-type: square;
+margin: 0.5em 0 0 2em;
+padding:0;
+}
+
+ol {
+line-height: 1.5em;
+margin: 0.5em 0 0 2em;
+padding:0;
+}
+
+ul a, ol a {
+text-decoration: underline;
+}
+
+li {
+margin-bottom: 1em;
+}
+
+dl {
+}
+
+dt {
+font-weight: bold;
+}
+
+dt a {
+text-decoration: underline;
+}
+
+
+dd {
+line-height: 1.5em;
+margin-bottom: 1em;
+}
+
+d a {
+text-decoration: underline;
+}
+
+
+fieldset {
+border: 1px solid #8cacbb;
+margin: 2em 0em 1em 0em;
+padding: 1em 0em;
+}
+
+legend {
+background: white;
+padding: 0.5em;
+}
+
+
+form {
+border: none;
+margin: 0;
+}
+
+textarea {
+border: 1px solid black;
+color: black;
+background-color: white;
+width: 88%;
+padding: 0.1em;
+}
+
+input {
+font: 100% Verdana, Helvetica, Arial, sans-serif;
+border: 1px solid black;
+color: black;
+background-color: white;
+vertical-align: middle;
+margin-bottom: 1px; /* IE bug fix */
+padding: 0.1em;
+}
+
+select {
+font: 100% Verdana, Helvetica, Arial, sans-serif;
+border: 1px solid black;
+vertical-align: top;
+}
+
+abbr, acronym, .explain {
+border-bottom: 1px dotted black;
+color: black;
+background-color: transparent;
+cursor: help;
+}
+
+q {
+font-family: Times, "Times New Roman", serif;
+font-style: italic;
+font-size: 120%;
+}
+
+blockquote {
+font-family: Times, "Times New Roman", serif;
+font-style: italic;
+font-size: 120%;
+}
+
+code {
+font-size: 120%;
+color: black;
+background-color: white;
+}
+
+pre {
+font-size: 120%;
+padding: 1em;
+border: 1px dotted green;
+color: black;
+background-color: white;
+}
+
+.netscape4 {
+display: none;
+}
+
+/*
+** Structural Elements
+*/
+
+
+div.message {
+background: orange;
+border: 1px solid black;
+color: black;
+font: bold 80% Verdana, Helvetica, Arial, sans-serif;
+margin: 2em 0em 1em 0em;
+padding: 0.5em 1em;
+vertical-align: middle;
+}
+
+div.message a {
+color: black;
+text-decoration: underline;
+}
+
+
+div.flash {
+background: orange;
+border: 1px solid black;
+color: black;
+font: bold Verdana, Helvetica, Arial, sans-serif;
+margin: 2em 0em 1em 0em;
+padding: 0.5em 1em;
+vertical-align: middle;
+}
+
+div.flash a {
+color: black;
+text-decoration: underline;
+}
+
+
+div.title {
+margin-top: 1em;
+}
+
+/*
+** Widgets
+*/
+
+input.standalone {
+background: #DEE7EC url(/static/images/linkOpaque.gif) 9px 1px no-repeat;
+color: black;
+cursor: pointer;
+font-size: 90%;
+font-weight: normal;
+margin-bottom: 1em;
+padding: 1px 1px 1px 15px;
+text-transform: lowercase;
+}
+
+
+div.row {
+clear: both;
+min-height: 4em;
+margin: 0em 0em 1em 0em;
+position: relative;
+}
+
+.group {
+border: 1px solid black;
+margin: 1em 0em 1em 0em;
+padding: 0em 1em;
+}
+span.legend {
+background: white;
+font-size: 80%;
+padding: 0.5em;
+position : relative;
+top: -0.8em;
+left: 0em;
+}
+
+div.label {
+font-weight: bold;
+display: inline;
+padding-right: 0.5em;
+}
+
+div.field {
+margin-top: 0.2em;
+}
+
+div.help {
+background-color: #FFFFE1;
+border: 1px solid black;
+font-size: 80%;
+font-weight: normal;
+line-height: normal;
+text-align: left;
+position: absolute;
+left: -18em;
+top: 1.5em;
+width: 16em;
+padding: 0.5em;
+}
+
+.error {
+/* Class for error indication in forms */
+background: orange;
+border: 1px solid black;
+padding: 1em;
+margin: 0;
+width: 68% !important;
+}
+
+.required {
+/* Used in addition to class "label" on required elements */
+background: url(/static/images/required.gif) right no-repeat;
+}
+
+
+table.listing,
+div.stx table {
+border-collapse: collapse;
+border-left: 1px solid black;
+border-bottom: 1px solid black;
+font-size: 110%;
+margin: 1em 0em 1em 0em;
+clear: both;
+}
+
+table.listing th,
+div.stx table th {
+background: #DEE7EC;
+border-top: 1px solid black;
+border-bottom: 1px solid black;
+border-right: 1px solid black;
+color: black;
+font-weight: normal;
+padding: 0em 1em 0em 1em;
+white-space: nowrap;
+}
+
+table.listing td.top {
+border-left: 1px solid white;
+border-top: 1px solid white ! important;
+border-right: 1px solid white ! important;
+text-align: right ! important;
+padding: 0em 0em 1em 0em;
+/* insane IE row bug workaround */
+position: relative;
+left: -1px;
+top: -1px;
+}
+
+table.listing tr.odd {
+/*every second line should be shaded */
+background: transparent;
+}
+
+table.listing tr.even {
+background: lightgrey;
+}
+
+table.listing td,
+div.stx table td {
+border-right: 1px solid black;
+padding: 5px 1em;
+/*text-align: left;*/
+}
+
+/*
+table.listing a:hover {
+text-decoration: underline;
+}
+*/
+
+table.listing img {
+vertical-align: middle;
+}
+
+
+
+div.box {
+border: none;
+margin: 0em 0em 2em 0em;
+padding: 0;
+}
+
+div.box h4 {
+font-size: 1em;
+}
+
+div.box h5 {
+background: ;
+border: 1px solid black;
+border-style: solid solid none solid;
+color: black;
+padding: 0em 1em 0em 1em;
+text-transform: lowercase;
+display: inline;
+font-size: 1em;
+height: 1em;
+}
+
+div.box h6 {
+background: black;
+border: 1px solid black;
+border-style: solid solid none solid;
+color: white;
+padding: 0em 1em 0em 1em;
+text-transform: lowercase;
+display: block;
+font-size: 1em;
+height: 1.2em;
+}
+
+
+div.box div.body {
+background: transparent;
+border-collapse: collapse;
+border: 1px solid black;
+}
+
+.boxDetails {
+text-align: right;
+}
+
+div.box .content {
+padding: 1em;
+}
+
+div.box a.close {
+float: right;
+text-transform: none;
+border-left: 1px solid black;
+padding: 0em 0.2em;
+}
+
+div.box h1,
+div.box h2,
+div.box h3,
+div.box h4 {
+margin: 0;
+padding: 0;
+}
+
+div.box .even {
+background-color: white;
+}
+
+div.box .odd {
+background-color: lightgrey;
+}
+
+div.box input {
+font-size: 100%;
+}
+
+div.spacer {
+margin: 1em;
+}
+
+.currentNavItem {
+color: black;
+font-weight: bold;
+}
+
+.private {
+color: Black;
+}
+
+.published {
+color: #74AE0B;
+}
+
+.pending {
+color: #FFA500;
+}
+
+.syndicated {
+color: #008000;
+}
+
+.expired {
+color: Red;
+}
+
+.even {
+background-color: lightgrey;
+}
+
+.odd {
+background-color: transparent;
+}
+
+.highlight {
+background-color: lightgrey;
+}
+
+
+
+
+/* TestQueue stuff */
+
+.new {
+	color: white;
+	background-color: blue;
+}
+
+.new a {
+	color: black;
+}
+
+.pending {
+	font-weight: bold;
+	background-color: green;
+	color: white;
+}
+
+.pending a {
+	color: white;
+}
+
+.creating_instance {
+  background-color: yellow;
+  color: black;
+}
+
+.creating_instance a {
+	color: black;
+}
+
+.cleanup {
+  background-color: yellow;
+  color: black;
+}
+
+.cleanup a {
+	color: black;
+}
+
+.running {
+	font-weight: bold;
+	background-color: red;
+	color: white;
+}
+
+.running a {
+	color: white;
+}
+
+.clean_repository {
+	font-weight: bold;
+	background-color: red;
+	color: white;
+}
+
+.clean_repository a {
+	color: white;
+}
+
+.logging {
+	font-weight: bold;
+	background-color: red;
+	color: white;
+}
+
+.logging a {
+	color: white;
+}
+
+.complete {
+	background-color: lightgrey;
+	color: black;
+}
+
+.complete a {
+	color: black;
+}
+
+.canceled {
+	background-color: lightgrey;
+	color: black;
+}
+
+.canceled a {
+	color: black;
+}
+
+.failed {
+	background-color: orange;
+	color: black;
+}
+
+.failed a {
+	color: black;
+}
+

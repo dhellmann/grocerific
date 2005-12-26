@@ -42,7 +42,7 @@ def requiresLogin():
             #
             if admin_username is None:
                 cherrypy.session['login_came_from'] = cherrypy.request.browserUrl
-                raise cherrypy.HTTPRedirect('/login_form')
+                raise cherrypy.HTTPRedirect('/user/login_form')
 
             output = func(self, *args, **kw)
             return output
@@ -52,25 +52,11 @@ def requiresLogin():
         return newfunc
 
     return decorator
-    
 
 
-class Root(controllers.Root):
-
-    @turbogears.expose(html="grocerific.templates.index")
-    @requiresLogin()
-    def index(self):
-        """The main view, which shows a login screen.
-        """
-        return dict(now=time.ctime(),
-                    )
-
-    @turbogears.expose(html="grocerific.templates.userlist")
-    def userlist(self):
-        """List the users
-        """
-        return dict(users=User.select(LIKE(User.q.username, "%")),
-                    )
+class UserManager:
+    """Controller for user operations.
+    """
         
     @turbogears.expose(html="grocerific.templates.login")
     def login_form(self):
@@ -99,13 +85,10 @@ class Root(controllers.Root):
         #
         if not username:
             controllers.flash('You must enter your Username')
-            raise cherrypy.HTTPRedirect('/login_form')
+            raise cherrypy.HTTPRedirect('login_form')
         elif not password:
             controllers.flash('You must enter your Password')
-            raise cherrypy.HTTPRedirect('/login_form')
-
-        print 'Username', username
-        print 'Password', password
+            raise cherrypy.HTTPRedirect('login_form')
 
         #
         # Try to find that user
@@ -113,17 +96,15 @@ class Root(controllers.Root):
         try:
             userobj = User.byUsername(username)
         except SQLObjectNotFound:
-            print 'XXX No such user'
             controllers.flash('Invalid username or password')
-            raise cherrypy.HTTPRedirect('/login_form')
+            raise cherrypy.HTTPRedirect('login_form')
 
         #
         # Check the password
         #
         if userobj.password != password:
-            print 'XXX wrong password', userobj.password
             controllers.flash('Invalid username or password')
-            raise cherrypy.HTTPRedirect('/login_form')
+            raise cherrypy.HTTPRedirect('login_form')
 
         #
         # Store the username and password in the session
@@ -136,3 +117,21 @@ class Root(controllers.Root):
         #
         go_back_to = cherrypy.session.get('login_came_from', '/')
         raise cherrypy.HTTPRedirect(go_back_to)
+
+    @turbogears.expose(html="grocerific.templates.userlist")
+    def userlist(self):
+        """List the users
+        """
+        return dict(users=User.select(LIKE(User.q.username, "%")),
+                    )
+
+class Root(controllers.Root):
+
+    @turbogears.expose(html="grocerific.templates.index")
+    @requiresLogin()
+    def index(self):
+        """The main view, which shows a login screen.
+        """
+        return dict(now=time.ctime(),
+                    )
+    user = UserManager()

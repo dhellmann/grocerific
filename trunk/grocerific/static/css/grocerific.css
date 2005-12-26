@@ -291,7 +291,6 @@ color: black;
 cursor: pointer;
 font-size: 90%;
 font-weight: normal;
-margin-bottom: 1em;
 padding: 1px 1px 1px 15px;
 text-transform: lowercase;
 }
@@ -307,7 +306,7 @@ position: relative;
 .group {
 border: 1px solid black;
 margin: 0;
-padding: 0.5em 0.5em 0 0.5em;
+padding: 0.5em;
 }
 span.legend {
 background: white;
@@ -539,99 +538,22 @@ background-color: lightgrey;
 
 
 
-/* TestQueue stuff */
+/* Shopping List stuff */
 
-.new {
-	color: white;
-	background-color: blue;
+.shopping_list {
+border: 1px solid black;
+margin: 0;
+padding: 0;
 }
 
-.new a {
-	color: black;
+.list_name { 
+  background-color: #008000;
+  color: white;
+  padding: 0.25em;
+  text-align: center;
 }
 
-.pending {
-	font-weight: bold;
-	background-color: green;
-	color: white;
-}
-
-.pending a {
-	color: white;
-}
-
-.creating_instance {
-  background-color: yellow;
+.list_item { 
   color: black;
+  padding: 0.1em;
 }
-
-.creating_instance a {
-	color: black;
-}
-
-.cleanup {
-  background-color: yellow;
-  color: black;
-}
-
-.cleanup a {
-	color: black;
-}
-
-.running {
-	font-weight: bold;
-	background-color: red;
-	color: white;
-}
-
-.running a {
-	color: white;
-}
-
-.clean_repository {
-	font-weight: bold;
-	background-color: red;
-	color: white;
-}
-
-.clean_repository a {
-	color: white;
-}
-
-.logging {
-	font-weight: bold;
-	background-color: red;
-	color: white;
-}
-
-.logging a {
-	color: white;
-}
-
-.complete {
-	background-color: lightgrey;
-	color: black;
-}
-
-.complete a {
-	color: black;
-}
-
-.canceled {
-	background-color: lightgrey;
-	color: black;
-}
-
-.canceled a {
-	color: black;
-}
-
-.failed {
-	background-color: orange;
-	color: black;
-}
-
-.failed a {
-	color: black;
-}
-

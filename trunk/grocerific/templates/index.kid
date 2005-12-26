@@ -11,8 +11,25 @@
 
     <table width="100%">
       <tr valign="top">
-        <td width="15%">
-          <p py:if="not session_is_logged_in"><div py:replace="loginBox()"/></p>
+        <td width="20%">
+          <div py:if="not session_is_logged_in"><div
+              py:replace="loginBox()"/></div>
+          <div py:if="session_is_logged_in" class="shopping_list">
+            <div class="list_name" py:content="shopping_list.name">List Name</div>
+
+            <table py:if="not empty_list" width="100%">
+              <tr class="list_item" py:for="item in shopping_list.getItems()">
+                <td py:content="item.item.name">Item Name</td>
+                <td py:content="item.item.qualifier">Item Qualifier</td>
+                <td py:content="item.quantity">Quantity</td>
+              </tr>
+            </table>
+            
+            <div class="list_item"  py:if="empty_list">
+              <center>(Empty)</center>
+            </div>
+
+          </div>
         </td>
         <td>
           Main body goes here!

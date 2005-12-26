@@ -27,6 +27,15 @@ from grocerific.model import *
 # Module
 #
 
+def sessionIsLoggedIn():
+    """Returns boolean indicating whether or not the current
+    session is for a user who has logged in.
+    """
+    username=cherrypy.session.get('username')
+    if username is None:
+        return False
+    return True
+
 def requiresLogin():
     """Returns a decorator which requires the user to be logged in,
     or redirects the user to the login page.
@@ -34,13 +43,10 @@ def requiresLogin():
     def decorator(func):
 
         def newfunc(self, *args, **kw):
-            admin_username=cherrypy.session.get('username')
-            admin_passwd=cherrypy.session.get('password')
-
             #
             # Make sure they are logged in
             #
-            if admin_username is None:
+            if not sessionIsLoggedIn():
                 cherrypy.session['login_came_from'] = cherrypy.request.browserUrl
                 raise cherrypy.HTTPRedirect('/user/login_form')
 
@@ -128,10 +134,11 @@ class UserManager:
 class Root(controllers.Root):
 
     @turbogears.expose(html="grocerific.templates.index")
-    @requiresLogin()
     def index(self):
         """The main view, which shows a login screen.
         """
         return dict(now=time.ctime(),
+                    session_is_logged_in=sessionIsLoggedIn(),
                     )
+    
     user = UserManager()

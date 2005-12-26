@@ -27,14 +27,24 @@ from grocerific.model import *
 # Module
 #
 
-def sessionIsLoggedIn():
-    """Returns boolean indicating whether or not the current
-    session is for a user who has logged in.
+def makeTemplateArgs(**kwds):
+    d = dict(**kwds)
+
+    username = cherrypy.session.get('username')
+    if username:
+        d['session_is_logged_in'] = True
+        d['session_user'] = username
+    else:
+        d['session_is_logged_in'] = False
+        d['session_user'] = ''
+        
+    return d
+
+def redirectToLogin():
+    """Set up the redirect to the login screen.
     """
-    username=cherrypy.session.get('username')
-    if username is None:
-        return False
-    return True
+    cherrypy.session['login_came_from'] = cherrypy.request.browserUrl
+    raise cherrypy.HTTPRedirect('/user/login_form')
 
 def requiresLogin():
     """Returns a decorator which requires the user to be logged in,
@@ -46,9 +56,8 @@ def requiresLogin():
             #
             # Make sure they are logged in
             #
-            if not sessionIsLoggedIn():
-                cherrypy.session['login_came_from'] = cherrypy.request.browserUrl
-                raise cherrypy.HTTPRedirect('/user/login_form')
+            if not cherrypy.session.get('username'):
+                redirectToLogin()
 
             output = func(self, *args, **kw)
             return output
@@ -66,7 +75,7 @@ class UserManager:
         
     @turbogears.expose(html="grocerific.templates.login")
     def login_form(self):
-        return dict()
+        return makeTemplateArgs()
 
     @turbogears.expose()
     def logout(self, **kwds):
@@ -122,14 +131,62 @@ class UserManager:
         # Go back to the page that sent us here
         #
         go_back_to = cherrypy.session.get('login_came_from', '/')
+        try:
+            del cherrypy.session['login_came_from']
+        except KeyError:
+            pass
         raise cherrypy.HTTPRedirect(go_back_to)
 
     @turbogears.expose(html="grocerific.templates.userlist")
     def userlist(self):
         """List the users
         """
-        return dict(users=User.select(LIKE(User.q.username, "%")),
-                    )
+        return makeTemplateArgs(users=User.select(LIKE(User.q.username, "%")),
+                                )
+
+    @turbogears.expose(html="grocerific.templates.registration_form")
+    def registration_form(self):
+        """Form to register a new user.
+        """
+        return makeTemplateArgs()
+
+    @turbogears.expose()
+    def register(self, username, password, email=None, **kwds):
+        """Register a new user.
+        """
+        new_user = User(username=username,
+                        password=password,
+                        email=email,
+                        )
+        return self.login(username, password)
+
+    @turbogears.expose(html="grocerific.templates.prefs")
+    def prefs(self):
+        """Form to register a new user.
+        """
+        try:
+            user = User.byUsername(cherrypy.session.get('username'))
+        except SQLObjectNotFound:
+            redirectToLogin()
+            
+        return makeTemplateArgs(username=user.username,
+                                password=user.password,
+                                email=user.email,
+                                )
+
+    @turbogears.expose()
+    def edit_prefs(self, username, password, email=None, **kwds):
+        """Register a new user.
+        """
+        try:
+            user = User.byUsername(username)
+        except SQLObjectNotFound:
+            redirectToLogin()
+            
+        user.password = password
+        user.email = email
+        cherrypy.session['login_came_from'] = '/user/prefs'
+        return self.login(username, password)
 
 class Root(controllers.Root):
 
@@ -137,8 +194,7 @@ class Root(controllers.Root):
     def index(self):
         """The main view, which shows a login screen.
         """
-        return dict(now=time.ctime(),
-                    session_is_logged_in=sessionIsLoggedIn(),
-                    )
+        return makeTemplateArgs(now=time.ctime(),
+                                )
     
     user = UserManager()

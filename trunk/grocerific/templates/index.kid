@@ -8,11 +8,8 @@
 </head>
 
 <body>
-    <div align="right" py:if="session_is_logged_in"><a
-        href="user/logout">Log Out</a></div>
 
     <table width="100%">
-      <tr><td>&nbsp;</td><td><div style="menu_bar">Menu Goes Here</div></td></tr>
       <tr valign="top">
         <td width="15%">
           <p py:if="not session_is_logged_in"><div py:replace="loginBox()"/></p>

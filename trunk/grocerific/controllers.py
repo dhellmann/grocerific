@@ -126,6 +126,7 @@ class UserManager:
         #
         cherrypy.session['username'] = username
         cherrypy.session['password'] = password
+        cherrypy.session['userid'] = userobj.id
         
         #
         # Go back to the page that sent us here
@@ -164,29 +165,33 @@ class UserManager:
     def prefs(self):
         """Form to register a new user.
         """
-        try:
-            user = User.byUsername(cherrypy.session.get('username'))
-        except SQLObjectNotFound:
+        userid = cherrypy.session.get('userid')
+        if userid:
+            try:
+                user = User.get(userid)
+            except SQLObjectNotFound:
+                redirectToLogin()
+        else:
             redirectToLogin()
-            
+                
         return makeTemplateArgs(username=user.username,
                                 password=user.password,
                                 email=user.email,
                                 )
 
     @turbogears.expose()
-    def edit_prefs(self, username, password, email=None, **kwds):
+    def edit_prefs(self, password, email=None, **kwds):
         """Register a new user.
         """
         try:
-            user = User.byUsername(username)
+            user = User.get(cherrypy.session.get('userid'))
         except SQLObjectNotFound:
             redirectToLogin()
             
         user.password = password
         user.email = email
         cherrypy.session['login_came_from'] = '/user/prefs'
-        return self.login(username, password)
+        return self.login(user.username, password)
 
 class Root(controllers.Root):
 
@@ -194,7 +199,31 @@ class Root(controllers.Root):
     def index(self):
         """The main view, which shows a login screen.
         """
+        #
+        # Get the user's "Next Trip" list.
+        #
+        userid = cherrypy.session.get('userid')
+        if userid is not None:
+            user = User.get(userid)
+            # Try to find the list
+            shopping_lists = ShoppingList.selectBy(user=user,
+                                                   name='Next Trip',
+                                                   )
+            try:
+                shopping_list = shopping_lists[0]
+            except IndexError:
+                # Create a new list
+                shopping_list = ShoppingList(user=user, name='Next Trip')
+            items = shopping_list.getItems()
+            empty_list = not items.count()
+        else:
+            shopping_list = None
+            empty_list = True
+            items = []
+            
         return makeTemplateArgs(now=time.ctime(),
+                                shopping_list=shopping_list,
+                                empty_list=empty_list,
                                 )
     
     user = UserManager()

@@ -13,8 +13,7 @@
       <TABLE>
         <tr>
           <th>Username:</th>
-          <td><input type="text" name="username" value=""
-              py:attrs="{'value':username}" /></td>
+          <td><span py:content="username">Username</span></td>
         </tr>
         <tr>
           <th>Password:</th>

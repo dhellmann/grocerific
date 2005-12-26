@@ -10,7 +10,7 @@
 <body>
     <p>You are logged in.</p>
 
-    <p><a href="logout">Log Out</a></p>
+    <p><a href="login/logout">Log Out</a></p>
         
 </body>
 </html>

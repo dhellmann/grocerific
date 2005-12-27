@@ -17,7 +17,6 @@ class User(SQLObject):
 class ShoppingItem(SQLObject):
     name = StringCol(alternateID=True)
     qualifier = StringCol() # (small, medium, large, 28oz, etc.)
-    description = StringCol()
 
 class ShoppingList(SQLObject):
     name = StringCol()

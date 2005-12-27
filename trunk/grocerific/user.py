@@ -27,6 +27,61 @@ from grocerific.model import *
 #
 
 
+def redirectToLogin():
+    """Set up the redirect to the login screen.
+    """
+    cherrypy.session['login_came_from'] = cherrypy.request.browserUrl
+    raise cherrypy.HTTPRedirect('/user/login_form')
+
+def requiresLogin():
+    """Returns a decorator which requires the user to be logged in,
+    or redirects the user to the login page.
+    """
+    def decorator(func):
+
+        def newfunc(self, *args, **kw):
+            #
+            # Make sure they are logged in
+            #
+            if not cherrypy.session.get('username'):
+                redirectToLogin()
+
+            output = func(self, *args, **kw)
+            return output
+        
+        newfunc.func_name = func.func_name
+        newfunc.exposed = True
+        return newfunc
+
+    return decorator
+
+def usesLogin():
+    """Returns a decorator which determines if the user is
+    logged in and passes a User object to the decorated
+    function if so.
+    """
+    def decorator(func):
+
+        def newfunc(self, *args, **kw):
+            #
+            # Make sure they are logged in
+            #
+            username = cherrypy.session.get('username')
+            if username:
+                user = User.byUsername(username)
+            else:
+                user = None
+
+            output = func(self, user=user, *args, **kw)
+            return output
+        
+        newfunc.func_name = func.func_name
+        newfunc.exposed = True
+        return newfunc
+
+    return decorator
+
+
 class UserManager:
     """Controller for user operations.
     """

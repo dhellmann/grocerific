@@ -43,6 +43,12 @@ class ItemManager:
             word = word.strip()
             if not word:
                 continue
+            #
+            # Skip short words to avoid the user searching
+            # for 'a' and sucking down the entire database.
+            #
+            if len(word) < 3:
+                continue
             where_clauses.append("shopping_item.name LIKE '%%%s%%'" % word)
 
         #
@@ -59,7 +65,7 @@ class ItemManager:
         #
         response_text = ''
         for item in items:
-            response_text += '<div><a onclick="addToList(%s)">+</a> %s</div>' % \
+            response_text += '<div class="query_result"><a class="action_link" title="Add to list" onclick="addToList(%s)">+</a> %s</div>' % \
                              (item.id, item.name)
         
         return '''<ajax-response>

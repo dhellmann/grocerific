@@ -32,8 +32,14 @@ class ItemManager:
     def findItems(self, queryString=None, **args):
 
         clean_query_string = cleanString(queryString)
-        items = ShoppingItem.select("""shopping_item.name LIKE '%%%s%%'
-        """ % clean_query_string)
+        words = clean_query_string.split(' ')
+        where_clauses = []
+        for word in words:
+            where_clauses.append("shopping_item.name LIKE '%%%s%%'" % word)
+        
+        select_string = ' AND '.join(where_clauses)
+        print select_string
+        items = ShoppingItem.select(select_string)
 
         response_text = ''
         for item in items:

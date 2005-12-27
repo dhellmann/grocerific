@@ -16,7 +16,6 @@ class User(SQLObject):
 
 class ShoppingItem(SQLObject):
     name = StringCol(alternateID=True)
-    qualifier = StringCol() # (small, medium, large, 28oz, etc.)
 
 class ShoppingList(SQLObject):
     name = StringCol()
@@ -31,5 +30,3 @@ class ShoppingListItem(SQLObject):
     list = ForeignKey('ShoppingList')
     quantity = StringCol()
 
-# class YourDataClass(SQLObject):
-#     pass

@@ -38,7 +38,6 @@
             <table py:if="not empty_list" width="100%">
               <tr class="list_item" py:for="item in shopping_list.getItems()">
                 <td py:content="item.item.name">Item Name</td>
-                <td py:content="item.item.qualifier">Item Qualifier</td>
                 <td py:content="item.quantity">Quantity</td>
               </tr>
             </table>

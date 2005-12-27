@@ -573,7 +573,18 @@ background-color: lightgrey;
 /* Query Results */
 
 .query_results { 
+  /* group query results */
   background-color: #cccccc;
   margin: 1em 0;
   padding: 0.5em;
+}
+
+.query_result { 
+  /* one row of a query result */
+  padding: 2px;
+}
+
+.action_link { 
+  text-decoration: None;
+  border: 1px solid black;
 }

@@ -1,5 +1,5 @@
 #
-# $Id: init.el,v 1.6 2005/07/11 14:27:19 dhellmann Exp $
+# $Id$
 #
 # Copyright (c) 2005 Racemi, Inc.  All rights reserved.
 #
@@ -20,7 +20,7 @@ from turbogears import controllers
 # Import Local modules
 #
 from grocerific.model import *
-
+from grocerific.util import *
 
 #
 # Module

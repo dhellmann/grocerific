@@ -9,6 +9,7 @@
 
 <body>
     <script>
+      <!-- Search for items in the database -->
       function findItems() {
         var queryString = document.findItem.query.value;
         if (queryString != "") {
@@ -17,9 +18,18 @@
         return false;
       }
 
+      <!-- Add the item with the given id to the current list -->
+      function addToList(itemId) {
+        ajaxEngine.sendRequest('addToList', "itemId="+itemId.toString());
+        return false;
+      }
+
       function onload() {
       ajaxEngine.registerRequest('findItems', '/item/findItems');
       ajaxEngine.registerAjaxElement('query_results');
+
+      ajaxEngine.registerRequest('addToList', '/item/addToList');
+      ajaxEngine.registerAjaxElement('shopping_list');
       }
     </script>
 
@@ -35,12 +45,14 @@
           <div py:if="session_is_logged_in" class="shopping_list">
             <div class="list_name" py:content="shopping_list.name">List Name</div>
 
-            <table py:if="not empty_list" width="100%">
-              <tr class="list_item" py:for="item in shopping_list.getItems()">
-                <td py:content="item.item.name">Item Name</td>
-                <td py:content="item.quantity">Quantity</td>
-              </tr>
-            </table>
+            <div id="shopping_list" py:if="not empty_list">
+              <table width="100%">
+                <tr class="list_item" py:for="item in shopping_list.getItems()">
+                  <td py:content="item.item.name">Item Name</td>
+                  <td py:content="item.quantity">Quantity</td>
+                </tr>
+              </table>
+            </div>
             
             <div class="list_item"  py:if="empty_list">
               <center>(Empty)</center>

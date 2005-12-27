@@ -18,6 +18,7 @@ import turbogears
 #
 from grocerific.util import *
 from grocerific.model import *
+from grocerific.user import usesLogin
 
 #
 # Module
@@ -58,11 +59,66 @@ class ItemManager:
         #
         response_text = ''
         for item in items:
-            response_text += '<tr><td>%s</td></tr>' % item.name
+            response_text += '<div><a onclick="addToList(%s)">+</a> %s</div>' % \
+                             (item.id, item.name)
         
         return '''<ajax-response>
         <response type="element" id="query_results">
-        <table>%s</table>
+        %s
         </response>
         </ajax-response>
         ''' % response_text
+
+    @turbogears.expose(format="xml", content_type="text/xml")
+    @usesLogin()
+    def addToList(self, user=None, itemId=None, **args):
+        try:
+            item = ShoppingItem.get(itemId)
+        except SQLObjectNotFound:
+            controllers.flash('Unrecognized item')
+            response = '<ajax-response/>'
+        else:
+            #
+            # Find the active shopping list
+            #
+            shopping_lists = ShoppingList.selectBy(user=user,
+                                                   name='Next Trip',
+                                                   )
+            shopping_list = shopping_lists[0]
+
+            #
+            # Make sure the item isn't already in the list
+            # before adding it.
+            #
+            existing_items = ShoppingListItem.selectBy(list=shopping_list,
+                                                       item=item,
+                                                       )
+            if existing_items.count() == 0:
+                shopping_list_item = ShoppingListItem(list=shopping_list,
+                                                      item=item,
+                                                      quantity='1',
+                                                      )
+
+            #
+            # Build a representation of the new list contents
+            #
+            items = shopping_list.getItems()
+            items_string = ''
+            for item in items:
+                items_string += '''
+                <tr class="list_item">
+                  <td>%s</td>
+                  <td>%s</td>
+                </tr>
+                ''' % (item.item.name, item.quantity)
+            
+            response = '''<ajax-response>
+            <response type="element" id="shopping_list">
+            <table width="100%%">
+            %s
+            </table>
+            </response>
+            </ajax-response>
+            ''' % items_string
+
+        return response

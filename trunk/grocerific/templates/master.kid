@@ -7,8 +7,8 @@
 
   <head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'">
     <!-- AJAX support libraries -->
-    <!-- script src="/static/js/prototype.js" / -->
-    <!-- script src="/static/js/rico.js" / -->
+    <script src="/static/javascript/prototype.js" />
+    <script src="/static/javascript/rico.js" />
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" media="all"

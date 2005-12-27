@@ -68,6 +68,32 @@ def requiresLogin():
 
     return decorator
 
+def usesLogin():
+    """Returns a decorator which determines if the user is
+    logged in and passes a User object to the decorated
+    function if so.
+    """
+    def decorator(func):
+
+        def newfunc(self, *args, **kw):
+            #
+            # Make sure they are logged in
+            #
+            username = cherrypy.session.get('username')
+            if username:
+                user = User.byUsername(username)
+            else:
+                user = None
+
+            output = func(self, user=user, *args, **kw)
+            return output
+        
+        newfunc.func_name = func.func_name
+        newfunc.exposed = True
+        return newfunc
+
+    return decorator
+
 
 class UserManager:
     """Controller for user operations.
@@ -82,10 +108,16 @@ class UserManager:
         """Remove the username info from the current session.
         """
         #
-        # Store the username and password in the session
+        # Clear the username and password from the session
         #
-        del cherrypy.session['username']
-        del cherrypy.session['password']
+        try:
+            del cherrypy.session['username']
+        except KeyError:
+            pass
+        try:
+            del cherrypy.session['password']
+        except KeyError:
+            pass
         
         #
         # Go back to the page that sent us here
@@ -193,18 +225,51 @@ class UserManager:
         cherrypy.session['login_came_from'] = '/user/prefs'
         return self.login(user.username, password)
 
+
+def cleanString(s):
+    """Clean up a string to make it safe to pass to SQLObject
+    as a query.
+    """
+    for bad, good in [ ("'", ''),
+                       ('"', ''),
+                       (';', ''),
+                       ]:
+        s = s.replace(bad, good)
+    return s
+    
+class ItemManager:
+    """Controller for item-related functions.
+    """
+
+    @turbogears.expose(format="xml", content_type="text/xml")
+    def findItems(self, queryString=None, **args):
+
+        clean_query_string = cleanString(queryString)
+        items = ShoppingItem.select("""shopping_item.name LIKE '%%%s%%'
+        """ % clean_query_string)
+
+        response_text = ''
+        for item in items:
+            response_text += '<tr><td>%s</td></tr>' % item.name
+        
+        return '''<ajax-response>
+        <response type="element" id="query_results">
+        <table>%s</table>
+        </response>
+        </ajax-response>
+        ''' % response_text
+
 class Root(controllers.Root):
 
     @turbogears.expose(html="grocerific.templates.index")
-    def index(self):
+    @usesLogin()
+    def index(self, user=None, **kwds):
         """The main view, which shows a login screen.
         """
         #
         # Get the user's "Next Trip" list.
         #
-        userid = cherrypy.session.get('userid')
-        if userid is not None:
-            user = User.get(userid)
+        if user is not None:
             # Try to find the list
             shopping_lists = ShoppingList.selectBy(user=user,
                                                    name='Next Trip',
@@ -225,5 +290,14 @@ class Root(controllers.Root):
                                 shopping_list=shopping_list,
                                 empty_list=empty_list,
                                 )
-    
+
+    #
+    # Tie in another controller for user-related functions
+    #
     user = UserManager()
+
+    #
+    # Tie in another controller for item-related functions
+    #
+    item = ItemManager()
+    

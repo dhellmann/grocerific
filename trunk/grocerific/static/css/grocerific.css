@@ -84,7 +84,11 @@ clear: left;
 font: 100% Verdana, Helvetica, Arial, sans-serif;
 margin: 0;
 padding-top: 0.5em;
-border-bottom: 1px solid black;
+/*border-bottom: 1px solid black;*/
+}
+
+h1 { 
+  border-bottom: 1px solid black;
 }
 
 h1 a,
@@ -541,9 +545,9 @@ background-color: lightgrey;
 /* Shopping List stuff */
 
 .shopping_list {
-border: 1px solid black;
-margin: 0;
-padding: 0;
+  border: 1px solid black;
+  margin: 0;
+  padding: 0;
 }
 
 .list_name { 
@@ -556,4 +560,20 @@ padding: 0;
 .list_item { 
   color: black;
   padding: 0.1em;
+}
+
+/* Shopping Item stuff */
+
+.find_item { 
+  border: 1px solid black;
+  margin: 0;
+  padding: 1em;
+}
+
+/* Query Results */
+
+.query_results { 
+  background-color: #cccccc;
+  margin: 0;
+  padding: 1em;
 }

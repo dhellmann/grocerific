@@ -8,12 +8,30 @@
 </head>
 
 <body>
+    <script>
+      function findItems() {
+        var queryString = document.findItem.query.value;
+        if (queryString != "") {
+          ajaxEngine.sendRequest('findItems', "queryString="+queryString);
+        }
+        return false;
+      }
 
-    <table width="100%">
+      function onload() {
+      ajaxEngine.registerRequest('findItems', '/item/findItems');
+      ajaxEngine.registerAjaxElement('query_results');
+      }
+    </script>
+
+    <table>
       <tr valign="top">
+
         <td width="20%">
-          <div py:if="not session_is_logged_in"><div
-              py:replace="loginBox()"/></div>
+
+          <div py:if="not session_is_logged_in">
+            <div py:replace="loginBox()"/>
+          </div>
+
           <div py:if="session_is_logged_in" class="shopping_list">
             <div class="list_name" py:content="shopping_list.name">List Name</div>
 
@@ -28,11 +46,25 @@
             <div class="list_item"  py:if="empty_list">
               <center>(Empty)</center>
             </div>
-
           </div>
+
         </td>
         <td>
-          Main body goes here!
+
+          <div py:if="not session_is_logged_in">
+            Site welcome message and description goes here.
+          </div>
+
+          <div class="find_item" py:if="session_is_logged_in">
+            <h4>Find Item</h4>
+            <form name="findItem" onsubmit="return findItems()">
+              <input type="text" name="query" value="" />
+              <input class="standalone" type="submit" name="search" value="Search" />
+              <div class="query_results" id="query_results">Click to
+                search</div>
+            </form>
+          </div>
+
         </td>
       </tr>
     </table>

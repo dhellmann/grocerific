@@ -53,8 +53,15 @@ class ShoppingList(SQLObject):
     user = ForeignKey('User')
 
     def getItems(self):
-        return ShoppingListItem.selectBy(list=self,
-                                         orderBy='item.name')
+        return ShoppingListItem.select(
+            """
+            shopping_list_item.list_id = %s
+            AND
+            shopping_list_item.item_id = shopping_item.id
+            ORDER BY shopping_item.name
+            """ % self.id,
+            clauseTables=['shopping_item'],
+            )
 
 class ShoppingListItem(SQLObject):
     """Items someone has indicated that they may buy.

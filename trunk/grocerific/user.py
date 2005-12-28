@@ -55,6 +55,24 @@ def requiresLogin():
 
     return decorator
 
+def setUpSessionLogin(user):
+    """Set up the user information in the session.
+    """
+    if user is not None:
+        cherrypy.session['username'] = user.username
+        cherrypy.session['userid'] = user.id
+    else:
+        try:
+            del cherrypy.session['username']
+        except KeyError:
+            pass
+        try:
+            del cherrypy.session['userid']
+        except KeyError:
+            pass
+    return
+
+
 def usesLogin():
     """Returns a decorator which determines if the user is
     logged in and passes a User object to the decorated
@@ -63,14 +81,33 @@ def usesLogin():
     def decorator(func):
 
         def newfunc(self, *args, **kw):
+            user = None
+
             #
-            # Make sure they are logged in
+            # Look for a logged-in session
             #
             username = cherrypy.session.get('username')
             if username:
                 user = User.byUsername(username)
+
             else:
-                user = None
+                #
+                # Look for a rememberme cookie
+                #
+                rememberme = cherrypy.request.simpleCookie.get('rememberme')
+                if rememberme is not None:
+                    rememberme = rememberme.value
+                    username, hash = rememberme.split(' ')
+                    user = User.byUsername(username)
+                    expected_cookie = user.getRememberMeCookieValue()
+                    
+                    if rememberme == expected_cookie:
+                        setUpSessionLogin(user)
+                    else:
+                        # Reset to None if the values don't
+                        # match.  Otherwise, we've already
+                        # loaded our user object.
+                        user = None
 
             output = func(self, user=user, *args, **kw)
             return output
@@ -97,18 +134,20 @@ class UserManager:
         #
         # Clear the username and password from the session
         #
-        try:
-            del cherrypy.session['username']
-        except KeyError:
-            pass
-        try:
-            del cherrypy.session['password']
-        except KeyError:
-            pass
-        
-        #
-        # Go back to the page that sent us here
-        #
+        username = cherrypy.session.get('username')
+        if username:
+            #
+            # Clear the session login
+            #
+            setUpSessionLogin(None)
+
+            #
+            # Remove the user cookie
+            #
+            cherrypy.response.simpleCookie['rememberme'] = username
+            cherrypy.response.simpleCookie['rememberme']['path'] = '/'
+            cherrypy.response.simpleCookie['rememberme']['max-age'] = 0
+            
         raise cherrypy.HTTPRedirect('/')
         
 
@@ -143,9 +182,16 @@ class UserManager:
         #
         # Store the username and password in the session
         #
-        cherrypy.session['username'] = username
-        cherrypy.session['password'] = password
-        cherrypy.session['userid'] = userobj.id
+        setUpSessionLogin(userobj)
+
+        #
+        # Store information about this user in a cookie
+        # so we remember them the next time they come back,
+        # even if their session has expired.
+        #
+        if not cherrypy.request.simpleCookie.get('rememberme'):
+            cherrypy.response.simpleCookie['rememberme'] = userobj.getRememberMeCookieValue()
+            cherrypy.response.simpleCookie['rememberme']['path'] = '/'
         
         #
         # Go back to the page that sent us here

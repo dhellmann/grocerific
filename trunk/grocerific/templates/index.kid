@@ -75,7 +75,7 @@
               <input type="text" name="query" value="" />
               <input class="standalone" type="submit" name="search" value="Search" />
               <div class="query_results" id="query_results">
-                <table><tr><td>Click to search</td></tr></table>
+                <table><tr><td></td></tr></table>
               </div>
             </form>
           </div>

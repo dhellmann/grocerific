@@ -11,6 +11,7 @@
 #
 # Import system modules
 #
+import md5
 from sqlobject import *
 from turbogears.database import PackageHub
 
@@ -39,6 +40,14 @@ class User(SQLObject):
     email = StringCol()
     lists = MultipleJoin('ShoppingList')
 
+    def getRememberMeCookieValue(self):
+        """Returns a value to remember this user
+        with moderate security.
+        """
+        m = md5.new()
+        m.update('%s:%s' % (self.id, self.password))
+        cookie_value = '%s %s' % (self.username, m.hexdigest())
+        return cookie_value
     
 class ShoppingItem(SQLObject):
     """Items someone can purchase.

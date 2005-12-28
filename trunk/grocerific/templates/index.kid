@@ -24,6 +24,12 @@
         return false;
       }
 
+      <!-- Remove the item with the given id from the current list -->
+      function removeFromList(itemId) {
+        ajaxEngine.sendRequest('removeFromList', "itemId="+itemId.toString());
+        return false;
+      }
+
       <!-- Force an update of the current list -->
       function showList() {
         ajaxEngine.sendRequest('showList', "listName='Next Trip'");
@@ -36,6 +42,7 @@
 
         ajaxEngine.registerRequest('showList', '/item/showList');
         ajaxEngine.registerRequest('addToList', '/item/addToList');
+        ajaxEngine.registerRequest('removeFromList', '/item/removeFromList');
         ajaxEngine.registerAjaxElement('shopping_list');
 
         showList();

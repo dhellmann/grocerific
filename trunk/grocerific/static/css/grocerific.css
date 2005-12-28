@@ -587,4 +587,5 @@ background-color: lightgrey;
 .action_link { 
   text-decoration: None;
   border: 1px solid black;
+  font-weight: bold;
 }

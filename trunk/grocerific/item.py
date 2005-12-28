@@ -125,3 +125,17 @@ class ItemManager:
             raise cherrypy.HTTPRedirect('/item/showList')
 
         return response
+
+    @turbogears.expose(format="xml", content_type="text/xml")
+    @usesLogin()
+    def removeFromList(self, user=None, itemId=None, **args):
+        try:
+            existing_item = ShoppingListItem.get(itemId)
+        except SQLObjectNotFound:
+            controllers.flash('Unrecognized item')
+            response = '<ajax-response/>'
+        else:
+            existing_item.destroySelf()
+            raise cherrypy.HTTPRedirect('/item/showList')
+
+        return response

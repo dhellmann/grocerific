@@ -18,7 +18,7 @@ import turbogears
 #
 from grocerific.util import *
 from grocerific.model import *
-from grocerific.user import usesLogin
+from grocerific.user import usesLogin, requiresLogin
 
 #
 # Module
@@ -34,6 +34,8 @@ class ItemManager:
                        content_type="text/xml",
                        )
     def findItems(self, queryString=None, **args):
+        """Search for items in the database.
+        """
         #
         # Clean up the string we are given and turn it
         # into words that might appear in the name
@@ -77,6 +79,8 @@ class ItemManager:
                        content_type="text/xml")
     @usesLogin()
     def showList(self, user=None, listName='Next Trip', **kwds):
+        """Show the contents of a shopping list.
+        """
         #
         # Find the active shopping list
         #
@@ -98,6 +102,8 @@ class ItemManager:
     @turbogears.expose(format="xml", content_type="text/xml")
     @usesLogin()
     def addToList(self, user=None, itemId=None, **args):
+        """Add an item to a shopping list.
+        """
         try:
             item = ShoppingItem.get(itemId)
         except SQLObjectNotFound:
@@ -132,6 +138,8 @@ class ItemManager:
     @turbogears.expose(format="xml", content_type="text/xml")
     @usesLogin()
     def removeFromList(self, user=None, itemId=None, **args):
+        """Remove an item from a shopping list.
+        """
         try:
             existing_item = ShoppingListItem.get(itemId)
         except SQLObjectNotFound:
@@ -142,3 +150,48 @@ class ItemManager:
             raise cherrypy.HTTPRedirect('/item/showList')
 
         return response
+
+    @turbogears.expose(html="grocerific.templates.item_add")
+    @requiresLogin()
+    def add_form(self, user=None, **args):
+        """Form to add an item to the database.
+        """
+        return makeTemplateArgs()
+
+    @turbogears.expose()
+    @requiresLogin()
+    def add(self, user=None, name=None, **args):
+        """Add an item to the database.
+        """
+        #
+        # We don't know what database layer we're going
+        # to use, so we don't know what exception we
+        # get when we insert a duplicate.  So, we try
+        # to do a lookup before the insert to detect
+        # the existing item.
+        #
+        try:
+            # Look for existing item
+            item = ShoppingItem.byName(name)
+        except SQLObjectNotFound:
+            # Insert the new item
+            item = ShoppingItem(name=name)
+            
+        raise cherrypy.HTTPRedirect('/item/edit_form?itemId=%s' % item.id)
+
+    @turbogears.expose(html="grocerific.templates.item_edit")
+    @requiresLogin()
+    def edit_form(self, user=None, itemId=None, **args):
+        """Form to edit an item in the database.
+        """
+        item = ShoppingItem.get(itemId)
+        response = makeTemplateArgs(shopping_item=item)
+        return response
+
+    @turbogears.expose()
+    @requiresLogin()
+    def edit(self, user=None, itemId=None, **args):
+        """Change an item in the database.
+        """
+        item = ShoppingItem.get(itemId)
+        return makeTemplateArgs(shopping_item=item)

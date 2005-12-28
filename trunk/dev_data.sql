@@ -19,6 +19,12 @@ INSERT INTO shopping_item (name) VALUES ( 'Onion, red, small');
 INSERT INTO shopping_item (name) VALUES ( 'Onion, red, medium');
 INSERT INTO shopping_item (name) VALUES ( 'Onion, red, large');
 INSERT INTO shopping_item (name) VALUES ( 'Milk, skim, 1/2 gallon');
+INSERT INTO shopping_item (name) VALUES ( 'Milk, skim, gallon');
+INSERT INTO shopping_item (name) VALUES ( 'Apple, Gala');
+INSERT INTO shopping_item (name) VALUES ( 'Apple, Red Delicious');
+INSERT INTO shopping_item (name) VALUES ( 'Apple, Granny Smith');
+INSERT INTO shopping_item (name) VALUES ( 'Apple, Washington');
+INSERT INTO shopping_item (name) VALUES ( 'Apple, Fuji');
 
 -- Add items to the list
 INSERT INTO shopping_list_item (list_id, item_id, quantity) VALUES ( 1, 1, '3' );

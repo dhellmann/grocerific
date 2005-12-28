@@ -33,6 +33,39 @@ def redirectToLogin():
     cherrypy.session['login_came_from'] = cherrypy.request.browserUrl
     raise cherrypy.HTTPRedirect('/user/login_form')
 
+def getUserForSession():
+    """Checks the session and cookie settings and returns
+    a User if there is a user logged in.
+    """
+    user = None
+    
+    #
+    # Look for a logged-in session
+    #
+    username = cherrypy.session.get('username')
+    if username:
+        user = User.byUsername(username)
+
+    else:
+        #
+        # Look for a rememberme cookie
+        #
+        rememberme = cherrypy.request.simpleCookie.get('rememberme')
+        if rememberme is not None:
+            rememberme = rememberme.value
+            username, hash = rememberme.split(' ')
+            user = User.byUsername(username)
+            expected_cookie = user.getRememberMeCookieValue()
+
+            if rememberme == expected_cookie:
+                setUpSessionLogin(user)
+            else:
+                # Reset to None if the values don't
+                # match.  Otherwise, we've already
+                # loaded our user object.
+                user = None
+    return user
+
 def requiresLogin():
     """Returns a decorator which requires the user to be logged in,
     or redirects the user to the login page.
@@ -43,7 +76,8 @@ def requiresLogin():
             #
             # Make sure they are logged in
             #
-            if not cherrypy.session.get('username'):
+            user = getUserForSession()
+            if not user:
                 redirectToLogin()
 
             output = func(self, *args, **kw)
@@ -81,34 +115,7 @@ def usesLogin():
     def decorator(func):
 
         def newfunc(self, *args, **kw):
-            user = None
-
-            #
-            # Look for a logged-in session
-            #
-            username = cherrypy.session.get('username')
-            if username:
-                user = User.byUsername(username)
-
-            else:
-                #
-                # Look for a rememberme cookie
-                #
-                rememberme = cherrypy.request.simpleCookie.get('rememberme')
-                if rememberme is not None:
-                    rememberme = rememberme.value
-                    username, hash = rememberme.split(' ')
-                    user = User.byUsername(username)
-                    expected_cookie = user.getRememberMeCookieValue()
-                    
-                    if rememberme == expected_cookie:
-                        setUpSessionLogin(user)
-                    else:
-                        # Reset to None if the values don't
-                        # match.  Otherwise, we've already
-                        # loaded our user object.
-                        user = None
-
+            user = getUserForSession()
             output = func(self, user=user, *args, **kw)
             return output
         

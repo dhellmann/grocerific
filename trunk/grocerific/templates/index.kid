@@ -72,11 +72,16 @@
           <div class="find_item" py:if="session_is_logged_in">
             <h4>Find Item</h4>
             <form name="findItem" onsubmit="return findItems()">
+
               <input type="text" name="query" value="" />
-              <input class="standalone" type="submit" name="search" value="Search" />
+
+              <input class="standalone" type="submit" name="search"
+                value="Search" />
+
               <div class="query_results" id="query_results">
                 <table><tr><td></td></tr></table>
               </div>
+
             </form>
           </div>
 

@@ -1,6 +1,10 @@
 <ajax-response xmlns:py="http://purl.org/kid/ns#">
   <response type="element" id="query_results"
     py:if="session_is_logged_in">
+
+    <p>Didn't find what you were looking for?  
+      <a href="/item/add_form">Add it now!</a>
+    </p>
     
     <div py:if="item_count" class="query_result" py:for="item in items">
       <a class="action_link" 

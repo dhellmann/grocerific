@@ -24,12 +24,21 @@
         return false;
       }
 
-      function onload() {
-      ajaxEngine.registerRequest('findItems', '/item/findItems');
-      ajaxEngine.registerAjaxElement('query_results');
+      <!-- Force an update of the current list -->
+      function showList() {
+        ajaxEngine.sendRequest('showList', "listName='Next Trip'");
+        return false;
+      }
 
-      ajaxEngine.registerRequest('addToList', '/item/addToList');
-      ajaxEngine.registerAjaxElement('shopping_list');
+      function onload() {
+        ajaxEngine.registerRequest('findItems', '/item/findItems');
+        ajaxEngine.registerAjaxElement('query_results');
+
+        ajaxEngine.registerRequest('showList', '/item/showList');
+        ajaxEngine.registerRequest('addToList', '/item/addToList');
+        ajaxEngine.registerAjaxElement('shopping_list');
+
+        showList();
       }
     </script>
 
@@ -42,21 +51,8 @@
             <div py:replace="loginBox()"/>
           </div>
 
-          <div py:if="session_is_logged_in" class="shopping_list">
-            <div class="list_name" py:content="shopping_list.name">List Name</div>
-
-            <div id="shopping_list" py:if="not empty_list">
-              <table width="100%">
-                <tr class="list_item" py:for="item in shopping_list.getItems()">
-                  <td py:content="item.item.name">Item Name</td>
-                  <td py:content="item.quantity">Quantity</td>
-                </tr>
-              </table>
-            </div>
-            
-            <div class="list_item"  py:if="empty_list">
-              <center>(Empty)</center>
-            </div>
+          <div class="shopping_list" id="shopping_list" py:if="session_is_logged_in">
+            <div class="list_name">Shopping List</div>
           </div>
 
         </td>

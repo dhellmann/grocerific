@@ -29,7 +29,10 @@ class ItemManager:
     """Controller for item-related functions.
     """
 
-    @turbogears.expose(format="xml", content_type="text/xml")
+    @turbogears.expose(format="xml",
+                       template="grocerific.templates.query_results",
+                       content_type="text/xml",
+                       )
     def findItems(self, queryString=None, **args):
         #
         # Clean up the string we are given and turn it
@@ -63,17 +66,31 @@ class ItemManager:
         #
         # Format the response table
         #
-        response_text = ''
-        for item in items:
-            response_text += '<div class="query_result"><a class="action_link" title="Add to list" onclick="addToList(%s)">+</a> %s</div>' % \
-                             (item.id, item.name)
-        
-        return '''<ajax-response>
-        <response type="element" id="query_results">
-        %s
-        </response>
-        </ajax-response>
-        ''' % response_text
+        return makeTemplateArgs(items=items,
+                                )
+
+    @turbogears.expose(format="xml",
+                       template="grocerific.templates.shopping_list",
+                       content_type="text/xml")
+    @usesLogin()
+    def showList(self, user=None, listName='Next Trip', **kwds):
+        #
+        # Find the active shopping list
+        #
+        shopping_lists = ShoppingList.selectBy(user=user,
+                                               name='Next Trip',
+                                               )
+        try:
+            shopping_list = shopping_lists[0]
+        except IndexError:
+            shopping_list = None
+            shopping_list_items = None
+        else:
+            shopping_list_items = shopping_list.getItems()
+            
+        return makeTemplateArgs(shopping_list=shopping_list,
+                                shopping_list_items=shopping_list_items,
+                                )
 
     @turbogears.expose(format="xml", content_type="text/xml")
     @usesLogin()
@@ -105,26 +122,6 @@ class ItemManager:
                                                       quantity='1',
                                                       )
 
-            #
-            # Build a representation of the new list contents
-            #
-            items = shopping_list.getItems()
-            items_string = ''
-            for item in items:
-                items_string += '''
-                <tr class="list_item">
-                  <td>%s</td>
-                  <td>%s</td>
-                </tr>
-                ''' % (item.item.name, item.quantity)
-            
-            response = '''<ajax-response>
-            <response type="element" id="shopping_list">
-            <table width="100%%">
-            %s
-            </table>
-            </response>
-            </ajax-response>
-            ''' % items_string
+            raise cherrypy.HTTPRedirect('/item/showList')
 
         return response

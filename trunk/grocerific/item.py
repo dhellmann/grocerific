@@ -60,13 +60,16 @@ class ItemManager:
         if where_clauses:
             select_string = ' AND '.join(where_clauses)
             items = ShoppingItem.select(select_string)
+            item_count = items.count()
         else:
             items = []
+            item_count = 0
 
         #
         # Format the response table
         #
         return makeTemplateArgs(items=items,
+                                item_count=item_count,
                                 )
 
     @turbogears.expose(format="xml",

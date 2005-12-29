@@ -21,4 +21,4 @@ tg-admin sql create || exit 1
 #
 # Load some test data.
 #
-sqlite3 $DBFILE < dev_data.sql || exit 1
+sqlite3 -echo $DBFILE < dev_data.sql || exit 1

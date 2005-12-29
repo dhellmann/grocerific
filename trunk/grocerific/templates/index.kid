@@ -39,7 +39,7 @@
       <!-- Pass the search parameters to the item add form. -->
       function goToAddItem() {
         var queryString = document.findItem.query.value;
-        top.location.href = "/item/add_form?name=" + queryString
+        document.location.href = "/item/add_form?name=" + queryString
       }
 
       function onload() {
@@ -79,12 +79,14 @@
             <h4>Find Item</h4>
             <form name="findItem" onsubmit="return findItems()">
 
-              <input type="text" name="query" value="" />
-
-              <input class="standalone" type="submit" name="search"
-                value="Search" />
-
-              <span><a onclick="goToAddItem()">Add a new item</a></span>
+              <div style="white-space: nowrap">
+                <input type="text" name="query" value="" />
+                
+                <input class="standalone" type="submit" name="search"
+                  value="Search" />
+                
+                <span><a onclick="goToAddItem()">Add a new item</a></span>
+              </div>
 
               <div class="query_results" id="query_results">
                 <table><tr><td></td></tr></table>

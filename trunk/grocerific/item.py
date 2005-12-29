@@ -177,11 +177,10 @@ class ItemManager:
             # Insert the new item
             item = ShoppingItem(name=name)
             
-        raise cherrypy.HTTPRedirect('/item/edit_form?itemId=%s' % item.id)
+        raise cherrypy.HTTPRedirect('/item/%s' % item.id)
 
     @turbogears.expose(html="grocerific.templates.item_edit")
-    @requiresLogin()
-    def edit_form(self, user=None, itemId=None, **args):
+    def default(self, itemId=None, *args, **kwds):
         """Form to edit an item in the database.
         """
         item = ShoppingItem.get(itemId)

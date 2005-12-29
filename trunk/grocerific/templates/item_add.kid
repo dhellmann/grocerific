@@ -10,8 +10,22 @@
   <body>
 
     <form class="group" action="/item/add" method="post">
-      Description
-      <input type="text" name="name" value="" />
+
+      <div class="field">
+        <div>
+          <span class="legend">Description</span>
+          <input type="text" name="name" value="" py:attrs="{'value':name}" />
+        </div>
+
+        <div class="help">Provide a description of the new item.  For example:
+          <ul>
+            <li>Milk, skim, gallon</li>
+            <li>Flour, All-purpose</li>
+            <li>Tomatoes, canned, crushed, MyBrand</li>
+          </ul>
+        </div>
+      </div>
+
       <input class="standalone" TYPE="submit" NAME="addBtn" VALUE="Add" />
     </form>
     

@@ -141,7 +141,7 @@ text-decoration: underline;
 }
 
 li {
-margin-bottom: 1em;
+margin-bottom: 0.5em;
 }
 
 dl {
@@ -313,12 +313,8 @@ margin: 0;
 padding: 0.5em;
 }
 span.legend {
-background: white;
-font-size: 80%;
 padding: 0.5em;
-position : relative;
-top: -0.8em;
-left: 0em;
+font-weight: bold;
 }
 
 div.label {
@@ -332,17 +328,14 @@ margin-top: 0.2em;
 }
 
 div.help {
-background-color: #FFFFE1;
-border: 1px solid black;
-font-size: 80%;
+background-color: white;
 font-weight: normal;
 line-height: normal;
 text-align: left;
-position: absolute;
-left: -18em;
-top: 1.5em;
-width: 16em;
+/*width: 16em;*/
 padding: 0.5em;
+color: #888888;
+margin-left: 5em;
 }
 
 .error {

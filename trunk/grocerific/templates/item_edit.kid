@@ -11,10 +11,14 @@
 
     <form class="group" action="/item/edit" method="post">
       <div>
-        <span>Description:</span> <span py:content="shopping_item.name">Item</span>
+        <span class="legend">Description:</span> <span py:content="shopping_item.name">Item</span>
       </div>
       <input type="hidden" name="itemId" value="" py:attr="{'value':shopping_item.id}" />
     </form>
+
+    <h2>Stores</h2>
+
+    <p>Set the aisle locations for each of your frequently used stores.</p>
     
   </body>
 </html>

@@ -12,11 +12,12 @@
 # Import system modules
 #
 import cherrypy
+import turbogears
 
 #
 # Import Local modules
 #
-
+from grocerific.model import hub
 
 #
 # Module
@@ -46,3 +47,32 @@ def cleanString(s):
                        ]:
         s = s.replace(bad, good)
     return s
+
+def usesTransaction():
+    """Returns a decorator which manages a database transaction
+    when a method needs to make multiple changes to the database.
+    """
+    def decorator(func):
+
+        def newfunc(self, *args, **kw):
+            hub.begin()
+            try:
+                try:
+                    output = func(self, *args, **kw)
+                except cherrypy.HTTPRedirect:
+                    hub.commit()
+                    raise
+                except:
+                    hub.rollback()
+                    raise
+                else:
+                    hub.commit()
+            finally:
+                hub.end()
+            return output
+        
+        newfunc.func_name = func.func_name
+        newfunc.exposed = True
+        return newfunc
+
+    return decorator

@@ -79,8 +79,9 @@ def requiresLogin():
             user = getUserForSession()
             if not user:
                 redirectToLogin()
+            #print 'LOGGED IN AS', user
 
-            output = func(self, *args, **kw)
+            output = func(self, user=user, *args, **kw)
             return output
         
         newfunc.func_name = func.func_name

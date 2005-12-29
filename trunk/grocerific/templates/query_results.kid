@@ -2,21 +2,21 @@
   <response type="element" id="query_results"
     py:if="session_is_logged_in">
 
-    <p>Didn't find what you were looking for?  
-      <a href="/item/add_form">Add it now!</a>
-    </p>
-    
-    <div py:if="item_count" class="query_result" py:for="item in items">
+    <div py:if="shopping_item_count" class="query_result" py:for="shopping_item in shopping_items">
       <a class="action_link" 
         title="Add to list" 
         onclick="addToList(%s)"
-        py:attrs="{'onclick':'addToList(%s)' % item.id}">+</a>
-      <span py:replace="item.name">Item name</span>
+        py:attrs="{'onclick':'addToList(%s)' % shopping_item.id}">+</a>
+      <span py:replace="shopping_item.name">Item name</span>
     </div>
 
-    <div py:if="not item_count" class="query_result">
+    <div py:if="not shopping_item_count" class="query_result">
       No match found
     </div>
 
+  </response>
+  <response type="element" id="query_results"
+    py:if="not session_is_logged_in">
+    <div class="query_result">Log in to search</div>
   </response>
 </ajax-response>

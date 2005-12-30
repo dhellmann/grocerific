@@ -12,6 +12,7 @@
 # Import system modules
 #
 import turbogears
+from turbogears import controllers
 
 #
 # Import Local modules
@@ -164,9 +165,14 @@ class ItemManager:
     @turbogears.expose()
     @requiresLogin()
     @usesTransaction()
-    def add(self, user=None, name=None, addToList=False, **args):
+    def add(self, user=None, name='', addToList=False, **args):
         """Add an item to the database.
         """
+        name = name.strip()
+        if not name:
+            controllers.flash('Please enter a description of the item to add')
+            raise cherrypy.HTTPRedirect('/item/add_form')
+
         #
         # We don't know what database layer we're going
         # to use, so we don't know what exception we

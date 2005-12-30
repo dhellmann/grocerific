@@ -40,6 +40,20 @@ INSERT INTO "shopping_item" VALUES(26, 'Velveeta, low-fat, small');
 INSERT INTO "shopping_item" VALUES(27, 'Velveeta, Mexican, small');
 INSERT INTO "shopping_item" VALUES(28, 'Cat chow');
 INSERT INTO "shopping_item" VALUES(29, 'Cheese, deli, swiss');
+INSERT INTO "shopping_item" VALUES(30, 'Bread, sandwich');
+INSERT INTO "shopping_item" VALUES(31, 'Pasta, linguini');
+INSERT INTO "shopping_item" VALUES(32, 'Pasta, ravioli');
+INSERT INTO "shopping_item" VALUES(33, 'Pasta, spaghetti');
+INSERT INTO "shopping_item" VALUES(34, 'Banannas');
+INSERT INTO "shopping_item" VALUES(35, 'Cereal');
+INSERT INTO "shopping_item" VALUES(36, 'Cereal, Captain Crunch');
+INSERT INTO "shopping_item" VALUES(37, 'Cereal, Wheat Chex');
+INSERT INTO "shopping_item" VALUES(38, 'Cereal, Bran Chex');
+INSERT INTO "shopping_item" VALUES(39, 'Cereal, Rice Chex');
+INSERT INTO "shopping_item" VALUES(40, 'Cereal, Cheerios');
+INSERT INTO "shopping_item" VALUES(41, 'Cheese, gorgonzolla');
+INSERT INTO "shopping_item" VALUES(42, 'Cheese, blue');
+INSERT INTO "shopping_item" VALUES(43, 'Cheese, gorgonzolla, crumbled');
 
 -- Add items to the list
 INSERT INTO shopping_list_item (list_id, item_id, quantity) VALUES ( 1, 1, '3' );

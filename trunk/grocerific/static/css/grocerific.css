@@ -17,11 +17,20 @@
 */
 
 body {
-font: 65% Verdana, Helvetica, Arial, sans-serif;
-background: white;
-color: black;
-margin: 1em;
-padding: 0;
+/* original plone */
+/* font: 65% Verdana, Helvetica, Arial, sans-serif;*/
+
+/* altered plone */
+/* font: Verdana, Helvetica, Arial, sans-serif;*/
+
+/* from lesscode.org */
+  font-size: 75%; /* Resets 1em to 10px */
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', Tahoma, Sans-Serif;
+
+  background: white;
+  color: black;
+  margin: 1em;
+  padding: 0;
 }
 
 table {
@@ -248,6 +257,9 @@ display: none;
 ** Structural Elements
 */
 
+div.menu_bar { 
+  float: right;
+}
 
 div.message {
 background: orange;

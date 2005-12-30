@@ -39,7 +39,7 @@
       <!-- Pass the search parameters to the item add form. -->
       function goToAddItem() {
         var queryString = document.findItem.query.value;
-        document.location.href = "/item/add_form?name=" + queryString
+        document.location.href = "/item/add_form?addToList=1" + unescape("&amp;") + "name=" + queryString;
       }
 
       function onload() {

@@ -26,6 +26,18 @@
         </div>
       </div>
 
+      <div class="field">
+        <div>
+          <span class="legend">Add to shopping list?</span>
+          <input py:if="addToList" type="checkbox" name="addToList" checked="" />
+          <input py:if="not addToList" type="checkbox" name="addToList" />
+        </div>
+
+        <div class="help">Should this item be added to your current
+          shopping list?
+        </div>
+      </div>
+
       <input class="standalone" TYPE="submit" NAME="addBtn" VALUE="Add" />
     </form>
     

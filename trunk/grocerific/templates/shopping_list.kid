@@ -5,15 +5,15 @@
     
     <table width="100%" py:if="shopping_list_items.count()">
       <tr class="list_item" py:for="item in shopping_list_items">
-        
         <td><a class="action_link"
             title="Remove from list"
             py:attrs="{'onclick':'removeFromList(%s)' % item.id,
             'title':item.id}">-</a>
         </td>
         <td py:content="item.item.name">Item Name</td>
-        <td py:content="item.quantity">Quantity</td>
+        <td>&nbsp;<span py:replace="item.quantity">Quantity</span></td>
       </tr>
     </table>
+
   </response>
 </ajax-response>

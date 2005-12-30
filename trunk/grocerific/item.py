@@ -154,15 +154,17 @@ class ItemManager:
 
     @turbogears.expose(html="grocerific.templates.item_add")
     @requiresLogin()
-    def add_form(self, user=None, name='', **args):
+    def add_form(self, user=None, name='', addToList=False, **args):
         """Form to add an item to the database.
         """
-        return makeTemplateArgs(name=name)
+        return makeTemplateArgs(name=name,
+                                addToList=addToList,
+                                )
 
     @turbogears.expose()
     @requiresLogin()
     @usesTransaction()
-    def add(self, user=None, name=None, **args):
+    def add(self, user=None, name=None, addToList=False, **args):
         """Add an item to the database.
         """
         #
@@ -182,9 +184,10 @@ class ItemManager:
         #
         # Add the item to the shopping list.
         #
-        shopping_list = self.getActiveShoppingList(user)
-        if shopping_list:
-            shopping_list.add(item)
+        if addToList:
+            shopping_list = self.getActiveShoppingList(user)
+            if shopping_list:
+                shopping_list.add(item)
         
         raise cherrypy.HTTPRedirect('/item/%s' % item.id)
 

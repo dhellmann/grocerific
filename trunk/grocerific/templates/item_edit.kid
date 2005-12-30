@@ -16,6 +16,10 @@
       <input type="hidden" name="itemId" value="" py:attr="{'value':shopping_item.id}" />
     </form>
 
+    <div>Add a
+      <a py:attrs="{'href':'/item/add_form?name=%s' % shopping_item.name}">related item</a>
+    </div>
+
     <h2>Stores</h2>
 
     <p>Set the aisle locations for each of your frequently used stores.</p>

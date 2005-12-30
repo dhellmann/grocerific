@@ -592,5 +592,7 @@ background-color: lightgrey;
 .action_link { 
   text-decoration: None;
   border: 1px solid black;
+  padding-left: 2px;
+  padding-right: 2px;
   font-weight: bold;
 }

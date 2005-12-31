@@ -76,11 +76,11 @@ class ItemManager:
                                 shopping_item_count=item_count,
                                 )
 
+    @usesLogin()
     @turbogears.expose(format="xml",
                        template="grocerific.templates.shopping_list",
                        content_type="text/xml")
-    @usesLogin()
-    def showList(self, user=None, listName='Next Trip', **kwds):
+    def showList(self, user=None, listName='Next Trip', itemId=None, newQuantity=None, **kwds):
         """Show the contents of a shopping list.
         """
         #
@@ -93,9 +93,20 @@ class ItemManager:
             shopping_list = shopping_lists[0]
         except IndexError:
             shopping_list = None
-            shopping_list_items = None
-        else:
+
+        if shopping_list is not None:
+            #
+            # Update the quantity for the item we were given.
+            #
+            if itemId is not None:
+                to_change = ShoppingListItem.get(itemId)
+                to_change.quantity = newQuantity
+            #
+            # Get the item list
+            #
             shopping_list_items = shopping_list.getItems()
+        else:
+            shopping_list_items = None
             
         return makeTemplateArgs(shopping_list=shopping_list,
                                 shopping_list_items=shopping_list_items,

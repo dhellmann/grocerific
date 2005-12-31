@@ -42,10 +42,28 @@
         document.location.href = "/item/add_form?addToList=1" + unescape("&amp;") + "name=" + queryString;
       }
 
+      <!-- Show a text field to let the user edit the quantity of an -->
+      function updateQuantity(shoppingListItemId, quantity) {
+        var quantity_id = "quantity_" + shoppingListItemId;
+
+        var new_quantity = prompt("Quantity", quantity);
+
+        if (new_quantity != null) {
+          ajaxEngine.sendRequest('showList', 
+                                 "itemId=" + shoppingListItemId,
+                                 "listName='Next Trip'",
+                                  "newQuantity=" + new_quantity);
+        }
+
+        return false;
+      }
+
       function onload() {
+        <!-- Set up query results -->
         ajaxEngine.registerRequest('findItems', '/item/findItems');
         ajaxEngine.registerAjaxElement('query_results');
 
+        <!-- Set up current shopping list -->
         ajaxEngine.registerRequest('showList', '/item/showList');
         ajaxEngine.registerRequest('addToList', '/item/addToList');
         ajaxEngine.registerRequest('removeFromList', '/item/removeFromList');
@@ -53,29 +71,35 @@
 
         showList();
       }
+
     </script>
 
-    <table>
+    <table py:if="not session_is_logged_in">
       <tr valign="top">
-
+        
         <td width="20%">
-
-          <div py:if="not session_is_logged_in">
-            <div py:replace="loginBox()"/>
-          </div>
-
-          <div class="shopping_list" id="shopping_list" py:if="session_is_logged_in">
-            <div class="list_name">Shopping List</div>
-          </div>
-
+          <div py:replace="loginBox()"/>
         </td>
-        <td>
 
+        <td>
           <div py:if="not session_is_logged_in">
             Site welcome message and description goes here.
           </div>
+        </td>
+      </tr>
+    </table>
 
-          <div class="find_item" py:if="session_is_logged_in">
+    <table py:if="session_is_logged_in">
+      <tr valign="top">
+
+        <td width="50%">
+          <div class="shopping_list" id="shopping_list" py:if="session_is_logged_in">
+            <div class="list_name">Shopping List</div>
+          </div>
+        </td>
+        <td>
+
+          <div class="find_item">
             <h4>Find Item</h4>
             <form name="findItem" onsubmit="return findItems()">
 

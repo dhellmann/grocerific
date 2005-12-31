@@ -7,11 +7,14 @@
       <tr valign="top" class="list_item" py:for="item in shopping_list_items">
         <td><a class="action_link"
             title="Remove from list"
-            py:attrs="{'onclick':'removeFromList(%s)' % item.id,
-            'title':item.id}">-</a>
+            py:attrs="{'onclick':'removeFromList(%s)' % item.id}">-</a>
         </td>
         <td><a py:attrs="{'href':'/item/%s' % item.item.id}" py:content="item.item.name">Item Name</a></td>
-        <td>&nbsp;<span py:replace="item.quantity">Quantity</span></td>
+        <td>&nbsp;<a title="Click to change"
+            py:attrs="{'id':'quantity_%s' % item.id,
+                       'onclick':'updateQuantity(%s, &quot;%s&quot;)' % (item.id, item.quantity)}" 
+            py:content="item.quantity">Quantity</a>
+        </td>
       </tr>
     </table>
 

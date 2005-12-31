@@ -16,9 +16,9 @@
       <input type="hidden" name="itemId" value="" py:attr="{'value':shopping_item.id}" />
     </form>
 
-    <div>Add a
-      <a py:attrs="{'href':'/item/add_form?name=%s' % shopping_item.name}">related item</a>
-    </div>
+    <p>Add a
+      <a py:attrs="{'href':'/item/new_form?name=%s' % shopping_item.name}">related item</a>
+    </p>
 
     <h2>Stores</h2>
 

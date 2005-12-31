@@ -37,10 +37,10 @@
       }
 
       <!-- Pass the search parameters to the item add form. -->
-      function goToAddItem() {
+      function goToNewItem() {
         var queryString = document.findItem.query.value;
-<!-- FIXME - Adding to list needs to move URL -->
-        document.location.href = "/item/add_form?addToList=" + unescape("&amp;") + "name=" + queryString;
+        document.location.href = "/item/new_form?addToList=" + <span
+        py:replace="shopping_list.id">list id</span> + unescape("&amp;") + "name=" + queryString;
       }
 
       <!-- Show a text field to let the user edit the quantity of an -->
@@ -110,7 +110,7 @@
                 <input class="standalone" type="submit" name="search"
                   value="Search" />
                 
-                <span><a onclick="goToAddItem()">Add a new item</a></span>
+                <span><a onclick="goToNewItem()">Add a new item</a></span>
               </div>
 
               <div class="query_results" id="query_results">

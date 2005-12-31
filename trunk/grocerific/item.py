@@ -20,15 +20,53 @@ from turbogears import controllers
 from grocerific.util import *
 from grocerific.model import *
 from grocerific.user import usesLogin, requiresLogin
+from rest_resource import RESTResource
 
 #
 # Module
 #
 
     
-class ItemManager:
+class ItemManager(RESTResource):
     """Controller for item-related functions.
     """
+
+    def REST_instantiate(self, itemId, **kwds):
+        """Look for the item by it's primary id.
+        """
+        try:
+            return ShoppingItem.get(itemId)
+        except SQLObjectNotFound:
+            return None
+
+    def REST_create(self, *args, **kwds):
+        """Create a new item?
+        FIXME - Not sure when this is called.
+        """
+        raise NotImplementedError()
+
+
+    @turbogears.expose(html="grocerific.templates.item_edit")
+    @requiresLogin()
+    def index(self, shoppingItem=None, user=None, **kwds):
+        """Form to edit an item in the database.
+        """
+        response = makeTemplateArgs(shopping_item=shoppingItem,
+                                    user=user,
+                                    )
+        return response
+    index.expose_resource = True
+
+    @turbogears.expose(html="grocerific.templates.item_new")
+    @requiresLogin()
+    def new_form(self, user=None, name='', addToList=False, **args):
+        """Form to add an item to the database.
+        """
+        return makeTemplateArgs(name=name,
+                                addToList=addToList,
+                                )
+    
+    ###################
 
     @turbogears.expose(format="xml",
                        template="grocerific.templates.query_results",
@@ -76,36 +114,10 @@ class ItemManager:
                                 shopping_item_count=item_count,
                                 )
 
-    @turbogears.expose(html="grocerific.templates.item_add")
-    @requiresLogin()
-    def add_form(self, user=None, name='', addToList=False, **args):
-        """Form to add an item to the database.
-        """
-        return makeTemplateArgs(name=name,
-                                addToList=addToList,
-                                )
-
-    def getActiveShoppingList(self, user):
-        """Find the active shopping list for the user.
-        """
-        if user is None:
-            return None
-        shopping_lists = ShoppingList.selectBy(user=user,
-                                               name='Next Trip',
-                                               )
-        try:
-            shopping_list = shopping_lists[0]
-        except IndexError:
-            shopping_list = ShoppingList(name='Next Trip',
-                                         user=user,
-                                         )
-            
-        return shopping_list
-
     @turbogears.expose()
     @requiresLogin()
     @usesTransaction()
-    def add(self, user=None, name='', addToList=False, **args):
+    def add(self, user=None, name='', addToList=False, shoppingListId=None, **args):
         """Add an item to the database.
         """
         name = name.strip()
@@ -130,21 +142,15 @@ class ItemManager:
         #
         # Add the item to the shopping list.
         #
-        if addToList:
-            shopping_list = self.getActiveShoppingList(user)
-            if shopping_list:
+        if addToList and shoppingListId:
+            try:
+                shopping_list = ShoppingList.get(shoppingListId)
+            except SQLObjectNotFound:
+                pass
+            else:
                 shopping_list.add(item)
         
         raise cherrypy.HTTPRedirect('/item/%s' % item.id)
-
-    @turbogears.expose(html="grocerific.templates.item_edit")
-    @usesLogin()
-    def default(self, itemId=None, *args, **kwds):
-        """Form to edit an item in the database.
-        """
-        item = ShoppingItem.get(itemId)
-        response = makeTemplateArgs(shopping_item=item)
-        return response
 
     @turbogears.expose()
     @requiresLogin()

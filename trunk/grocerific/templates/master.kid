@@ -10,6 +10,9 @@
     <script src="/static/javascript/prototype.js" />
     <script src="/static/javascript/rico.js" />
 
+    <!-- MochiKit -->
+    <script src="/static/javascript/MochiKit/MochiKit.js" />
+
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" media="all"
       href="/static/css/grocerific.css" />

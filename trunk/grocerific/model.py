@@ -73,13 +73,10 @@ class ShoppingList(SQLObject):
                                                    item=item,
                                                    )
         if existing_items.count() == 0:
-            print 'Adding', item, 'to', self
             shopping_list_item = ShoppingListItem(list=self,
                                                   item=item,
                                                   quantity='1',
                                                   )
-        else:
-            print 'Already have', item, 'in', self
         return
             
     def getItems(self):
@@ -99,4 +96,5 @@ class ShoppingListItem(SQLObject):
     item = ForeignKey('ShoppingItem')
     list = ForeignKey('ShoppingList')
     quantity = StringCol()
-
+    #have_coupon = BoolCol()
+    

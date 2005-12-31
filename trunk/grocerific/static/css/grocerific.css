@@ -97,7 +97,13 @@ padding-top: 0.5em;
 }
 
 h1 { 
-  border-bottom: 1px solid black;
+/*  border-bottom: 1px solid black;*/
+/*  border: 1px solid black;*/
+  color: white;
+  background: darkgreen;
+  text-align: center;
+  padding: 0.5em;
+  margin: 0.5em;
 }
 
 h1 a,

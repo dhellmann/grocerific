@@ -29,7 +29,7 @@
       <a href="/user/logout">Log Out</a>
     </div>
 
-    <div style="menu_bar"><a href="/">Home</a></div>
+    <div style="menu_bar"><a href="/">Home</a> <a href="/list">Next Trip</a></div>
     
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 

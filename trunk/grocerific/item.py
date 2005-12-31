@@ -35,7 +35,7 @@ class ItemManager:
                        content_type="text/xml",
                        )
     @usesLogin()
-    def findItems(self, queryString=None, **args):
+    def search(self, queryString=None, **args):
         """Search for items in the database.
         """
         #
@@ -76,40 +76,13 @@ class ItemManager:
                                 shopping_item_count=item_count,
                                 )
 
-    @usesLogin()
-    @turbogears.expose(format="xml",
-                       template="grocerific.templates.shopping_list",
-                       content_type="text/xml")
-    def showList(self, user=None, listName='Next Trip', itemId=None, newQuantity=None, **kwds):
-        """Show the contents of a shopping list.
+    @turbogears.expose(html="grocerific.templates.item_add")
+    @requiresLogin()
+    def add_form(self, user=None, name='', addToList=False, **args):
+        """Form to add an item to the database.
         """
-        #
-        # Find the active shopping list
-        #
-        shopping_lists = ShoppingList.selectBy(user=user,
-                                               name='Next Trip',
-                                               )
-        try:
-            shopping_list = shopping_lists[0]
-        except IndexError:
-            shopping_list = None
-
-        if shopping_list is not None:
-            #
-            # Update the quantity for the item we were given.
-            #
-            if itemId is not None:
-                to_change = ShoppingListItem.get(itemId)
-                to_change.quantity = newQuantity
-            #
-            # Get the item list
-            #
-            shopping_list_items = shopping_list.getItems()
-        else:
-            shopping_list_items = None
-            
-        return makeTemplateArgs(shopping_list=shopping_list,
-                                shopping_list_items=shopping_list_items,
+        return makeTemplateArgs(name=name,
+                                addToList=addToList,
                                 )
 
     def getActiveShoppingList(self, user):
@@ -128,50 +101,6 @@ class ItemManager:
                                          )
             
         return shopping_list
-    
-    @turbogears.expose(format="xml", content_type="text/xml")
-    @usesLogin()
-    def addToList(self, user=None, itemId=None, **args):
-        """Add an item to a shopping list.
-        """
-        try:
-            item = ShoppingItem.get(itemId)
-        except SQLObjectNotFound:
-            controllers.flash('Unrecognized item')
-            response = '<ajax-response/>'
-        else:
-            shopping_list = self.getActiveShoppingList(user)
-            if shopping_list:
-                shopping_list.add(item)
-
-            raise cherrypy.HTTPRedirect('/item/showList')
-
-        return response
-
-    @turbogears.expose(format="xml", content_type="text/xml")
-    @usesLogin()
-    def removeFromList(self, user=None, itemId=None, **args):
-        """Remove an item from a shopping list.
-        """
-        try:
-            existing_item = ShoppingListItem.get(itemId)
-        except SQLObjectNotFound:
-            controllers.flash('Unrecognized item')
-            response = '<ajax-response/>'
-        else:
-            existing_item.destroySelf()
-            raise cherrypy.HTTPRedirect('/item/showList')
-
-        return response
-
-    @turbogears.expose(html="grocerific.templates.item_add")
-    @requiresLogin()
-    def add_form(self, user=None, name='', addToList=False, **args):
-        """Form to add an item to the database.
-        """
-        return makeTemplateArgs(name=name,
-                                addToList=addToList,
-                                )
 
     @turbogears.expose()
     @requiresLogin()

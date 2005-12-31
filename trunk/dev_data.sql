@@ -54,6 +54,13 @@ INSERT INTO "shopping_item" VALUES(40, 'Cereal, Cheerios');
 INSERT INTO "shopping_item" VALUES(41, 'Cheese, gorgonzolla');
 INSERT INTO "shopping_item" VALUES(42, 'Cheese, blue');
 INSERT INTO "shopping_item" VALUES(43, 'Cheese, gorgonzolla, crumbled');
+INSERT INTO "shopping_item" VALUES(44, 'Soda, Coke Zero');
+INSERT INTO "shopping_item" VALUES(45, 'Soda, Coke');
+INSERT INTO "shopping_item" VALUES(46, 'Soda, Diet Coke');
+INSERT INTO "shopping_item" VALUES(47, 'Wine, Syrah');
+INSERT INTO "shopping_item" VALUES(48, 'Wine, Pinot Grigio');
+INSERT INTO "shopping_item" VALUES(49, 'Wine, Prosecco');
+INSERT INTO "shopping_item" VALUES(50, 'Wine, Zinfandel');
 
 -- Add items to the list
 INSERT INTO shopping_list_item (list_id, item_id, quantity) VALUES ( 1, 1, '3' );

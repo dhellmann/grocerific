@@ -75,31 +75,16 @@
 
     </script>
 
-    <table py:if="not session_is_logged_in">
-      <tr valign="top">
-        
-        <td width="20%">
-          <div py:replace="loginBox()"/>
-        </td>
-
-        <td>
-          <div py:if="not session_is_logged_in">
-            Site welcome message and description goes here.
-          </div>
-        </td>
-      </tr>
-    </table>
-
-    <table py:if="session_is_logged_in">
+    <table>
       <tr valign="top">
 
         <td width="50%">
-          <div class="shopping_list" id="shopping_list" py:if="session_is_logged_in">
+          <div class="shopping_list" id="shopping_list">
             <div class="list_name">Shopping List</div>
           </div>
         </td>
-        <td>
 
+        <td>
           <div class="find_item">
             <h4>Find Item</h4>
             <form name="findItem" onsubmit="return findItems()">
@@ -119,10 +104,21 @@
 
             </form>
           </div>
-
         </td>
+
       </tr>
     </table>
+
+    <form py:attrs="{'action':'/list/%s/clear' % shopping_list.id}" method="post">
+      <input class="standalone" type="submit" name="clearBtn"
+        value="Clear this list" />
+    </form>
+
+    <form py:attrs="{'action':'/list/%s/delete' % shopping_list.id}" method="post">
+      <input class="standalone" type="submit" name="deleteBtn"
+        value="Delete this list" />
+    </form>
+
     
 </body>
 </html>

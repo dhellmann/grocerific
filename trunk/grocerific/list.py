@@ -151,3 +151,60 @@ class ShoppingListController(RESTResource):
         return response
     add.expose_resource = True
     
+    
+    @requiresLogin()
+    @turbogears.expose(html="grocerific.templates.shopping_lists")
+    def lists(self, user=None, **kwds):
+        """Show a user's shopping lists.
+        """
+        return makeTemplateArgs(shopping_lists=user.getShoppingLists(),
+                                )
+    
+    
+    @requiresLogin()
+    @turbogears.expose()
+    def new(self, name, user=None, **kwds):
+        """Create a new shopping list.
+        """
+        name = name.strip()
+        if not name:
+            controllers.flash('Please enter a description of the item to add')
+            raise cherrypy.HTTPRedirect('/list/lists')
+
+        #
+        # We don't know what database layer we're going
+        # to use, so we don't know what exception we
+        # get when we insert a duplicate.  So, we try
+        # to do a lookup before the insert to detect
+        # the existing item.
+        #
+        lists = ShoppingList.selectBy(user=user,
+                                      name=name,
+                                      )
+        if lists.count() == 0:
+            shopping_list = ShoppingList(user=user,
+                                         name=name,
+                                         )
+            
+        raise cherrypy.HTTPRedirect('/list/lists')
+
+    @requiresLogin()
+    @usesTransaction()
+    @turbogears.expose()
+    def clear(self, shoppingList, user=None, **kwds):
+        """Clear the contents of a shopping list.
+        """
+        shoppingList.clearContents()
+        raise cherrypy.HTTPRedirect('/list/%s' % shoppingList.id)
+    clear.expose_resource = True
+    
+    @requiresLogin()
+    @usesTransaction()
+    @turbogears.expose()
+    def delete(self, shoppingList, user=None, **kwds):
+        """Clear the contents of a shopping list.
+        """
+        shoppingList.destroySelf()
+        raise cherrypy.HTTPRedirect('/list/lists')
+    delete.expose_resource = True
+    

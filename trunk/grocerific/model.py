@@ -48,6 +48,13 @@ class User(SQLObject):
         m.update('%s:%s' % (self.id, self.password))
         cookie_value = '%s %s' % (self.username, m.hexdigest())
         return cookie_value
+
+    def getShoppingLists(self):
+        """Return the ShoppingLists owned by this user.
+        """
+        return ShoppingList.selectBy(user=self,
+                                     orderBy='name',
+                                     )
     
 class ShoppingItem(SQLObject):
     """Items someone can purchase.
@@ -108,6 +115,19 @@ class ShoppingList(SQLObject):
             """ % self.id,
             clauseTables=['shopping_item'],
             )
+
+    def clearContents(self):
+        """Clear all of the items from the list.
+        """
+        items = self.getItems()
+        for item in items:
+            item.destroySelf()
+        return
+
+    def destroySelf(self):
+        self.clearContents()
+        SQLObject.destroySelf(self)
+        return
 
 class ShoppingListItem(SQLObject):
     """Items someone has indicated that they may buy.

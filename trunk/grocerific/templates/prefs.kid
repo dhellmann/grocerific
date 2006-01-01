@@ -42,6 +42,9 @@
 
         <field>
           <input class="standalone" TYPE="submit" NAME="editBtn" VALUE="Save" />
+
+          <input class="standalone" TYPE="submit" NAME="cancelBtn"
+            VALUE="Cancel" onclick="return handleCancel()" />
         </field>
 
       </fieldset>

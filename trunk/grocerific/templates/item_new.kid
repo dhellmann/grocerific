@@ -53,6 +53,9 @@
         <field>
           <input class="standalone" TYPE="submit" NAME="addBtn"
             VALUE="Add" />
+
+          <input class="standalone" TYPE="submit" NAME="cancelBtn"
+            VALUE="Cancel" onclick="return handleCancel()" />
         </field>
       </fieldset>
     </form>

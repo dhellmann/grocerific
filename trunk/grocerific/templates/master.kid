@@ -18,6 +18,13 @@
   </head>
 
   <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'">
+    <script>
+      function handleCancel() {
+        window.history.back();
+        return false;
+      }
+    </script>
+
     <h1>Grocerific</h1>
 
     <div class="menu_bar">

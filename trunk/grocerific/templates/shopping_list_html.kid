@@ -97,27 +97,31 @@
 
         <td>
 
-          <form name="findItem" onsubmit="return findItems()">
-            <fieldset>
-              <legend>Find Item</legend>
-
+          <fieldset>
+            <legend>Find Item</legend>
+            
+            <form name="findItem" onsubmit="return findItems()">
               <field>
                 <div style="white-space: nowrap">
                   <input type="text" name="query" value="" />
                   
                   <input class="standalone" type="submit" name="search"
                     value="Search" />
+
+                  <input class="standalone" type="submit" name="new"
+                    value="Add this item"
+                    onclick="return goToNewItem()"
+                    />
                 
-                  <a onclick="goToNewItem()">Add a new item</a>
                 </div>
               </field>
-
-              <div class="query_results" id="query_results">
-                <table><tr><td></td></tr></table>
-              </div>
-
-            </fieldset>
-          </form>
+            </form>
+            
+            <div class="query_results" id="query_results">
+              <table><tr><td></td></tr></table>
+            </div>
+            
+          </fieldset>
 
         </td>
 

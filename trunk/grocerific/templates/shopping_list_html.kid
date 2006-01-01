@@ -100,51 +100,6 @@
           <div class="shopping_list" id="shopping_list">
             <div class="list_name">Shopping List</div>
           </div>
-
-          <fieldset>
-            <legend>List Actions</legend>
-            
-            <field>
-              <form method="post"
-                py:attrs="{'action':'/list/%s/clear' % shopping_list.id}" 
-                >
-                <input class="standalone" type="submit" name="clearBtn"
-                  value="Clear this list" />
-              </form>
-            </field>
-            
-            <field>
-              <form py:attrs="{'action':'/list/%s/delete' % shopping_list.id}" 
-                method="post"
-                py:if="not shopping_list.name == 'Next Trip'">
-                <input class="standalone" type="submit" name="deleteBtn"
-                  value="Delete this list" />
-              </form>
-            </field>
-            
-            <field>
-              <form py:if="copyable_lists" name="import_form" onsubmit="return importList()">
-                <input class="standalone" type="submit" name="copyBtn"
-                  value="Copy contents from" />
-                
-                <select size="1" id="copyFrom" name="copyFrom">
-                  <option py:for="other_list in copyable_lists"
-                    py:attrs="{'value':other_list.id}" 
-                    py:content="other_list.name">Name</option>
-                </select>
-              </form>
-            </field>
-            
-            <field>
-              <form py:attrs="{'action':'/list/%s/duplicate' % shopping_list.id}" 
-                method="post">
-                <input class="standalone" type="submit" name="duplicateBtn"
-                  value="Save this list as" />
-                <input type="text" name="newName" value="" />
-              </form>
-            </field>
-            
-          </fieldset>
         </td>
 
         <td>
@@ -160,7 +115,7 @@
                   value="Search" />
                 
                 <input class="standalone" type="submit" name="new"
-                  value="Add this item"
+                  value="Define new item"
                   onclick="return goToNewItem()"
                   />
               </field>
@@ -187,6 +142,52 @@
 
       </tr>
     </table>
+
+          <fieldset>
+            <legend>List Actions</legend>
+            
+            <field>
+              <form method="post"
+                py:attrs="{'action':'/list/%s/clear' % shopping_list.id}" 
+                >
+                <input class="standalone" type="submit" name="clearBtn"
+                  value="Clear this list" />
+              </form>
+            </field>
+            
+            <field>
+              <form py:attrs="{'action':'/list/%s/delete' % shopping_list.id}" 
+                method="post"
+                py:if="not shopping_list.name == 'Next Trip'">
+                <input class="standalone" type="submit" name="deleteBtn"
+                  value="Delete this list" />
+              </form>
+            </field>
+            
+            <field>
+              <form py:if="copyable_lists" name="import_form" onsubmit="return importList()">
+                <input class="standalone" type="submit" name="copyBtn"
+                  value="Add contents of" />
+                
+                <select size="1" id="copyFrom" name="copyFrom">
+                  <option py:for="other_list in copyable_lists"
+                    py:attrs="{'value':other_list.id}" 
+                    py:content="other_list.name">Name</option>
+                </select>
+              </form>
+            </field>
+
+      <!--
+            <field>
+              <form py:attrs="{'action':'/list/%s/duplicate' % shopping_list.id}" 
+                method="post">
+                <input class="standalone" type="submit" name="duplicateBtn"
+                  value="Duplicate this list to" />
+                <input type="text" name="newName" value="" />
+              </form>
+            </field>
+      -->
+          </fieldset>
 
 </body>
 </html>

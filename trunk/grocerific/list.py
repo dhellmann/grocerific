@@ -202,7 +202,7 @@ class ShoppingListController(RESTResource):
                                          name=name,
                                          )
             
-        raise cherrypy.HTTPRedirect('/list/lists')
+        raise cherrypy.HTTPRedirect('/list/%s' % shopping_list.id)
 
     @requiresLogin()
     @usesTransaction()

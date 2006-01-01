@@ -168,7 +168,7 @@
               <p/>
 
               <field>
-                <a py:for="letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" 
+                <a py:for="letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'" 
                      py:attrs="{'onclick':'browseItems(' + chr(34) + letter + chr(34) + ')'}"
                      py:content="letter"
                      class="action_link">

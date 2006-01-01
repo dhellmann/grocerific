@@ -144,10 +144,17 @@ class ItemManager(RESTResource):
         # into words that might appear in the name
         # of a shopping item.
         #
+        where_clauses = []
         clean_first_letter = cleanString(firstLetter)
-        if clean_first_letter:
-            where_clause = "shopping_item.name LIKE '%s%%'" % clean_first_letter
-            items = ShoppingItem.select(where_clause,
+        if clean_first_letter == '#':
+            for i in range(0, 10):
+                where_clauses.append("shopping_item.name LIKE '%s%%'" % i)
+        elif clean_first_letter:
+            where_clauses.append("shopping_item.name LIKE '%s%%'" % clean_first_letter)
+
+        if where_clauses:
+            select_string = ' OR '.join(where_clauses)
+            items = ShoppingItem.select(select_string,
                                         orderBy='name',
                                         )
             item_count = items.count()

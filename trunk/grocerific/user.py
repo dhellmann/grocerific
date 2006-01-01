@@ -250,13 +250,11 @@ class UserManager:
     def prefs(self, user):
         """Form to register a new user.
         """
-        return makeTemplateArgs(username=user.username,
-                                password=user.password,
-                                email=user.email,
+        return makeTemplateArgs(user=user,
                                 )
 
     @turbogears.expose()
-    def edit_prefs(self, password, email=None, **kwds):
+    def edit_prefs(self, password, email=None, location=None, **kwds):
         """Register a new user.
         """
         try:
@@ -265,6 +263,9 @@ class UserManager:
             redirectToLogin()
             
         user.password = password
-        user.email = email
+        if email:
+            user.email = email
+        if location:
+            user.location = location
         cherrypy.session['login_came_from'] = '/user/prefs'
         return self.login(user.username, password)

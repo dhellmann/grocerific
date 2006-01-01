@@ -100,7 +100,7 @@ h1 {
 /*  border-bottom: 1px solid black;*/
 /*  border: 1px solid black;*/
   color: white;
-  background: darkgreen;
+  background-color: #008000;
   text-align: center;
   padding-top: 1em;
   padding-bottom: 1em;
@@ -348,7 +348,7 @@ padding: 0.5em;
 font-weight: bold;
 }
 
-div.label {
+label {
 font-weight: bold;
 display: inline;
 padding-right: 0.5em;

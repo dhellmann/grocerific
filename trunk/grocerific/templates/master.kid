@@ -10,9 +10,6 @@
     <script src="/static/javascript/prototype.js" />
     <script src="/static/javascript/rico.js" />
 
-    <!-- MochiKit -->
-    <script src="/static/javascript/MochiKit/MochiKit.js" />
-
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" media="all"
       href="/static/css/grocerific.css" />
@@ -23,14 +20,21 @@
   <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'">
     <h1>Grocerific</h1>
 
-    <div align="right" py:if="session_is_logged_in">
-      <span py:content="session_user">Username</span>
-      <a href="/user/prefs">Preferences</a>
-      <a href="/user/logout">Log Out</a>
+    <div class="menu_bar">
+      <div class="menu_bar_r" py:if="session_is_logged_in">
+        <span py:content="session_user">Username</span>
+        <a href="/user/prefs">Preferences</a>
+        <a href="/user/logout">Log Out</a>
+      </div>
+      <p/>
+      <div class="menu_bar_l">
+        <a href="/">Home</a>
+        <a href="/list">Next Trip</a>
+        <a href="/list/lists">My Lists</a>
+      </div>
+      <p/>
     </div>
 
-    <div style="menu_bar"><a href="/">Home</a> <a href="/list">Next Trip</a></div>
-    
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 
     <div py:def="loginBox()">

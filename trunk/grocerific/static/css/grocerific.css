@@ -102,8 +102,8 @@ h1 {
   color: white;
   background: darkgreen;
   text-align: center;
-  padding: 0.5em;
-  margin: 0.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
 }
 
 h1 a,
@@ -263,7 +263,19 @@ display: none;
 ** Structural Elements
 */
 
-div.menu_bar { 
+.menu_bar { 
+  margin-top: 1em;
+}
+
+.menu_bar_l { 
+  text-align: left;
+  margin-left: 1em;
+  font-size: 120%;
+}
+
+.menu_bar_r { 
+  text-align: right;
+  margin-right: 1em;
   float: right;
 }
 

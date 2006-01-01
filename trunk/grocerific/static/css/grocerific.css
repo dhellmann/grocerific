@@ -183,8 +183,9 @@ text-decoration: underline;
 
 fieldset {
 border: 1px solid #8cacbb;
-margin: 2em 0em 1em 0em;
-padding: 1em 0em;
+/*margin: 2em 0em 1em 0em;*/
+margin: 0;
+/*padding: 1em;*/
 }
 
 legend {
@@ -355,6 +356,14 @@ padding-right: 0.5em;
 
 div.field {
 margin-top: 0.2em;
+}
+
+field { 
+  margin: 1em;
+}
+
+.form_table { 
+  margin-left: 1em;
 }
 
 div.help {

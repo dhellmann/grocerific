@@ -28,19 +28,22 @@
 
     </table>
 
-    <form class="group" action="/list/new" method="post">
-      <div class="legend">Create List</div>
+    <form action="/list/new" method="post">
+      <fieldset>
+        <legend>Create List</legend>
 
-      <div class="field">
-        <div>
-          <span class="legend">Name</span>
+        <field>
+          <label for="name">Name</label>
           <input type="text" name="name" value="" />
-        </div>
+          <div class="help">Provide a descriptive name for the new list.</div>
+        </field>
 
-        <div class="help">Provide a descriptive name for the new list.</div>
-      </div>
+        <field>
+          <input class="standalone" TYPE="submit" NAME="newBtn"
+            VALUE="New" />
+        </field>
 
-      <input class="standalone" TYPE="submit" NAME="newBtn" VALUE="New" />
+      </fieldset>
     </form>
     
 </body>

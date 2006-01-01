@@ -37,10 +37,11 @@
 
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 
-    <div py:def="loginBox()">
-      <!-- LOGIN BOX -->
-      <form class="group" action="/user/login" method="post">
-        <TABLE>
+    <form action="/user/login" method="post" py:def="loginBox()">
+      <fieldset>
+        <legend>Login</legend>
+        
+        <TABLE class="form_table">
           <tr>
             <th>Username:</th>
             <td><input type="text" name="username" value="" /></td>
@@ -53,11 +54,12 @@
             <td COLSPAN="2"><input class="standalone" TYPE="submit" NAME="loginBtn" VALUE="Login" /></td>
           </tr>
         </TABLE>
-
-        <p>Not already a member?  <a href="/user/registration_form">Register here</a></p>
-      </form>
-
-    </div>
+        
+        <p>Not already a member?  <a
+            href="/user/registration_form">Register here</a></p>
+        
+      </fieldset>
+    </form>
     
     <div py:replace="item[:]"/>
   </body>

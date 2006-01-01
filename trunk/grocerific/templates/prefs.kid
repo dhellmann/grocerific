@@ -9,26 +9,42 @@
 
   <body>
 
-    <form class="group" action="/user/edit_prefs" method="post">
-      <TABLE>
-        <tr>
-          <th>Username:</th>
-          <td><span py:content="username">Username</span></td>
-        </tr>
-        <tr>
-          <th>Password:</th>
-          <td><input type="password" name="password" value="" 
-              py:attrs="{'value':password}" /></td>
-        </tr>
-        <tr>
-          <th>Email:</th>
-          <td><input type="text" name="email" value=""
-              py:attrs="{'value':email}"  /></td>
-        </tr>
-        <tr>
-          <td COLSPAN="2"><input class="standalone" TYPE="submit" NAME="editBtn" VALUE="Save" /></td>
+    <form action="/user/edit_prefs" method="post">
+      <fieldset>
+        <legend>User Preferences</legend>
+
+        <table class="form_table">
+          
+          <tr>
+            <th align="left"><label for="username">Username:</label> </th>
+            <td><span id="username"
+                py:content="user.username">username</span></td>
           </tr>
-      </TABLE>
+
+          <tr>
+            <th align="left"> <label for="password">Password:</label></th>
+            <td><input type="password" name="password" value="" 
+                py:attrs="{'value':user.password}" /></td>
+          </tr>
+
+          <tr>
+            <th align="left"><label for="email">Email:</label></th>
+            <td><input type="text" name="email" value=""
+                py:attrs="{'value':user.email}"  /></td>
+          </tr>
+
+          <tr>
+            <th align="left"><label for="location">Location:</label></th>
+            <td><input type="text" name="location" value=""
+                py:attrs="{'value':user.location}"  /></td>
+          </tr>
+        </table>
+
+        <field>
+          <input class="standalone" TYPE="submit" NAME="editBtn" VALUE="Save" />
+        </field>
+
+      </fieldset>
       
     </form>
     

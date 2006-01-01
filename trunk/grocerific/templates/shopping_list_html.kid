@@ -43,7 +43,7 @@
         py:replace="shopping_list.id">list id</span> + unescape("&amp;") + "name=" + queryString;
       }
 
-      <!-- Show a text field to let the user edit the quantity of an -->
+      <!-- Change the quantity of an item in the list -->
       function updateQuantity(shoppingListItemId, quantity) {
         var quantity_id = "quantity_" + shoppingListItemId;
 
@@ -58,6 +58,16 @@
         return false;
       }
 
+      <!-- Import the contents of one list into this list. -->
+      function importList() {
+        var other_list_option_idx = document.import_form.copyFrom.selectedIndex;
+        var other_list_option = document.import_form.copyFrom[other_list_option_idx];
+        var other_list_id = other_list_option.value;
+
+        ajaxEngine.sendRequest('importList', "copyFrom="+other_list_id);
+        return false;
+      }
+
       function onload() {
         <!-- Set up query results -->
         ajaxEngine.registerRequest('findItems', '/item/search');
@@ -68,6 +78,7 @@
         ajaxEngine.registerRequest('updateQuantity', '/list/<span py:replace="shopping_list.id">list id</span>/update');
         ajaxEngine.registerRequest('addToList', '/list/<span py:replace="shopping_list.id">list id</span>/add');
         ajaxEngine.registerRequest('removeFromList', '/list/<span py:replace="shopping_list.id">list id</span>/remove');
+        ajaxEngine.registerRequest('importList', '/list/<span py:replace="shopping_list.id">list id</span>/import_list');
         ajaxEngine.registerAjaxElement('shopping_list');
 
         showList();
@@ -121,6 +132,19 @@
         value="Delete this list" />
     </form>
 
+    <form name="import_form" onsubmit="return importList()">
+      <input class="standalone" type="submit" name="copyBtn"
+        value="Copy contents from" />
+
+      <select size="1" id="copyFrom" name="copyFrom">
+        <option py:for="other_list in user.getShoppingLists()"
+          py:if="(other_list.getItems().count() > 0) and
+          (other_list.id != shopping_list.id)"
+          py:attrs="{'value':other_list.id}" 
+          py:content="other_list.name">Name</option>
+      </select>
+
+    </form>
     
 </body>
 </html>

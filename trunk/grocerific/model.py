@@ -86,7 +86,7 @@ class ShoppingList(SQLObject):
     name = StringCol()
     user = ForeignKey('User')
 
-    def add(self, item):
+    def add(self, item, quantity=None):
         """Add an item to a shopping list, if it does
         not already exist in the list.
         """
@@ -98,10 +98,12 @@ class ShoppingList(SQLObject):
                                                    item=item,
                                                    )
         if existing_items.count() == 0:
-            user_info = item.getUserInfo(self.user)
+            if quantity is None:
+                user_info = item.getUserInfo(self.user)
+                quantity = user_info.usuallybuy
             shopping_list_item = ShoppingListItem(list=self,
                                                   item=item,
-                                                  quantity=user_info.usuallybuy,
+                                                  quantity=quantity,
                                                   )
         return
             

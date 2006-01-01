@@ -77,6 +77,7 @@ class ShoppingListController(RESTResource):
         #
         return makeTemplateArgs(shopping_list=shoppingList,
                                 shopping_list_items=shoppingList.getItems(),
+                                user=user,
                                 )
     index.expose_resource = True
 
@@ -210,4 +211,17 @@ class ShoppingListController(RESTResource):
             controllers.flash('Cannot delete "Next Trip" lists')
         raise cherrypy.HTTPRedirect('/list/lists')
     delete.expose_resource = True
+    
+    
+    @requiresLogin()
+    @usesTransaction()
+    @turbogears.expose()
+    def import_list(self, shoppingList, copyFrom=None, user=None, **kwds):
+        """Copy the contents of one shopping list to another.
+        """
+        source_list = ShoppingList.get(copyFrom)
+        for item in source_list.getItems():
+            shoppingList.add(item.item, item.quantity)
+        raise cherrypy.HTTPRedirect('/list/%s/xml' % shoppingList.id)
+    import_list.expose_resource = True
     

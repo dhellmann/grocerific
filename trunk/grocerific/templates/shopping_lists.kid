@@ -35,12 +35,16 @@
         <field>
           <label for="name">Name</label>
           <input type="text" name="name" value="" />
-          <div class="help">Provide a descriptive name for the new list.</div>
-        </field>
-
-        <field>
           <input class="standalone" TYPE="submit" NAME="newBtn"
             VALUE="New" />
+          <div class="help">Provide a descriptive name for the new
+            list.  For example:
+            <ul>
+              <li>Tailgate Supplies</li>
+              <li>5 Alarm Chili Ingredients</li>
+              <li>Thanksgiving Menu</li>
+            </ul>
+          </div>
         </field>
 
       </fieldset>

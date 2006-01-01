@@ -15,25 +15,25 @@
         <table class="form_table">
           
           <tr>
-            <th align="left"><label for="username">Username:</label> </th>
+            <td><label for="username">Username:</label> </td>
             <td><span id="username"
                 py:content="user.username">username</span></td>
           </tr>
 
           <tr>
-            <th align="left"> <label for="password">Password:</label></th>
+            <td> <label for="password">Password:</label></td>
             <td><input type="password" name="password" value="" 
                 py:attrs="{'value':user.password}" /></td>
           </tr>
 
           <tr>
-            <th align="left"><label for="email">Email:</label></th>
+            <td><label for="email">Email:</label></td>
             <td><input type="text" name="email" value=""
                 py:attrs="{'value':user.email}"  /></td>
           </tr>
 
           <tr>
-            <th align="left"><label for="location">Location:</label></th>
+            <td><label for="location">City:</label></td>
             <td><input type="text" name="location" value=""
                 py:attrs="{'value':user.location}"  /></td>
           </tr>

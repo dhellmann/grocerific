@@ -9,25 +9,35 @@
 
   <body>
 
-    <form class="group" action="/user/register" method="post">
-      <TABLE>
-        <tr>
-          <th>Username:</th>
-          <td><input type="text" name="username" value="" /></td>
-        </tr>
-        <tr>
-          <th>Password:</th>
-          <td><input type="password" name="password" value="" /></td>
-        </tr>
-        <tr>
-          <th>Email:</th>
-          <td><input type="text" name="email" value="" /></td>
-        </tr>
-        <tr>
-          <td COLSPAN="2"><input class="standalone" TYPE="submit" NAME="loginBtn" VALUE="Login" /></td>
+    <form action="/user/register" method="post">
+      <fieldset>
+        <legend>Create an Account</legend>
+
+        <TABLE class="form_table">
+          <tr>
+            <td><label for="username">Username:</label></td>
+            <td><input type="text" name="username" value="" /></td>
           </tr>
-      </TABLE>
-      
+          <tr>
+            <td><label for="password">Password:</label></td>
+            <td><input type="password" name="password" value="" /></td>
+          </tr>
+          <tr>
+            <td><label for="email">Email:</label></td>
+            <td><input type="text" name="email" value="" /></td>
+          </tr>
+          
+          <tr>
+            <td><label for="location">City:</label></td>
+            <td><input type="text" name="location" value="" /> </td>
+          </tr>
+          
+          <tr>
+            <td COLSPAN="2"><input class="standalone" TYPE="submit" NAME="loginBtn" VALUE="Login" /></td>
+          </tr>
+        </TABLE>
+
+      </fieldset>
     </form>
     
   </body>

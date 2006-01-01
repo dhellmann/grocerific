@@ -72,12 +72,27 @@ class ShoppingListController(RESTResource):
             raise cherrypy.HTTPRedirect('/list/%s' % shopping_list.id)
 
         #
+        # Figure out what shopping lists we have that we could
+        # copy into this one.  The list is limited to those
+        # that have some items and are not the same list as
+        # the current list.
+        #
+        copyable_lists = []
+        for other_list in user.getShoppingLists():
+            if other_list.id == shoppingList.id:
+                continue
+            if other_list.getItems().count() == 0:
+                continue
+            copyable_lists.append(other_list)
+            
+        #
         # Otherwise, set up the arguments for our template so
         # we can display the shoppingList contents.
         #
         return makeTemplateArgs(shopping_list=shoppingList,
                                 shopping_list_items=shoppingList.getItems(),
                                 user=user,
+                                copyable_lists=copyable_lists,
                                 )
     index.expose_resource = True
 

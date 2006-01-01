@@ -96,31 +96,37 @@
         </td>
 
         <td>
-          <div class="find_item">
-            <h4>Find Item</h4>
-            <form name="findItem" onsubmit="return findItems()">
 
-              <div style="white-space: nowrap">
-                <input type="text" name="query" value="" />
+          <form name="findItem" onsubmit="return findItems()">
+            <fieldset>
+              <legend>Find Item</legend>
+
+              <field>
+                <div style="white-space: nowrap">
+                  <input type="text" name="query" value="" />
+                  
+                  <input class="standalone" type="submit" name="search"
+                    value="Search" />
                 
-                <input class="standalone" type="submit" name="search"
-                  value="Search" />
-                
-                <span><a onclick="goToNewItem()">Add a new item</a></span>
-              </div>
+                  <a onclick="goToNewItem()">Add a new item</a>
+                </div>
+              </field>
 
               <div class="query_results" id="query_results">
                 <table><tr><td></td></tr></table>
               </div>
 
-            </form>
-          </div>
+            </fieldset>
+          </form>
+
         </td>
 
       </tr>
     </table>
 
-    <form py:attrs="{'action':'/list/%s/clear' % shopping_list.id}" method="post">
+    <form method="post"
+      py:attrs="{'action':'/list/%s/clear' % shopping_list.id}" 
+      >
       <input class="standalone" type="submit" name="clearBtn"
         value="Clear this list" />
     </form>
@@ -132,18 +138,15 @@
         value="Delete this list" />
     </form>
 
-    <form name="import_form" onsubmit="return importList()">
+    <form py:if="copyable_lists" name="import_form" onsubmit="return importList()">
       <input class="standalone" type="submit" name="copyBtn"
         value="Copy contents from" />
 
       <select size="1" id="copyFrom" name="copyFrom">
-        <option py:for="other_list in user.getShoppingLists()"
-          py:if="(other_list.getItems().count() > 0) and
-          (other_list.id != shopping_list.id)"
+        <option py:for="other_list in copyable_lists"
           py:attrs="{'value':other_list.id}" 
           py:content="other_list.name">Name</option>
       </select>
-
     </form>
     
 </body>

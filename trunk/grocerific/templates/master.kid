@@ -39,8 +39,8 @@
 
     <h1>Grocerific</h1>
 
-    <div class="menu_bar">
-      <div class="menu_bar_r" py:if="session_is_logged_in">
+    <div class="menu_bar" py:if="session_is_logged_in">
+      <div class="menu_bar_r">
         <span py:content="session_user">Username</span>
         <a href="/user/prefs">Preferences</a>
         <a href="/user/logout">Log Out</a>
@@ -50,8 +50,15 @@
         <a href="/">Home</a>
         <a href="/list">Next Trip</a>
         <a href="/list/lists">My Lists</a>
+        <a href="/">My Stores</a>
       </div>
       <p/>
+    </div>
+
+    <div class="menu_bar" py:if="not session_is_logged_in">
+      <div class="menu_bar_l">
+        <a href="/">Home</a>
+      </div>
     </div>
 
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
@@ -62,11 +69,11 @@
         
         <TABLE class="form_table">
           <tr>
-            <th>Username:</th>
+            <td><label for="username">Username:</label></td>
             <td><input type="text" name="username" value="" /></td>
           </tr>
           <tr>
-            <th>Password:</th>
+            <td><label for="password">Password:</label></td>
             <td><input type="password" name="password" value="" /></td>
           </tr>
           <tr>

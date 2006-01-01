@@ -226,12 +226,13 @@ class UserManager:
 
     @turbogears.expose()
     @usesTransaction()
-    def register(self, username, password, email=None, **kwds):
+    def register(self, username, password, email=None, location=None, **kwds):
         """Register a new user.
         """
         new_user = User(username=username,
                         password=password,
                         email=email,
+                        location=location,
                         )
         #
         # Everyone needs a 'Next Trip' shopping list.

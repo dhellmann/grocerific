@@ -234,19 +234,15 @@ class UserManager:
                         )
         return self.login(username, password)
 
+    @turbogears.expose()
+    def index(self):
+        raise cherrypy.HTTPRedirect('/user/prefs')
+
+    @requiresLogin()
     @turbogears.expose(html="grocerific.templates.prefs")
-    def prefs(self):
+    def prefs(self, user):
         """Form to register a new user.
         """
-        userid = cherrypy.session.get('userid')
-        if userid:
-            try:
-                user = User.get(userid)
-            except SQLObjectNotFound:
-                redirectToLogin()
-        else:
-            redirectToLogin()
-                
         return makeTemplateArgs(username=user.username,
                                 password=user.password,
                                 email=user.email,

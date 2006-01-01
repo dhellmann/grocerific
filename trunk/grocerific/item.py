@@ -115,7 +115,41 @@ class ItemManager(RESTResource):
         #
         if where_clauses:
             select_string = ' AND '.join(where_clauses)
-            items = ShoppingItem.select(select_string)
+            items = ShoppingItem.select(select_string,
+                                        orderBy='name',
+                                        )
+            item_count = items.count()
+        else:
+            items = []
+            item_count = 0
+
+        #
+        # Format the response table
+        #
+        return makeTemplateArgs(shopping_items=items,
+                                shopping_item_count=item_count,
+                                )
+    
+    @turbogears.expose(format="xml",
+                       template="grocerific.templates.query_results",
+                       content_type="text/xml",
+                       )
+    @usesLogin()
+    def browse(self, firstLetter=None, **args):
+        """Browse items in the database based on
+        their first letter.
+        """
+        #
+        # Clean up the string we are given and turn it
+        # into words that might appear in the name
+        # of a shopping item.
+        #
+        clean_first_letter = cleanString(firstLetter)
+        if clean_first_letter:
+            where_clause = "shopping_item.name LIKE '%s%%'" % clean_first_letter
+            items = ShoppingItem.select(where_clause,
+                                        orderBy='name',
+                                        )
             item_count = items.count()
         else:
             items = []

@@ -7,9 +7,6 @@
 -- Create a user
 INSERT INTO siteuser (username, password, email) VALUES ('doug', 'ntsucks', 'doug@hellfly.net');
 
--- Create a shopping list
-INSERT INTO shopping_list (name, user_id) VALUES ('Next Trip', 1);
-
 -- Add items we can put in the list
 INSERT INTO "shopping_item" VALUES(1, 'Carrots, large');
 INSERT INTO "shopping_item" VALUES(2, 'Onion, yellow, small');
@@ -61,8 +58,23 @@ INSERT INTO "shopping_item" VALUES(47, 'Wine, Syrah');
 INSERT INTO "shopping_item" VALUES(48, 'Wine, Pinot Grigio');
 INSERT INTO "shopping_item" VALUES(49, 'Wine, Prosecco');
 INSERT INTO "shopping_item" VALUES(50, 'Wine, Zinfandel');
+INSERT INTO "shopping_item" VALUES(51, 'Wine, Cava');
+INSERT INTO "shopping_item" VALUES(52, 'Wine, Cabernet Sauvignon');
+INSERT INTO "shopping_item" VALUES(53, 'Bread, french');
+INSERT INTO "shopping_item" VALUES(54, 'Tissue, Kleenex');
+INSERT INTO "shopping_item" VALUES(55, 'Toilet paper');
+INSERT INTO "shopping_item" VALUES(56, 'Cherries');
 
--- Add items to the list
+-- Add default quantities
+INSERT INTO "shopping_item_info" VALUES(1, 1, 14, '1');
+INSERT INTO "shopping_item_info" VALUES(2, 1, 34, 'small bunch');
+INSERT INTO "shopping_item_info" VALUES(3, 1, 16, '1/2 lb');
+INSERT INTO "shopping_item_info" VALUES(4, 1, 54, '3');
+INSERT INTO "shopping_item_info" VALUES(5, 1, 55, '1');
+INSERT INTO "shopping_item_info" VALUES(6, 1, 56, 'small bag');
+
+-- Create a shopping list
+INSERT INTO shopping_list (name, user_id) VALUES ('Next Trip', 1);
 INSERT INTO shopping_list_item (list_id, item_id, quantity) VALUES ( 1, 1, '3' );
 INSERT INTO shopping_list_item (list_id, item_id, quantity) VALUES ( 1, 3, '1' );
 

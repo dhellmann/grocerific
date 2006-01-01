@@ -9,11 +9,31 @@
 
   <body>
 
-    <form class="group" action="/item/edit" method="post">
-      <div>
-        <span class="legend">Description:</span> <span py:content="shopping_item.name">Item</span>
+    <form class="group" 
+      action="/item/edit"
+      py:attrs="{'action':'/item/%s/edit' % shopping_item.id}"
+      method="post">
+
+      <div class="field">
+        <span class="legend">Description:</span> 
+        <span py:content="shopping_item.name">Item</span>
       </div>
-      <input type="hidden" name="itemId" value="" py:attr="{'value':shopping_item.id}" />
+
+      <div class="field">
+        <span class="legend">When I buy this, I usually buy:</span> 
+        <input type="text" name="usuallyBuy" value="1"
+          py:attrs="{'value':shopping_item.getUserInfo(user).usuallybuy}" />
+        <div class="help">For example:
+          <ul>
+            <li>1/2 gallon</li>
+            <li>1 lb</li>
+            <li>small bunch</li>
+          </ul>
+        </div>
+      </div>
+
+      <input class="standalone" TYPE="submit" NAME="editBtn" VALUE="Edit" />
+      
     </form>
 
     <p>Add a

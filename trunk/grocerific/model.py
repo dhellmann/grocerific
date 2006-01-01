@@ -54,6 +54,24 @@ class ShoppingItem(SQLObject):
     """
     name = StringCol(alternateID=True)
 
+    def getUserInfo(self, user):
+        """Returns a ShoppingItemInfo for the user and this item.
+        """
+        info_list = ShoppingItemInfo.selectBy(user=user,
+                                              item=self,
+                                              )
+        try:
+            return info_list[0]
+        except IndexError:
+            return ShoppingItemInfo(user=user, item=self)
+
+class ShoppingItemInfo(SQLObject):
+    """User-specific information about a shopping item.
+    """
+    user = ForeignKey('User')
+    item = ForeignKey('ShoppingItem')
+    usuallybuy = StringCol(default='1')
+
     
 class ShoppingList(SQLObject):
     """Lists of things users have indicated that they want to buy.
@@ -73,9 +91,10 @@ class ShoppingList(SQLObject):
                                                    item=item,
                                                    )
         if existing_items.count() == 0:
+            user_info = item.getUserInfo(self.user)
             shopping_list_item = ShoppingListItem(list=self,
                                                   item=item,
-                                                  quantity='1',
+                                                  quantity=user_info.usuallybuy,
                                                   )
         return
             

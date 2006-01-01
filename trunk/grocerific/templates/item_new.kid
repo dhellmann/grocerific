@@ -39,6 +39,18 @@
         </div>
       </div>
 
+      <div class="field">
+        <span class="legend">When I buy this, I usually buy:</span> 
+        <input type="text" name="usuallyBuy" value="1" />
+        <div class="help">For example:
+          <ul>
+            <li>1/2 gallon</li>
+            <li>1 lb</li>
+            <li>small bunch</li>
+          </ul>
+        </div>
+      </div>
+
       <input class="standalone" TYPE="submit" NAME="addBtn" VALUE="Add" />
     </form>
     

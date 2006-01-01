@@ -57,6 +57,21 @@ class ItemManager(RESTResource):
         return response
     index.expose_resource = True
 
+    
+    @turbogears.expose()
+    @requiresLogin()
+    def edit(self, shoppingItem=None, user=None, usuallyBuy=None, **args):
+        """Change an item in the database.
+        """
+
+        user_info = shoppingItem.getUserInfo(user)
+        if usuallyBuy is not None:
+            user_info.usuallybuy = usuallyBuy
+        
+        raise cherrypy.HTTPRedirect('/item/%s' % shoppingItem.id)
+    edit.expose_resource = True
+
+    
     @turbogears.expose(html="grocerific.templates.item_new")
     @requiresLogin()
     def new_form(self, user=None, name='', addToList=False, **args):
@@ -65,9 +80,8 @@ class ItemManager(RESTResource):
         return makeTemplateArgs(name=name,
                                 addToList=addToList,
                                 )
-    
-    ###################
 
+    
     @turbogears.expose(format="xml",
                        template="grocerific.templates.query_results",
                        content_type="text/xml",
@@ -114,10 +128,11 @@ class ItemManager(RESTResource):
                                 shopping_item_count=item_count,
                                 )
 
+    
     @turbogears.expose()
     @requiresLogin()
     @usesTransaction()
-    def add(self, user=None, name='', addToList=False, shoppingListId=None, **args):
+    def add(self, user=None, name='', addToList=False, shoppingListId=None, usuallyBuy=None, **args):
         """Add an item to the database.
         """
         name = name.strip()
@@ -140,6 +155,13 @@ class ItemManager(RESTResource):
             item = ShoppingItem(name=name)
 
         #
+        # Update the usuallybuy info
+        #
+        if usuallyBuy:
+            info = item.getUserInfo(user)
+            info.usuallybuy = usuallyBuy
+
+        #
         # Add the item to the shopping list.
         #
         if addToList and shoppingListId:
@@ -149,13 +171,6 @@ class ItemManager(RESTResource):
                 pass
             else:
                 shopping_list.add(item)
+            raise cherrypy.HTTPRedirect('/list/%s' % shoppingListId)
         
         raise cherrypy.HTTPRedirect('/item/%s' % item.id)
-
-    @turbogears.expose()
-    @requiresLogin()
-    def edit(self, user=None, itemId=None, **args):
-        """Change an item in the database.
-        """
-        item = ShoppingItem.get(itemId)
-        return makeTemplateArgs(shopping_item=item)

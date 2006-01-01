@@ -68,7 +68,7 @@
         return false;
       }
 
-      function onload() {
+      function local_onload() {
         <!-- Set up query results -->
         ajaxEngine.registerRequest('findItems', '/item/search');
         ajaxEngine.registerAjaxElement('query_results');
@@ -83,6 +83,7 @@
 
         showList();
       }
+      onloads.push(local_onload);
 
     </script>
 

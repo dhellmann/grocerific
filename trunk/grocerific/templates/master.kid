@@ -17,11 +17,23 @@
     <div py:replace="item[:]"/>
   </head>
 
-  <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'">
+  <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" onload="bodyOnLoad()">
     <script>
       function handleCancel() {
         window.history.back();
         return false;
+      }
+
+      var onloads = new Array();
+      function bodyOnLoad() {
+        /* UI effects we want for every page */
+        new Rico.Effect.Round('h1', null, null);
+
+        /* Call the registered onload callbacks */
+        while ( onloads.length > 0 ) {
+          callback = onloads.pop();
+          callback();
+        }
       }
     </script>
 

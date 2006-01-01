@@ -8,7 +8,6 @@
   </head>
 
   <body>
-
     <form action="/user/edit_prefs" method="post">
       <fieldset>
         <legend>User Preferences</legend>

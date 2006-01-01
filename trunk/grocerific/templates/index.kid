@@ -8,10 +8,6 @@
 </head>
 
 <body>
-    <script>
-      function onload() {
-      }
-    </script>
 
     <table py:if="not session_is_logged_in">
       <tr valign="top">

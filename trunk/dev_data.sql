@@ -1,14 +1,3 @@
---
--- $Id$
---
--- Test data used in the development database.
---
-
--- Create a user
-INSERT INTO siteuser (username, password, email, location)
-	 VALUES ('doug', 'ntsucks', 'doug@hellfly.net', 'Athens, GA');
-
--- Add items we can put in the list
 INSERT INTO "shopping_item" VALUES(1, 'Carrots, large');
 INSERT INTO "shopping_item" VALUES(2, 'Onion, yellow, small');
 INSERT INTO "shopping_item" VALUES(3, 'Onion, yellow, medium');
@@ -65,17 +54,24 @@ INSERT INTO "shopping_item" VALUES(53, 'Bread, french');
 INSERT INTO "shopping_item" VALUES(54, 'Tissue, Kleenex');
 INSERT INTO "shopping_item" VALUES(55, 'Toilet paper');
 INSERT INTO "shopping_item" VALUES(56, 'Cherries');
-
--- Add default quantities
+INSERT INTO "shopping_item" VALUES(57, 'Wine, Pinot Noir');
+INSERT INTO "shopping_item" VALUES(58, 'Garbage bags, kitchen');
+INSERT INTO "shopping_item" VALUES(59, 'Blistex');
+INSERT INTO "shopping_item" VALUES(60, 'Lysol kitchen cleaner');
 INSERT INTO "shopping_item_info" VALUES(1, 1, 14, '1');
 INSERT INTO "shopping_item_info" VALUES(2, 1, 34, 'small bunch');
 INSERT INTO "shopping_item_info" VALUES(3, 1, 16, '1/2 lb');
 INSERT INTO "shopping_item_info" VALUES(4, 1, 54, '3');
 INSERT INTO "shopping_item_info" VALUES(5, 1, 55, '1');
 INSERT INTO "shopping_item_info" VALUES(6, 1, 56, 'small bag');
-
--- Create a shopping list
-INSERT INTO shopping_list (name, user_id) VALUES ('Next Trip', 1);
-INSERT INTO shopping_list_item (list_id, item_id, quantity) VALUES ( 1, 1, '3' );
-INSERT INTO shopping_list_item (list_id, item_id, quantity) VALUES ( 1, 3, '1' );
-
+INSERT INTO "shopping_item_info" VALUES(7, 1, 29, '1');
+INSERT INTO "shopping_item_info" VALUES(8, 1, 57, '1');
+INSERT INTO "shopping_item_info" VALUES(9, 1, 58, 'large box');
+INSERT INTO "shopping_item_info" VALUES(10, 1, 59, '1');
+INSERT INTO "shopping_item_info" VALUES(11, 1, 60, '1');
+INSERT INTO "shopping_list" VALUES(1, 'Next Trip', 1);
+INSERT INTO "shopping_list" VALUES(2, 'Weekly', 1);
+INSERT INTO "shopping_list_item" VALUES(4, 58, 1, 'large box');
+INSERT INTO "shopping_list_item" VALUES(5, 59, 1, '1');
+INSERT INTO "shopping_list_item" VALUES(6, 60, 1, '1');
+INSERT INTO "siteuser" VALUES(1, 'doug', 'ntsucks', 'doug@hellfly.net', 'Athens, GA');

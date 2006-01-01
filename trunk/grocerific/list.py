@@ -204,7 +204,10 @@ class ShoppingListController(RESTResource):
     def delete(self, shoppingList, user=None, **kwds):
         """Clear the contents of a shopping list.
         """
-        shoppingList.destroySelf()
+        if shoppingList.name != NEXT_TRIP:
+            shoppingList.destroySelf()
+        else:
+            controllers.flash('Cannot delete "Next Trip" lists')
         raise cherrypy.HTTPRedirect('/list/lists')
     delete.expose_resource = True
     

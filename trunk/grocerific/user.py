@@ -225,6 +225,7 @@ class UserManager:
         return makeTemplateArgs()
 
     @turbogears.expose()
+    @usesTransaction()
     def register(self, username, password, email=None, **kwds):
         """Register a new user.
         """
@@ -232,6 +233,12 @@ class UserManager:
                         password=password,
                         email=email,
                         )
+        #
+        # Everyone needs a 'Next Trip' shopping list.
+        #
+        new_default_list = ShoppingList(user=new_user,
+                                        name='Next Trip',
+                                        )
         return self.login(username, password)
 
     @turbogears.expose()

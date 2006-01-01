@@ -114,7 +114,9 @@
         value="Clear this list" />
     </form>
 
-    <form py:attrs="{'action':'/list/%s/delete' % shopping_list.id}" method="post">
+    <form py:attrs="{'action':'/list/%s/delete' % shopping_list.id}" 
+      method="post"
+      py:if="not shopping_list.name == 'Next Trip'">
       <input class="standalone" type="submit" name="deleteBtn"
         value="Delete this list" />
     </form>

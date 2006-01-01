@@ -5,7 +5,8 @@
 --
 
 -- Create a user
-INSERT INTO siteuser (username, password, email) VALUES ('doug', 'ntsucks', 'doug@hellfly.net');
+INSERT INTO siteuser (username, password, email, location)
+	 VALUES ('doug', 'ntsucks', 'doug@hellfly.net', 'Athens, GA');
 
 -- Add items we can put in the list
 INSERT INTO "shopping_item" VALUES(1, 'Carrots, large');

@@ -39,6 +39,7 @@ class User(SQLObject):
     password = StringCol(notNull=True)
     email = StringCol()
     lists = MultipleJoin('ShoppingList')
+    location = StringCol()
 
     def getRememberMeCookieValue(self):
         """Returns a value to remember this user

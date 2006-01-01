@@ -3,7 +3,7 @@
     <div class="list_name" py:content="shopping_list.name">List Name</div>
     <center py:if="not shopping_list_items.count()">(Empty)</center>
     
-    <table valign="top" width="100%" py:if="shopping_list_items.count()">
+    <table valign="top" py:if="shopping_list_items.count()">
       <tr valign="top" class="list_item" py:for="item in shopping_list_items">
         <td><a class="action_link"
             title="Remove from list"

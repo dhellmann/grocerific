@@ -240,3 +240,19 @@ class ShoppingListController(RESTResource):
         raise cherrypy.HTTPRedirect('/list/%s/xml' % shoppingList.id)
     import_list.expose_resource = True
     
+    
+    @requiresLogin()
+    @usesTransaction()
+    @turbogears.expose()
+    def duplicate(self, shoppingList, newName=None, user=None, **kwds):
+        """Create a new shopping list and copy the contents
+        of this list into it.
+        """
+        destination_list = ShoppingList(user=user,
+                                        name=newName,
+                                        )
+        for item in shoppingList.getItems():
+            destination_list.add(item.item, item.quantity)
+        raise cherrypy.HTTPRedirect('/list/%s' % destination_list.id)
+    duplicate.expose_resource = True
+    

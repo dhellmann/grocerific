@@ -56,6 +56,37 @@ class User(SQLObject):
         return ShoppingList.selectBy(user=self,
                                      orderBy='name',
                                      )
+
+    def getStores(self):
+        """Return the stores frequented by the user.
+        """
+        return UserStore.select(
+            """
+            user_store.user_id = %s
+            AND
+            user_store.store_id = store.id
+            
+            ORDER BY
+              store.chain,
+              store.city,
+              store.location
+            """ % self.id,
+            clauseTables=['store'],
+            )
+
+    def addStore(self, store):
+        """Add a store to the list of stores this user frequents.
+        """
+        # See if there is already a relationship
+        # with that store before adding a new one.
+        existing = UserStore.selectBy(user=self,
+                                      store=store,
+                                      )
+        if existing.count() == 0:
+            user_store = UserStore(user=self, store=store)
+        return
+
+    
     
 class ShoppingItem(SQLObject):
     """Items someone can purchase.
@@ -132,6 +163,7 @@ class ShoppingList(SQLObject):
         SQLObject.destroySelf(self)
         return
 
+    
 class ShoppingListItem(SQLObject):
     """Items someone has indicated that they may buy.
     """
@@ -139,4 +171,19 @@ class ShoppingListItem(SQLObject):
     list = ForeignKey('ShoppingList')
     quantity = StringCol()
     #have_coupon = BoolCol()
+
+    
+class Store(SQLObject):
+    """A place where a user can shop.
+    """
+    chain = StringCol()
+    city = StringCol()
+    location = StringCol()
+
+    
+class UserStore(SQLObject):
+    """A store where a user regularly shops.
+    """
+    user = ForeignKey('User')
+    store = ForeignKey('Store')
     

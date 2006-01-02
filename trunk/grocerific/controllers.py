@@ -24,6 +24,7 @@ from turbogears import controllers
 from grocerific.item import *
 from grocerific.list import *
 from grocerific.model import *
+from grocerific.store import *
 from grocerific.user import *
 from grocerific.util import *
 
@@ -55,4 +56,10 @@ class Root(controllers.Root):
     # Tie in another controller for shopping list-related functions
     #
     list = ShoppingListController()
+
+    #
+    # Tie in another controller for store-related functions
+    #
+    store = StoreController()
+    
     

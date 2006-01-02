@@ -20,7 +20,9 @@
       </thead>
 
       <tbody>
-        <tr py:for="shopping_list in shopping_lists">
+        <tr py:for="i, shopping_list in enumerate(shopping_lists)"
+          py:attrs="{'class':['even', 'odd'][i%2]}"
+          >
           <td><a py:attrs="{'href':'/list/%s' % shopping_list.id}"
               py:content="shopping_list.name">Name</a>
           </td>

@@ -51,7 +51,7 @@
         <a href="/">Home</a> |
         <a href="/list">Next Trip</a> |
         <a href="/list/lists">My Lists</a> |
-        <a href="/">My Stores</a>
+        <a href="/store/my">My Stores</a>
       </div>
       <p/>
     </div>

@@ -28,6 +28,7 @@
       function bodyOnLoad() {
         /* UI effects we want for every page */
         new Rico.Effect.Round('h1', null, null);
+        new Rico.Effect.Round('h2', null, null);
 
         /* Call the registered onload callbacks */
         while ( onloads.length > 0 ) {
@@ -41,15 +42,15 @@
 
     <div class="menu_bar" py:if="session_is_logged_in">
       <div class="menu_bar_r">
-        <span py:content="session_user">Username</span>
-        <a href="/user/prefs">Preferences</a>
+        <span py:content="session_user">Username</span> |
+        <a href="/user/prefs">Preferences</a> |
         <a href="/user/logout">Log Out</a>
       </div>
       <p/>
       <div class="menu_bar_l">
-        <a href="/">Home</a>
-        <a href="/list">Next Trip</a>
-        <a href="/list/lists">My Lists</a>
+        <a href="/">Home</a> |
+        <a href="/list">Next Trip</a> |
+        <a href="/list/lists">My Lists</a> |
         <a href="/">My Stores</a>
       </div>
       <p/>

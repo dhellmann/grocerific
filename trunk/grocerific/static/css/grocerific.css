@@ -100,10 +100,18 @@ h1 {
 /*  border-bottom: 1px solid black;*/
 /*  border: 1px solid black;*/
   color: white;
-  background-color: #008000;
+/*  background-color: #008000;*/
+  background-color: #007DFF;
   text-align: center;
-  padding-top: 1em;
-  padding-bottom: 1em;
+}
+
+h2 { 
+/*  border-bottom: 1px solid black;*/
+/*  border: 1px solid black;*/
+  color: black;
+/*  background-color: #00A000;*/
+  background-color: #FFD900;
+  text-align: center;
 }
 
 h1 a,
@@ -182,15 +190,18 @@ text-decoration: underline;
 
 
 fieldset {
-border: 1px solid #8cacbb;
-/*margin: 2em 0em 1em 0em;*/
-margin: 0;
-/*padding: 1em;*/
+  border: 1px solid #005683;
+  /*margin: 2em 0em 1em 0em;*/
+  margin: 0 1em 0 1em;
+  /*padding: 1em;*/
+  background-color: #eeeeee;
 }
 
 legend {
-background: white;
-padding: 0.5em;
+//  color: #B37A00;
+  color: #005683;
+  background: transparent;
+  padding: 0.5em;
 }
 
 
@@ -321,8 +332,10 @@ margin-top: 1em;
 */
 
 input.standalone {
-background: #DEE7EC url(/static/images/linkOpaque.gif) 9px 1px no-repeat;
-color: black;
+//background: #DEE7EC url(/static/images/linkOpaque.gif) 9px 1px no-repeat;
+background: #B37A00 url(/static/images/linkOpaque.gif) 9px 1px no-repeat;
+//color: black;
+color: white;
 cursor: pointer;
 font-size: 90%;
 font-weight: normal;
@@ -367,7 +380,7 @@ field {
 }
 
 div.help {
-background-color: white;
+background-color: transparent;
 font-weight: normal;
 line-height: normal;
 text-align: left;
@@ -394,24 +407,24 @@ background: url(/static/images/required.gif) right no-repeat;
 
 table.listing,
 div.stx table {
-border-collapse: collapse;
-border-left: 1px solid black;
-border-bottom: 1px solid black;
-font-size: 110%;
-margin: 1em 0em 1em 0em;
-clear: both;
+  border-collapse: collapse;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  font-size: 110%;
+  margin: 1em 0em 1em 1em;
+  clear: both;
 }
 
 table.listing th,
 div.stx table th {
-background: #DEE7EC;
-border-top: 1px solid black;
-border-bottom: 1px solid black;
-border-right: 1px solid black;
-color: black;
-font-weight: normal;
-padding: 0em 1em 0em 1em;
-white-space: nowrap;
+  background: #005683;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  color: white;
+  font-weight: normal;
+  padding: 0em 1em 0em 1em;
+  white-space: nowrap;
 }
 
 table.listing td.top {

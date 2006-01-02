@@ -9,9 +9,11 @@
 
   <body>
 
+    <h2>Define New Item</h2>
+
     <form action="/item/add" method="post">
       <fieldset>
-        <legend>Add Item</legend>
+        <legend>Parameters</legend>
 
         <field>
           <label for="name">Description</label>

@@ -9,6 +9,8 @@
 
 <body>
 
+    <h2>My Shopping Lists</h2>
+
     <table class="listing">
       <thead>
         <tr>

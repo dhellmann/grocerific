@@ -1,0 +1,39 @@
+(slate-ish blue)
+#28447D
+#406EC9
+#5A667D
+#91A4C9
+#828282
+#7D7D7D
+
+(lime-ish green)
+#68E247
+#45962F
+#D1E346
+#8A962F
+#1C1C1C
+#E3E3E3
+
+(dark green)
+#358246
+#55CF6F
+#588235
+#8CCF55
+#7D7D7D
+#828282
+
+(bright blue)
+#007DFF (blue)
+#005683 (darker blue)
+#FFD900 (yellow)
+#B37A00 (brown)
+#000000
+#FFFFFF
+
+(orange)
+#FF8200
+#B35C00
+#3DCACC
+#80FDFF
+#000000
+#FFFFFF

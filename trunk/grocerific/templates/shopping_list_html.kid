@@ -4,7 +4,7 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>Welcome to Grocerific</title>
+    <title>Grocerific - <div py:replace="shopping_list.name">List Name</div></title>
 </head>
 
 <body>
@@ -93,19 +93,24 @@
 
     </script>
 
+    <h2 py:content="shopping_list.name">List Name</h2>
+
     <table>
       <tr valign="top">
 
         <td width="50%">
-          <div class="shopping_list" id="shopping_list">
-            <div class="list_name">Shopping List</div>
-          </div>
+          <fieldset>
+            <legend>Contents</legend>
+
+            <div id="shopping_list" />
+
+          </fieldset>
         </td>
 
         <td>
 
           <fieldset>
-            <legend>Find Item</legend>
+            <legend>Search</legend>
             
             <form name="findItem" onsubmit="return findItems()">
               <field>
@@ -144,7 +149,7 @@
     </table>
 
           <fieldset>
-            <legend>List Actions</legend>
+            <legend>Actions</legend>
             
             <field>
               <form method="post"

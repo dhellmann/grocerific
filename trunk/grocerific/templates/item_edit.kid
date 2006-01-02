@@ -4,20 +4,23 @@
 
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>Grocerific New Item</title>
+    <title>Grocerific - <div py:replace="shopping_item.name">item name</div></title>
   </head>
 
   <body>
+
+    <h2 py:content="shopping_item.name">Item Name</h2>
 
     <form
       action="/item/edit"
       py:attrs="{'action':'/item/%s/edit' % shopping_item.id}"
       method="post">
       <fieldset>
-        <legend>Edit: <span py:replace="shopping_item.name">Item Name</span></legend>
+        <legend>Edit</legend>
 
         <field>
-          <label for="usuallyBuy">When I buy this, I usually buy:</label> 
+          <label for="usuallyBuy">When I buy <span
+              py:content="shopping_item.name">this</span>, I usually buy:</label> 
           <input type="text" name="usuallyBuy" value="1"
             py:attrs="{'value':shopping_item.getUserInfo(user).usuallybuy}" />
           <div class="help">For example:
@@ -38,9 +41,17 @@
       </fieldset>
     </form>
 
-    <p>Add a
-      <a py:attrs="{'href':'/item/new_form?name=%s' % shopping_item.name}">related item</a>
-    </p>
+    <fieldset>
+      <legend>Actions</legend>
+      <form action="/item/new_form">
+        <field>
+          <input type="hidden" name="name" py:attrs="{'value':shopping_item.name}"
+            value="" />
+          <input class="standalone" type="submit" name="addRelatedBtn"
+            value="Define a related item" />
+        </field>
+      </form>
+    </fieldset>
 
     <fieldset>
       <legend>Stores</legend>

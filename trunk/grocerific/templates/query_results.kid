@@ -3,11 +3,10 @@
     py:if="session_is_logged_in">
 
     <div py:if="shopping_item_count" class="query_result" py:for="shopping_item in shopping_items">
-      <a class="action_link" 
-        title="Add to list" 
-        onclick="addToList(%s)"
-        py:attrs="{'onclick':'addToList(%s)' % shopping_item.id}">(add)</a>
-      <a py:attrs="{'onclick':'addToList(%s)' % shopping_item.id}" py:content="shopping_item.name">Item name</a>
+      <a title="Add to list"
+        py:attrs="{'onclick':'addToList(%s)' % shopping_item.id}" 
+        py:content="shopping_item.name">Item name
+      </a>
     </div>
 
     <div py:if="not shopping_item_count" class="query_result">

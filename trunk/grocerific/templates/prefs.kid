@@ -8,9 +8,12 @@
   </head>
 
   <body>
+
+    <h2>Settings for <span py:content="user.username">user</span></h2>
+
     <form action="/user/edit_prefs" method="post">
       <fieldset>
-        <legend>User Preferences</legend>
+        <legend>Preferences</legend>
 
         <table class="form_table">
           

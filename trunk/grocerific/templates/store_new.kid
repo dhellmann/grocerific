@@ -17,8 +17,9 @@
 
         <field>
           <label for="chain">Chain</label>
-          <input type="text" name="chain" value="" />
-
+          <input type="text" name="chain" value="" 
+            py:attrs="{'value':chain}" />
+          
           <div class="help">What chain does the store belong to?  For example:
             <ul>
               <li>Kroger</li>
@@ -38,7 +39,8 @@
 
         <field>
           <label for="location">Location</label>
-          <input type="text" name="location" value="" />
+          <input type="text" name="location" value="" 
+            py:attrs="{'value':location}" />
 
           <div class="help">If there is more than one store from the
             same chain in town, where is this specific store?

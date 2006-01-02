@@ -176,21 +176,29 @@ class StoreController(RESTResource):
         
     @turbogears.expose(html="grocerific.templates.store_new")
     @requiresLogin()
-    def new_form(self, user=None, name='', addToList=False, city=None, **args):
+    def new_form(self, user=None, chain='', city='', location='', addToList=False, **args):
         """Form to add a store to the database.
         """
-        return makeTemplateArgs(name=name,
-                                addToList=addToList,
+        return makeTemplateArgs(addToList=addToList,
                                 city=city or user.location,
+                                chain=chain,
+                                location=location,
                                 )
 
     
     @turbogears.expose()
     @requiresLogin()
     @usesTransaction()
-    def new(self, user=None, chain=None, city=None, location=None, addToList=False, **args):
+    def new(self, user=None, chain='', city='', location='', addToList=False, **args):
         """Form to add a store to the database.
         """
+        if not chain:
+            controllers.flash('Please specify the store chain')
+            raise cherrypy.HTTPRedirect('/store/new_form?chain=%s&city=%s&location=%s' % (chain, city, location))
+        if not city:
+            controllers.flash('Please specify the city where the store is located.')
+            raise cherrypy.HTTPRedirect('/store/new_form?chain=%s&city=%s&location=%s' % (chain, city, location))
+            
         existing = Store.selectBy(chain=chain,
                                   city=city,
                                   location=location,

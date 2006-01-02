@@ -37,3 +37,11 @@
 #80FDFF
 #000000
 #FFFFFF
+
+(light olive)
+#9EBF8A (light olive)
+#5F7353 (darker olive)
+#BFBD8A (tan)
+#737153 (darker brown)
+#404040 (dark grey)
+#BFBFBF (grey)

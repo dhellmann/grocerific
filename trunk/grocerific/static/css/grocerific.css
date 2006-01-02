@@ -101,7 +101,8 @@ h1 {
 /*  border: 1px solid black;*/
   color: white;
 /*  background-color: #008000;*/
-  background-color: #007DFF;
+/*  background-color: #007DFF; * bright blue */
+  background-color: #5F7353; /* dark olive */
   text-align: center;
 }
 
@@ -110,7 +111,8 @@ h2 {
 /*  border: 1px solid black;*/
   color: black;
 /*  background-color: #00A000;*/
-  background-color: #FFD900;
+/*  background-color: #FFD900; * yellow */
+  background-color: #9EBF8A; /* light olive */
   text-align: center;
 }
 
@@ -190,7 +192,8 @@ text-decoration: underline;
 
 
 fieldset {
-  border: 1px solid #005683;
+/*  border: 1px solid #005683; * slate blue */
+  border: 1px solid #737153; /* dark brown */
   /*margin: 2em 0em 1em 0em;*/
   margin: 0 1em 0 1em;
   /*padding: 1em;*/
@@ -198,8 +201,9 @@ fieldset {
 }
 
 legend {
-//  color: #B37A00;
-  color: #005683;
+/*  color: #B37A00;*/
+/*  color: #005683; * slate blue */
+  color: #737153; /* dark brown */
   background: transparent;
   padding: 0.5em;
 }
@@ -332,15 +336,15 @@ margin-top: 1em;
 */
 
 input.standalone {
-//background: #DEE7EC url(/static/images/linkOpaque.gif) 9px 1px no-repeat;
-background: #B37A00 url(/static/images/linkOpaque.gif) 9px 1px no-repeat;
-//color: black;
-color: white;
-cursor: pointer;
-font-size: 90%;
-font-weight: normal;
-padding: 1px 1px 1px 15px;
-text-transform: lowercase;
+/* background: #DEE7EC url(/static/images/linkOpaque.gif) 9px 1px no-repeat; */
+/* background: #B37A00 url(/static/images/linkOpaque.gif) 9px 1px no-repeat; * brown */
+  background: #BFBD8A url(/static/images/linkOpaque.gif) 9px 1px no-repeat; /* tan */
+  color: black;
+  cursor: pointer;
+  font-size: 90%;
+  font-weight: normal;
+  padding: 1px 1px 1px 15px;
+  text-transform: lowercase;
 }
 
 
@@ -417,7 +421,8 @@ div.stx table {
 
 table.listing th,
 div.stx table th {
-  background: #005683;
+/*   background: #005683; * medium blue */
+  background: #404040; /* dark grey */
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   border-right: 1px solid black;

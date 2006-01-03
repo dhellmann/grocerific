@@ -131,8 +131,7 @@ class ShoppingListController(RESTResource):
     def lists(self, user=None, **kwds):
         """Show a user's shopping lists.
         """
-        return makeTemplateArgs(shopping_lists=user.getShoppingLists(),
-
+        return makeTemplateArgs(shopping_lists=user.getShoppingLists())
     
     @requiresLogin()
     @turbogears.expose(format="xml",
@@ -202,8 +201,8 @@ class ShoppingListController(RESTResource):
 
         return response
     add.expose_resource = True
-                                )
 
+    
     @requiresLogin()
     @usesTransaction()
     @turbogears.expose()

@@ -73,107 +73,6 @@ class StoreController(RESTResource):
         raise cherrypy.HTTPRedirect('/store/%s' % store.id)
     edit.expose_resource = True
 
-    
-    
-    @requiresLogin()
-    @turbogears.expose(html="grocerific.templates.store_list")
-    def my(self, user=None, **kwds):
-        """Show all of a user's stores.
-        """
-        stores = user.getStores()
-        return makeTemplateArgs(user=user,
-                                stores=stores,
-                                )
-
-    
-
-    @requiresLogin()
-    @turbogears.expose(format="xml",
-                       template="grocerific.templates.store_list_xml",
-                       content_type="text/xml")
-    def xml(self, user=None, **kwds):
-        """Returns an AJAX-ready XML version of the list of stores.
-        """
-        stores = user.getStores()
-        return makeTemplateArgs(user=user,
-                                stores=stores,
-                                )
-
-
-    
-    @turbogears.expose(format="xml",
-                       template="grocerific.templates.store_query_results",
-                       content_type="text/xml",
-                       )
-    @usesLogin()
-    def search(self, queryString=None, **args):
-        """Search for stores in the database.
-        """
-        #
-        # Clean up the string we are given and turn it
-        # into words that might appear in the name
-        # of a shopping item.
-        #
-        clean_query_string = cleanString(queryString)
-        if clean_query_string:
-            select_string = """
-            store.city LIKE '%%%s%%'
-
-            ORDER BY
-              store.chain,
-              store.city,
-              store.location
-            """ % clean_query_string
-            stores = Store.select(select_string)
-            store_count = stores.count()
-        else:
-            stores = []
-            store_count = 0
-
-        #
-        # Format the response table
-        #
-        response= makeTemplateArgs(stores=stores,
-                                   store_count=store_count,
-                                   )
-        return response
-
-
-    
-    @requiresLogin()
-    @turbogears.expose(format="xml",
-                       content_type="text/xml")
-    def remove(self, userStoreId, itemId=None, user=None, **kwds):
-        """Remove the UserStore.
-        """
-        try:
-            existing_item = UserStore.get(userStoreId)
-        except SQLObjectNotFound:
-            controllers.flash('Unrecognized store')
-            response = '<ajax-response/>'
-        else:
-            existing_item.destroySelf()
-            raise cherrypy.HTTPRedirect('/store/xml')
-
-        return response
-
-
-    
-    @requiresLogin()
-    @turbogears.expose(format="xml",
-                       content_type="text/xml")
-    def add(self, storeId, user=None, **kwds):
-        """Add a store to my list.
-        """
-        try:
-            store = Store.get(storeId)
-        except SQLObjectNotFound:
-            controllers.flash('Unrecognized store')
-            raise cherrypy.HTTPRedirect('/store/my')
-        else:
-            user.addStore(store)
-            raise cherrypy.HTTPRedirect('/store/xml')
-
         
     @turbogears.expose(html="grocerific.templates.store_new")
     @requiresLogin()
@@ -215,3 +114,104 @@ class StoreController(RESTResource):
         if addToList:
             user.addStore(new_store)
         raise cherrypy.HTTPRedirect('/store/%s' % new_store.id)
+
+
+    
+    @turbogears.expose(format="xml",
+                       template="grocerific.templates.store_query_results",
+                       content_type="text/xml",
+                       )
+    @usesLogin()
+    def search(self, queryString=None, **args):
+        """Search for stores in the database.
+        """
+        #
+        # Clean up the string we are given and turn it
+        # into words that might appear in the name
+        # of a shopping item.
+        #
+        clean_query_string = cleanString(queryString)
+        if clean_query_string:
+            select_string = """
+            store.city LIKE '%%%s%%'
+
+            ORDER BY
+              store.chain,
+              store.city,
+              store.location
+            """ % clean_query_string
+            stores = Store.select(select_string)
+            store_count = stores.count()
+        else:
+            stores = []
+            store_count = 0
+
+        #
+        # Format the response table
+        #
+        response= makeTemplateArgs(stores=stores,
+                                   store_count=store_count,
+                                   )
+        return response
+
+    
+    
+    @requiresLogin()
+    @turbogears.expose(html="grocerific.templates.store_list")
+    def my(self, user=None, **kwds):
+        """Show all of a user's stores.
+        """
+        stores = user.getStores()
+        return makeTemplateArgs(user=user,
+                                stores=stores,
+                                )
+
+    
+
+    @requiresLogin()
+    @turbogears.expose(format="xml",
+                       template="grocerific.templates.store_list_xml",
+                       content_type="text/xml")
+    def xml(self, user=None, **kwds):
+        """Returns an AJAX-ready XML version of the list of stores.
+        """
+        stores = user.getStores()
+        return makeTemplateArgs(user=user,
+                                stores=stores,
+                                )
+
+
+    
+    @requiresLogin()
+    @turbogears.expose(format="xml",
+                       content_type="text/xml")
+    def remove(self, userStoreId, itemId=None, user=None, **kwds):
+        """Remove the UserStore.
+        """
+        try:
+            existing_item = UserStore.get(userStoreId)
+        except SQLObjectNotFound:
+            controllers.flash('Unrecognized store')
+            response = '<ajax-response/>'
+        else:
+            existing_item.destroySelf()
+            raise cherrypy.HTTPRedirect('/store/xml')
+
+        return response
+
+
+    
+    @requiresLogin()
+    @turbogears.expose(format="xml",
+                       content_type="text/xml")
+    def add(self, storeId, user=None, **kwds):
+        """Add a store to my list.
+        """
+        try:
+            store = Store.get(storeId)
+        except SQLObjectNotFound:
+            controllers.flash('Unrecognized store')
+            raise cherrypy.HTTPRedirect('/store/my')
+        else:
+            user.addStore(store)
+            raise cherrypy.HTTPRedirect('/store/xml')

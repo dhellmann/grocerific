@@ -125,22 +125,8 @@ class StoreController(RESTResource):
     def search(self, queryString=None, **args):
         """Search for stores in the database.
         """
-        #
-        # Clean up the string we are given and turn it
-        # into words that might appear in the name
-        # of a shopping item.
-        #
-        clean_query_string = cleanString(queryString)
-        if clean_query_string:
-            select_string = """
-            store.city LIKE '%%%s%%'
-
-            ORDER BY
-              store.chain,
-              store.city,
-              store.location
-            """ % clean_query_string
-            stores = Store.select(select_string)
+        stores = Store.search(queryString)
+        if stores is not None:
             store_count = stores.count()
         else:
             stores = []

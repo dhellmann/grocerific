@@ -28,6 +28,18 @@ hub = PackageHub("grocerific")
 __connection__ = hub
 
 
+def cleanString(s):
+    """Clean up a string to make it safe to pass to SQLObject
+    as a query.
+    """
+    for bad, good in [ ("'", ''),
+                       ('"', ''),
+                       (';', ''),
+                       ]:
+        s = s.replace(bad, good)
+    return s
+
+
 class User(SQLObject):
     """Users of the site.
     """
@@ -135,6 +147,77 @@ class ShoppingItem(SQLObject):
             response.append(aisle_info)
         return response
 
+    def search(cls, queryString):
+        """Run a text search for the query string.
+        """
+        #
+        # Clean up the string we are given and turn it
+        # into words that might appear in the name
+        # of a shopping item.
+        #
+        clean_query_string = cleanString(queryString)
+        words = clean_query_string.split(' ')
+        where_clauses = []
+        for word in words:
+            word = word.strip()
+            if not word:
+                continue
+            #
+            # Skip short words to avoid the user searching
+            # for 'a' and sucking down the entire database.
+            #
+            if len(word) < 3:
+                continue
+            where_clauses.append(ShoppingItem.q.name.contains(word))
+
+        #
+        # Assemble the select string and get the items.
+        #
+        if where_clauses:
+            if len(where_clauses) == 0:
+                raise ValueError('Invalid query string')
+            elif len(where_clauses) == 1:
+                select_expr = where_clauses[0]
+            else:
+                where_clauses = tuple(where_clauses)
+                select_expr = AND(*where_clauses)
+            items = ShoppingItem.select(select_expr,
+                                        orderBy='name',
+                                        )
+        else:
+            items = None
+        return items
+    search = classmethod(search)
+
+    def browse(cls, firstLetter):
+        """Produce a list of ShoppingItems that start with firstLetter.
+        """
+        where_clauses = []
+        clean_first_letter = cleanString(firstLetter)
+        if clean_first_letter == '#':
+            for i in range(0, 10):
+                where_clauses.append(ShoppingItem.q.name.startswith(str(i)))
+        elif clean_first_letter:
+            where_clauses.append(ShoppingItem.q.name.startswith(clean_first_letter))
+
+        if where_clauses:
+            if len(where_clauses) == 0:
+                raise ValueError('Invalid query string')
+            elif len(where_clauses) == 1:
+                select_expr = where_clauses[0]
+            else:
+                where_clauses = tuple(where_clauses)
+                select_expr = OR(*where_clauses)
+
+            items = ShoppingItem.select(select_expr,
+                                        orderBy='name',
+                                        )
+        else:
+            items = None
+        return items
+    browse = classmethod(browse)
+    
+
 class ShoppingItemInfo(SQLObject):
     """User-specific information about a shopping item.
     """
@@ -211,6 +294,28 @@ class Store(SQLObject):
     city = StringCol()
     location = StringCol()
 
+    def search(cls, city):
+        """Search for stores in a city.
+        """
+        #
+        # Clean up the string we are given and turn it
+        # into words that might appear in the name
+        # of a shopping item.
+        #
+        clean_query_string = cleanString(city)
+        if clean_query_string:
+            select_expr = Store.q.city.contains(clean_query_string)
+            stores = Store.select(select_expr,
+                                  orderBy=(Store.q.chain,
+                                           Store.q.city,
+                                           Store.q.location,
+                                           ))
+        else:
+            stores = None
+        return stores
+    search = classmethod(search)
+
+    
     
 class UserStore(SQLObject):
     """A store where a user regularly shops.

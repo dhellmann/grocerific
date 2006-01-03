@@ -102,39 +102,12 @@ class ItemManager(RESTResource):
     def search(self, queryString=None, **args):
         """Search for items in the database.
         """
-        #
-        # Clean up the string we are given and turn it
-        # into words that might appear in the name
-        # of a shopping item.
-        #
-        clean_query_string = cleanString(queryString)
-        words = clean_query_string.split(' ')
-        where_clauses = []
-        for word in words:
-            word = word.strip()
-            if not word:
-                continue
-            #
-            # Skip short words to avoid the user searching
-            # for 'a' and sucking down the entire database.
-            #
-            if len(word) < 3:
-                continue
-            where_clauses.append("shopping_item.name LIKE '%%%s%%'" % word)
-
-        #
-        # Assemble the select string and get the items.
-        #
-        if where_clauses:
-            select_string = ' AND '.join(where_clauses)
-            items = ShoppingItem.select(select_string,
-                                        orderBy='name',
-                                        )
+        items = ShoppingItem.search(queryString)
+        if items is not None:
             item_count = items.count()
         else:
             items = []
             item_count = 0
-
         #
         # Format the response table
         #
@@ -151,24 +124,15 @@ class ItemManager(RESTResource):
         """Browse items in the database based on
         their first letter.
         """
-        #
-        # Clean up the string we are given and turn it
-        # into words that might appear in the name
-        # of a shopping item.
-        #
-        where_clauses = []
-        clean_first_letter = cleanString(firstLetter)
-        if clean_first_letter == '#':
-            for i in range(0, 10):
-                where_clauses.append("shopping_item.name LIKE '%s%%'" % i)
-        elif clean_first_letter:
-            where_clauses.append("shopping_item.name LIKE '%s%%'" % clean_first_letter)
+        items = ShoppingItem.browse(firstLetter)
+        if items is not None:
+            item_count = items.count()
+        else:
+            items = []
+            item_count = 0
 
         if where_clauses:
             select_string = ' OR '.join(where_clauses)
-            items = ShoppingItem.select(select_string,
-                                        orderBy='name',
-                                        )
             item_count = items.count()
         else:
             items = []

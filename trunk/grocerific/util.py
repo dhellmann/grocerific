@@ -37,17 +37,6 @@ def makeTemplateArgs(**kwds):
     return d
 
 
-def cleanString(s):
-    """Clean up a string to make it safe to pass to SQLObject
-    as a query.
-    """
-    for bad, good in [ ("'", ''),
-                       ('"', ''),
-                       (';', ''),
-                       ]:
-        s = s.replace(bad, good)
-    return s
-
 def usesTransaction():
     """Returns a decorator which manages a database transaction
     when a method needs to make multiple changes to the database.

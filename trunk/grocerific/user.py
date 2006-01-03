@@ -269,4 +269,6 @@ class UserManager:
         if location:
             user.location = location
         cherrypy.session['login_came_from'] = '/user/prefs'
+
+        controllers.flash('Changes saved')
         return self.login(user.username, password)

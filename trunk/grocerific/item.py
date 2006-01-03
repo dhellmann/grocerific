@@ -60,6 +60,7 @@ class ItemManager(RESTResource):
     
     @turbogears.expose()
     @requiresLogin()
+    @usesTransaction()
     def edit(self, shoppingItem=None, user=None, usuallyBuy=None, **args):
         """Change an item in the database.
         """
@@ -67,6 +68,17 @@ class ItemManager(RESTResource):
         user_info = shoppingItem.getUserInfo(user)
         if usuallyBuy is not None:
             user_info.usuallybuy = usuallyBuy
+
+        #
+        # Assign the aisle information for this item.
+        #
+        for key, value in args.items():
+            if key.startswith('aisle_'):
+                store_id = key[6:]
+                store = Store.get(store_id)
+                shoppingItem.setAisle(store, value)
+
+        controllers.flash('Changes saved')
         
         raise cherrypy.HTTPRedirect('/item/%s' % shoppingItem.id)
     edit.expose_resource = True

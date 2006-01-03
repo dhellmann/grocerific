@@ -312,13 +312,13 @@ text-decoration: underline;
 
 
 div.flash {
-background: orange;
-border: 1px solid black;
-color: black;
-font: bold Verdana, Helvetica, Arial, sans-serif;
-margin: 2em 0em 1em 0em;
-padding: 0.5em 1em;
-vertical-align: middle;
+  background: orange;
+  border: 1px solid black;
+  color: black;
+  font: bold Verdana, Helvetica, Arial, sans-serif;
+  margin: 2em 0em 1em 0em;
+  padding: 0.5em 1em;
+  vertical-align: middle;
 }
 
 div.flash a {

@@ -104,6 +104,37 @@ class ShoppingItem(SQLObject):
         except IndexError:
             return ShoppingItemInfo(user=user, item=self)
 
+    def setAisle(self, store, aisle):
+        """Set which aisle an item is in for a store.
+        """
+        existing_aisle_info = AisleItem.selectBy(store=store,
+                                                 item=self,
+                                                 )
+        if existing_aisle_info.count() != 0:
+            aisle_info = existing_aisle_info[0]
+            aisle_info.aisle = aisle
+        else:
+            aisle_info = AisleItem(store=store, item=self, aisle=aisle)
+        return aisle_info
+
+    def getAisles(self, user):
+        """Returns a sequence of AisleItem instances
+        for the stores which are members of the user's
+        "My Stores" list.
+        """
+        response = []
+        stores = user.getStores()
+        for store in stores:
+            existing_aisle_info = AisleItem.selectBy(store=store,
+                                                     item=self,
+                                                     )
+            if existing_aisle_info.count() != 0:
+                aisle_info = existing_aisle_info[0]
+            else:
+                aisle_info = self.setAisle(store, None)
+            response.append(aisle_info)
+        return response
+
 class ShoppingItemInfo(SQLObject):
     """User-specific information about a shopping item.
     """
@@ -186,4 +217,12 @@ class UserStore(SQLObject):
     """
     user = ForeignKey('User')
     store = ForeignKey('Store')
+
+        
+class AisleItem(SQLObject):
+    """Which aisle an item appears in.
+    """
+    item = ForeignKey('Item')
+    store = ForeignKey('Store')
+    aisle = StringCol()
     

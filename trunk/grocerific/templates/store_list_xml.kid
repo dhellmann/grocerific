@@ -17,8 +17,7 @@
         </td>
 
         <td>
-          <input type="submit" class="standalone" name="removeBtn" value="Remove"
-            py:attrs="{'onclick':'removeFromList(%s)' % store.id}" />
+          <small><a py:attrs="{'onclick':'removeFromList(%s)' % store.id}">(remove)</a></small>
         </td>
 
       </tr>

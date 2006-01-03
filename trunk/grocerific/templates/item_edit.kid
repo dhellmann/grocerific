@@ -32,6 +32,31 @@
           </div>
         </field>
 
+        <table class="form_table">
+          <tr>
+            <th>Store</th>
+            <th>Aisle</th>
+          </tr>
+
+          <tr py:for="aisle_info in shopping_item.getAisles(user)">
+            <td>
+              <span class="chain_name" py:replace="aisle_info.store.chain">Chain Name</span> 
+              @ 
+              <span class="location" py:replace="aisle_info.store.location">Location</span>
+            </td>
+            <td>
+              <input 
+                type="text"
+                py:attrs="{'name':'aisle_%s' % aisle_info.store.id,
+                'value':aisle_info.aisle}" />
+            </td>
+          </tr>
+        </table>
+        <div class="help">In what aisle is the item found in each
+          store?
+          If an item is not available in a store, leave the aisle blank.
+        </div>
+
         <field>
           <input class="standalone" TYPE="submit" NAME="editBtn" VALUE="Edit" />
 

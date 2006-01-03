@@ -69,6 +69,7 @@ class StoreController(RESTResource):
             store.city = city
         if location is not None:
             store.location = location
+        controllers.flash('Changes saved')
         raise cherrypy.HTTPRedirect('/store/%s' % store.id)
     edit.expose_resource = True
 

@@ -139,6 +139,10 @@ INSERT INTO "siteuser" VALUES(1, 'doug', 'ntsucks', 'doug@hellfly.net', 'Athens,
 INSERT INTO "siteuser" VALUES(2, 'tmf', 'boolu', 'tmf-grocerific@hellfly.net', 'Athens, GA');
 INSERT INTO "store" VALUES(1, 'Kroger', 'Athens, GA', 'College Station');
 INSERT INTO "store" VALUES(2, 'Earthfare', 'Athens, GA', 'Five Points');
+INSERT INTO "store" VALUES(3, 'Kroger', 'Athens, GA', 'Alps & Baxter');
+INSERT INTO "store" VALUES(4, 'Kroger', 'Athens, GA', 'Epps Bridge / 316');
+INSERT INTO "store" VALUES(5, 'Bi-Lo', 'Athens, GA', 'Milledge Ave.');
+INSERT INTO "store" VALUES(6, 'Bells', 'Athens, GA', 'Hawthorne Ave.');
 INSERT INTO "user_store" VALUES(1, 1, 1);
 INSERT INTO "user_store" VALUES(2, 1, 2);
 INSERT INTO "user_store" VALUES(3, 1, 3);

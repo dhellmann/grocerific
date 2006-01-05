@@ -16,7 +16,7 @@
       py:attrs="{'action':'/item/%s/edit' % shopping_item.id}"
       method="post">
       <fieldset>
-        <legend>Edit</legend>
+        <legend>Personalize</legend>
 
         <field>
           <label for="usuallyBuy">When I buy <span
@@ -31,7 +31,11 @@
             </ul>
           </div>
         </field>
+    </fieldset>
 
+      <fieldset>
+        <legend>Stores</legend>
+        
         <table class="form_table">
           <tr>
             <th>Store</th>
@@ -53,36 +57,37 @@
           </tr>
         </table>
         <div class="help">In what aisle is the item found in each
-          store?
+          store?  For example:
+          <ul>
+            <li>1</li>
+            <li>Pharmacy</li>
+            <li>Bakery</li>
+          </ul>
           If an item is not available in a store, leave the aisle blank.
         </div>
-
-        <field>
-          <input class="standalone" TYPE="submit" NAME="editBtn" VALUE="Edit" />
-
-          <input class="standalone" TYPE="submit" NAME="cancelBtn"
-            VALUE="Cancel" onclick="return handleCancel()" />
-        </field>
       </fieldset>
+
+      <p/>
+
+      <field>
+        <input class="standalone" TYPE="submit" NAME="editBtn" VALUE="Edit" />
+        
+        <input class="standalone" TYPE="submit" NAME="cancelBtn"
+          VALUE="Cancel" onclick="return handleCancel()" />
+      </field>
+
     </form>
 
-    <fieldset>
-      <legend>Actions</legend>
-      <form action="/item/new_form">
-        <field>
-          <input type="hidden" name="name" py:attrs="{'value':shopping_item.name}"
-            value="" />
-          <input class="standalone" type="submit" name="addRelatedBtn"
-            value="Define a related item" />
-        </field>
-      </form>
-    </fieldset>
+    <p/>
 
-    <fieldset>
-      <legend>Stores</legend>
-      
-      <p>Set the aisle locations for each of your frequently used stores.</p>
-    </fieldset>
+    <form action="/item/new_form">
+      <field>
+        <input type="hidden" name="name" py:attrs="{'value':shopping_item.name}"
+          value="" />
+        <input class="standalone" type="submit" name="addRelatedBtn"
+          value="Define a related item" />
+      </field>
+    </form>
 
   </body>
 </html>

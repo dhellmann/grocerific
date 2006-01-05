@@ -131,13 +131,6 @@ class ItemManager(RESTResource):
             items = []
             item_count = 0
 
-        if where_clauses:
-            select_string = ' OR '.join(where_clauses)
-            item_count = items.count()
-        else:
-            items = []
-            item_count = 0
-
         #
         # Format the response table
         #

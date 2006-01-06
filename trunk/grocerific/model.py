@@ -119,6 +119,7 @@ class ShoppingItem(SQLObject):
     def setAisle(self, store, aisle):
         """Set which aisle an item is in for a store.
         """
+        aisle = cleanString(aisle)
         existing_aisle_info = AisleItem.selectBy(store=store,
                                                  item=self,
                                                  )
@@ -284,7 +285,7 @@ class ShoppingListItem(SQLObject):
     item = ForeignKey('ShoppingItem')
     list = ForeignKey('ShoppingList')
     quantity = StringCol()
-    #have_coupon = BoolCol()
+    have_coupon = BoolCol()
 
     
 class Store(SQLObject):

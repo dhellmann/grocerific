@@ -383,6 +383,15 @@ field {
   margin-left: 1em;
 }
 
+.form_table thead th { 
+  font-weight: bold;
+  font-size: 110%;
+}
+
+.form_table tbody td { 
+  padding-right: 1em;
+}
+
 div.help {
 background-color: transparent;
 font-weight: normal;

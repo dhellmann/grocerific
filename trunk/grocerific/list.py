@@ -165,6 +165,27 @@ class ShoppingListController(RESTResource):
     
     @requiresLogin()
     @turbogears.expose(format="xml",
+                       template="grocerific.templates.shopping_list_xml",
+                       content_type="text/xml")
+    def coupon(self, shoppingList, itemId=None, haveCoupon=None, user=None, **kwds):
+        """Change the coupon status of an item in the list.
+        """
+        to_update = ShoppingListItem.get(itemId)
+        if haveCoupon.lower() == 'yes':
+            to_update.have_coupon = True
+        elif haveCoupon.lower() == 'no':
+            to_update.have_coupon = False
+        else:
+            raise ValueError('Do not know how to respond when haveCoupon="%s"' % haveCoupon)
+        return makeTemplateArgs(shopping_list=shoppingList, 
+                                shopping_list_items=shoppingList.getItems(),
+                                )
+    coupon.expose_resource = True
+
+
+    
+    @requiresLogin()
+    @turbogears.expose(format="xml",
                        content_type="text/xml")
     def remove(self, shoppingList, itemId=None, user=None, **kwds):
         """Remove an item from a shopping list.

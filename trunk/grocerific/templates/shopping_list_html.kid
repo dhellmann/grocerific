@@ -63,6 +63,14 @@
         return false;
       }
 
+      <!-- Change the coupon status of an item in the list -->
+      function updateCoupon(shoppingListItemId, haveCoupon) {
+        ajaxEngine.sendRequest('updateCoupon',
+                               "itemId=" + shoppingListItemId,
+                               "haveCoupon=" + haveCoupon);
+        return false;
+      }
+
       <!-- Import the contents of one list into this list. -->
       function importList() {
         var other_list_option_idx = document.import_form.copyFrom.selectedIndex;
@@ -82,6 +90,7 @@
         <!-- Set up current shopping list -->
         ajaxEngine.registerRequest('showList', '/list/<span py:replace="shopping_list.id">list id</span>/xml');
         ajaxEngine.registerRequest('updateQuantity', '/list/<span py:replace="shopping_list.id">list id</span>/update');
+        ajaxEngine.registerRequest('updateCoupon', '/list/<span py:replace="shopping_list.id">list id</span>/coupon');
         ajaxEngine.registerRequest('addToList', '/list/<span py:replace="shopping_list.id">list id</span>/add');
         ajaxEngine.registerRequest('removeFromList', '/list/<span py:replace="shopping_list.id">list id</span>/remove');
         ajaxEngine.registerRequest('importList', '/list/<span py:replace="shopping_list.id">list id</span>/import_list');

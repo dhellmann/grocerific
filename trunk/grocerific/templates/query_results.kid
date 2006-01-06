@@ -10,7 +10,7 @@
     </div>
 
     <div py:if="not shopping_item_count" class="query_result">
-      No match found
+      No match found for "<div py:replace="query_string">query string</div>".
     </div>
 
   </response>

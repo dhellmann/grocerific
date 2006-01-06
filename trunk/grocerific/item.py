@@ -113,6 +113,7 @@ class ItemManager(RESTResource):
         #
         return makeTemplateArgs(shopping_items=items,
                                 shopping_item_count=item_count,
+                                query_string=queryString,
                                 )
     
     @turbogears.expose(format="xml",
@@ -136,6 +137,7 @@ class ItemManager(RESTResource):
         #
         return makeTemplateArgs(shopping_items=items,
                                 shopping_item_count=item_count,
+                                query_string=firstLetter,
                                 )
 
     

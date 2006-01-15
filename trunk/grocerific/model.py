@@ -32,6 +32,8 @@ def cleanString(s):
     """Clean up a string to make it safe to pass to SQLObject
     as a query.
     """
+    if s is None:
+        return ''
     for bad, good in [ ("'", ''),
                        ('"', ''),
                        (';', ''),

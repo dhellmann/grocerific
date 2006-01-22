@@ -13,6 +13,8 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" media="all"
       href="/static/css/grocerific.css" />
+    <link rel="stylesheet" type="text/css" media="print"
+      href="/static/css/printer.css" />
 
     <div py:replace="item[:]"/>
   </head>

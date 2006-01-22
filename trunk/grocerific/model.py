@@ -187,6 +187,9 @@ class ShoppingItem(SQLObject):
     """
     name = StringCol(alternateID=True)
 
+    def __cmp__(self, other):
+        return cmp(self.name, other.name)
+
     def setAisle(self, store, aisle):
         """Set which aisle an item is in for a store.
         """
@@ -357,7 +360,6 @@ class ShoppingItemInfo(SQLObject):
     item = ForeignKey('ShoppingItem')
     usuallybuy = StringCol(default='1')
 
-
 class ShoppingItemTag(SQLObject):
     """User-specific classification tag for a shopping item.
     """
@@ -427,6 +429,9 @@ class ShoppingListItem(SQLObject):
     quantity = StringCol()
     have_coupon = BoolCol(default=False)
 
+    def __cmp__(self, other):
+        return cmp(self.item, other.item)
+
     
 class Store(SQLObject):
     """A place where a user can shop.
@@ -434,6 +439,15 @@ class Store(SQLObject):
     chain = StringCol()
     city = StringCol()
     location = StringCol()
+
+    def Name(self):
+        """Return a nicely formatted name for the store.
+        """
+        if self.location:
+            return '%s @ %s' % (self.chain, self.location)
+        return self.chain
+
+    _get_name = Name
 
     def search(cls, city):
         """Search for stores in a city.

@@ -208,6 +208,14 @@
           </select>
         </form>
       </field>
+      
+      <field>
+        <form action="/list/${shopping_list.id}/prepare_print"
+          method="get">
+          <input class="standalone" type="submit" name="printBtn"
+            value="Print this list" />
+        </form>
+      </field>
     </fieldset>
 
 </body>

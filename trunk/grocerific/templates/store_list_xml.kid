@@ -9,9 +9,7 @@
 
         <td>
           <a href="/store/${store.store.id}">
-            <span class="chain_name" py:content="store.store.chain">Chain
-              Name</span> @ 
-            <span class="location" py:content="store.store.location">Location</span>
+            <span class="chain_name" py:content="store.store.name"> Name</span>
             (<span class="city" py:content="store.store.city">City</span>)
           </a>
         </td>

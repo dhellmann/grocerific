@@ -115,7 +115,7 @@
           <fieldset>
             <legend>Contents</legend>
 
-            <div id="shopping_list" />
+            <div id="shopping_list">loading...</div>
 
           </fieldset>
         </td>

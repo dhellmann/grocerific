@@ -33,7 +33,8 @@
           </tr>
           
           <tr>
-            <td COLSPAN="2"><input class="standalone" TYPE="submit" NAME="loginBtn" VALUE="Login" /></td>
+            <td COLSPAN="2"><input class="standalone" TYPE="submit"
+                NAME="registerBtn" VALUE="Sign Up" /></td>
           </tr>
         </TABLE>
 

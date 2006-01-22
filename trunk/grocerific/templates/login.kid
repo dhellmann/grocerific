@@ -9,7 +9,34 @@
 
   <body>
 
-    <center><div py:replace="loginBox()" /></center>
+    <form action="/user/login" method="post">
+      <fieldset>
+        <legend>Login</legend>
+        
+        <TABLE class="form_table">
+          <tr>
+            <td><label for="username">Username:</label></td>
+            <td><input type="text" name="username" value="" /></td>
+          </tr>
+          <tr>
+            <td><label for="password">Password:</label></td>
+            <td><input type="password" name="password" value="" /></td>
+          </tr>
+          <tr>
+            <td COLSPAN="2">
+              <input class="standalone" TYPE="submit" NAME="loginBtn"
+                VALUE="Login" />
+              <input class="standalone" TYPE="submit" NAME="cancelBtn"
+                VALUE="Cancel" onclick="return handleCancel()" />
+            </td>
+          </tr>
+        </TABLE>
+        
+        <p>Not already a member?  <a
+            href="/user/registration_form">Register here</a></p>
+        
+      </fieldset>
+    </form>
     
   </body>
 </html>

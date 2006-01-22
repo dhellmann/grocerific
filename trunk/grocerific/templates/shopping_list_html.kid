@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <script>
+    <script py:if="editable">
       <!-- Search for items in the database -->
       function findItems() {
         var queryString = document.findItem.query.value;
@@ -108,7 +108,7 @@
 
     <h2 py:content="shopping_list.name">List Name</h2>
 
-    <table>
+    <table py:if="editable">
       <tr valign="top">
 
         <td width="50%">
@@ -175,7 +175,7 @@
       </tr>
     </table>
     
-    <fieldset>
+    <fieldset py:if="editable">
       <legend>Actions</legend>
       
       <field>
@@ -216,6 +216,19 @@
             value="Print this list" />
         </form>
       </field>
+    </fieldset>
+
+    <fieldset py:if="not editable">
+      <legend>Contents</legend>
+
+      <field>
+        <div py:for="item in shopping_list_items">
+          <span py:content="item.item.name">Item</span>
+          (<span py:content="item.quantity">Quantity</span>)
+          <span py:strip="True" py:if="item.have_coupon">&#9986;</span>
+        </div>
+      </field>
+          
     </fieldset>
 
 </body>

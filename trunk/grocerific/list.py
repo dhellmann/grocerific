@@ -49,12 +49,15 @@ class ShoppingListController(RESTResource):
 
 
     
-    @requiresLogin()
+    @usesLogin()
     @turbogears.expose(html="grocerific.templates.shopping_list_html")
     def index(self, shoppingList=None, user=None, **kwds):
         """Show the contents of a shopping list in a full-page
         HTML format that lets the user find items and edit the list.
         """
+        if shoppingList is None and user is None:
+            raise cherrypy.HTTPRedirect('/')
+        
         if shoppingList is None:
             #
             # Look for the user's 'Next Trip' shopping list
@@ -71,19 +74,30 @@ class ShoppingListController(RESTResource):
                                              )
             raise cherrypy.HTTPRedirect('/list/%s' % shopping_list.id)
 
-        #
-        # Figure out what shopping lists we have that we could
-        # copy into this one.  The list is limited to those
-        # that have some items and are not the same list as
-        # the current list.
-        #
-        copyable_lists = []
-        for other_list in user.getShoppingLists():
-            if other_list.id == shoppingList.id:
-                continue
-            if other_list.getItems().count() == 0:
-                continue
-            copyable_lists.append(other_list)
+        if user:
+            if user == shoppingList.user:
+                editable = True
+            else:
+                editable = False
+                
+            #
+            # Figure out what shopping lists we have that we could
+            # copy into this one.  The list is limited to those
+            # that have some items and are not the same list as
+            # the current list.
+            #
+            copyable_lists = []
+            for other_list in user.getShoppingLists():
+                if other_list.id == shoppingList.id:
+                    continue
+                if other_list.getItems().count() == 0:
+                    continue
+                copyable_lists.append(other_list)
+
+        else:
+            # No user
+            editable = False
+            copyable_lists = []
             
         #
         # Otherwise, set up the arguments for our template so
@@ -93,6 +107,7 @@ class ShoppingListController(RESTResource):
                                 shopping_list_items=shoppingList.getItems(),
                                 user=user,
                                 copyable_lists=copyable_lists,
+                                editable=editable,
                                 )
     index.expose_resource = True
     

@@ -270,6 +270,7 @@ pre {
 .menu_bar_l { 
   text-align: left;
   margin-left: 1em;
+  margin-bottom: 0.25em;
   font-size: 120%;
 }
 

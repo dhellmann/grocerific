@@ -46,7 +46,7 @@
       <div class="menu_bar_r">
         <span py:content="session_user">Username</span> |
         <a href="/user/prefs">Preferences</a> |
-        <a href="/user/logout">Log Out</a>
+        <a href="/user/logout">Logout</a>
       </div>
       <p/>
       <div class="menu_bar_l">
@@ -59,36 +59,16 @@
     </div>
 
     <div class="menu_bar" py:if="not session_is_logged_in">
+      <div class="menu_bar_r">
+        <a href="/user/login_form">Login</a>
+      </div>
+      <p/>
       <div class="menu_bar_l">
         <a href="/">Home</a>
       </div>
     </div>
 
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
-
-    <form action="/user/login" method="post" py:def="loginBox()">
-      <fieldset>
-        <legend>Login</legend>
-        
-        <TABLE class="form_table">
-          <tr>
-            <td><label for="username">Username:</label></td>
-            <td><input type="text" name="username" value="" /></td>
-          </tr>
-          <tr>
-            <td><label for="password">Password:</label></td>
-            <td><input type="password" name="password" value="" /></td>
-          </tr>
-          <tr>
-            <td COLSPAN="2"><input class="standalone" TYPE="submit" NAME="loginBtn" VALUE="Login" /></td>
-          </tr>
-        </TABLE>
-        
-        <p>Not already a member?  <a
-            href="/user/registration_form">Register here</a></p>
-        
-      </fieldset>
-    </form>
     
     <div py:replace="item[:]"/>
   </body>

@@ -133,6 +133,7 @@ class UserManager:
         
     @turbogears.expose(html="grocerific.templates.login")
     def login_form(self):
+        cherrypy.session['login_came_from'] = cherrypy.request.headerMap.get('Referer', '/')
         return makeTemplateArgs()
 
     @turbogears.expose()

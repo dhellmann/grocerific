@@ -47,17 +47,23 @@ class ItemManager(RESTResource):
 
 
     @turbogears.expose(html="grocerific.templates.item_edit")
-    @requiresLogin()
+    @usesLogin()
     def index(self, shoppingItem=None, user=None, **kwds):
         """Form to edit an item in the database.
         """
-        tags = user.getTagsForItem(shoppingItem)
-        tag_names = [ tag.tag for tag in tags ]
-        tag_names.sort()
+        if user:
+            tags = user.getTagsForItem(shoppingItem)
+            tag_names = [ tag.tag for tag in tags ]
+            tag_names.sort()
+            editable = True
+        else:
+            tag_names = []
+            editable = False
         
         response = makeTemplateArgs(shopping_item=shoppingItem,
                                     user=user,
                                     tags=' '.join(tag_names),
+                                    editable=editable,
                                     )
         return response
     index.expose_resource = True

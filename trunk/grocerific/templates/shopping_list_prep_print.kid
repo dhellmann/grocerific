@@ -14,20 +14,20 @@
     <fieldset>
       <legend>Stores</legend>
 
-      <form action="printable" method="post">
+      <form action="printable" method="get">
 
         <div py:for="store in stores">
           <field>
+            <input type="checkbox" name="store_${store.id}" />
             <label for="store_${store.id}" py:content="store.name">Store
               Name</label>
-            <input type="checkbox" name="store_${store.id}" />
           </field>
         </div>
 
         <p/>
 
         <input class="standalone" TYPE="submit" NAME="printBtn"
-          VALUE="Print" />
+          VALUE="Generate Printable List" />
 
         <input class="standalone" TYPE="submit" NAME="cancelBtn"
           VALUE="Cancel" onclick="return handleCancel()" />

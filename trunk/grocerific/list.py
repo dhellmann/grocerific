@@ -155,7 +155,12 @@ class ShoppingListController(RESTResource):
         """Change the quantity of an item in the list.
         """
         to_update = ShoppingListItem.get(itemId)
-        to_update.quantity = newQuantity
+        
+        new_quantity = newQuantity
+        new_quantity = new_quantity.replace('"', '')
+        new_quantity = new_quantity.replace("'", '')
+        
+        to_update.quantity = new_quantity
         return makeTemplateArgs(shopping_list=shoppingList, 
                                 shopping_list_items=shoppingList.getItems(),
                                 )

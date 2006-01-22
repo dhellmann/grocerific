@@ -54,9 +54,12 @@
     </fieldset>
 
     <p class="print_links">
+      <a class="action_link" onclick="window.print()">Print!</a>
+      <br/>
       <a href="/list/${shopping_list.id}">Edit this list</a>
       <br/>
-      <a href="/list/${shopping_list.id}/prepare_print">Change stores</a>
+      <a href="/list/${shopping_list.id}/prepare_print">Change
+        stores</a>
     </p>
 
   </body>

@@ -18,21 +18,21 @@
       <legend>Edit Store</legend>
 
       <form method="post"
-        py:attrs="{'action':'/store/%s/edit' % store.id}" 
+        action="/store/${store.id}/edit"
         >
         <field>
           <table class="form_table">
             <tr>
               <td><label for="chain">Chain</label></td>
-              <td><input type="text" name="chain" py:attrs="{'value':store.chain}" /></td>
+              <td><input type="text" size="80" name="chain" value="${store.chain}" /></td>
             </tr>
             <tr>
               <td><label for="city">City</label></td>
-              <td><input type="text" name="city" py:attrs="{'value':store.city}" /></td>
+              <td><input type="text" size="80" name="city" value="${store.city}" /></td>
             </tr>
             <tr>
               <td><label for="location">Location</label></td>
-              <td><input type="text" name="location" py:attrs="{'value':store.location}" /></td>
+              <td><input type="text" size="80" name="location" value="${store.location}" /></td>
             </tr>
           </table>
         </field>

@@ -4,7 +4,7 @@
 
     <div py:if="store_count" class="query_result" py:for="store in stores">
       <a title="Add to my list" 
-        py:attrs="{'onclick':'addToList(%s)' % store.id}"
+        onclick="addToList(${store.id})"
         >
         <span class="chain_name" py:content="store.chain">Chain
           Name</span> @ 

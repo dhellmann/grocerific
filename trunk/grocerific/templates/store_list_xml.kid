@@ -8,7 +8,7 @@
       <tr py:for="store in stores">
 
         <td>
-          <a py:attrs="{'href':'/store/%s' % store.store.id}">
+          <a href="/store/${store.store.id}">
             <span class="chain_name" py:content="store.store.chain">Chain
               Name</span> @ 
             <span class="location" py:content="store.store.location">Location</span>
@@ -17,7 +17,7 @@
         </td>
 
         <td>
-          <small><a py:attrs="{'onclick':'removeFromList(%s)' % store.id}">(remove)</a></small>
+          <small><a onclick="removeFromList(${store.id})">(remove)</a></small>
         </td>
 
       </tr>

@@ -51,8 +51,13 @@ class ItemManager(RESTResource):
     def index(self, shoppingItem=None, user=None, **kwds):
         """Form to edit an item in the database.
         """
+        tags = user.getTagsForItem(shoppingItem)
+        tag_names = [ tag.tag for tag in tags ]
+        tag_names.sort()
+        
         response = makeTemplateArgs(shopping_item=shoppingItem,
                                     user=user,
+                                    tags=' '.join(tag_names),
                                     )
         return response
     index.expose_resource = True
@@ -61,13 +66,18 @@ class ItemManager(RESTResource):
     @turbogears.expose()
     @requiresLogin()
     @usesTransaction()
-    def edit(self, shoppingItem=None, user=None, usuallyBuy=None, **args):
+    def edit(self, shoppingItem=None, user=None, usuallyBuy=None, tags='', **args):
         """Change an item in the database.
         """
 
-        user_info = shoppingItem.getUserInfo(user)
+        #
+        # Change the per-user information
+        #
+        user_info = user.getItemInfo(shoppingItem)
         if usuallyBuy is not None:
             user_info.usuallybuy = usuallyBuy
+
+        user.setTagsForItem(shoppingItem, tags)
 
         #
         # Assign the aisle information for this item.
@@ -99,10 +109,10 @@ class ItemManager(RESTResource):
                        content_type="text/xml",
                        )
     @usesLogin()
-    def search(self, queryString=None, **args):
+    def search(self, queryString=None, user=None, **args):
         """Search for items in the database.
         """
-        items = ShoppingItem.search(queryString)
+        items = ShoppingItem.search(queryString, user)
         if items is not None:
             item_count = items.count()
         else:
@@ -170,7 +180,7 @@ class ItemManager(RESTResource):
         # Update the usuallybuy info
         #
         if usuallyBuy:
-            info = item.getUserInfo(user)
+            info = user.getItemInfo(item)
             info.usuallybuy = usuallyBuy
 
         #
@@ -186,3 +196,12 @@ class ItemManager(RESTResource):
             raise cherrypy.HTTPRedirect('/list/%s' % shoppingListId)
         
         raise cherrypy.HTTPRedirect('/item/%s' % item.id)
+
+    @turbogears.expose(html="grocerific.templates.tags_list")
+    @requiresLogin()
+    def tags(self, user=None, **args):
+        """Show the tags a user has used.
+        """
+        return makeTemplateArgs(tag_names=user.getTagNames(),
+                                )
+        

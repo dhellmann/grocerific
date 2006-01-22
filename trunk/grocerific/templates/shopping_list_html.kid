@@ -17,6 +17,10 @@
         }
         return false;
       }
+      function findItemsByTag(tag) {
+        ajaxEngine.sendRequest('findItems', "queryString="+tag);
+        return false;
+      }
 
       function browseItems(firstLetter) {
         ajaxEngine.sendRequest('browseItems', "firstLetter="+firstLetter);
@@ -138,17 +142,31 @@
 
               <field>
                 <a py:for="letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'" 
-                     py:attrs="{'onclick':'browseItems(' + chr(34) + letter + chr(34) + ')'}"
+                  onclick='browseItems("$letter")'
                      py:content="letter"
                      class="action_link">
                     Letter
                   </a>
               </field>
             </form>
+
+            <hr/>
             
             <div class="query_results" id="query_results">
               <table><tr><td></td></tr></table>
             </div>
+
+            <hr/>
+
+            <field>
+              <span py:for="tag in user.getTagNames()">
+                <a class="tag_link"
+                  onclick='findItemsByTag("$tag")'
+                  py:content="tag"
+                  >Tag
+                </a>
+              </span>
+            </field>
             
           </fieldset>
 
@@ -156,52 +174,41 @@
 
       </tr>
     </table>
-
-          <fieldset>
-            <legend>Actions</legend>
-            
-            <field>
-              <form method="post"
-                py:attrs="{'action':'/list/%s/clear' % shopping_list.id}" 
-                >
-                <input class="standalone" type="submit" name="clearBtn"
-                  value="Clear this list" />
-              </form>
-            </field>
-            
-            <field>
-              <form py:attrs="{'action':'/list/%s/delete' % shopping_list.id}" 
-                method="post"
-                py:if="not shopping_list.name == 'Next Trip'">
-                <input class="standalone" type="submit" name="deleteBtn"
-                  value="Delete this list" />
-              </form>
-            </field>
-            
-            <field>
-              <form py:if="copyable_lists" name="import_form" onsubmit="return importList()">
-                <input class="standalone" type="submit" name="copyBtn"
-                  value="Add contents of" />
-                
-                <select size="1" id="copyFrom" name="copyFrom">
-                  <option py:for="other_list in copyable_lists"
-                    py:attrs="{'value':other_list.id}" 
-                    py:content="other_list.name">Name</option>
-                </select>
-              </form>
-            </field>
-
-      <!--
-            <field>
-              <form py:attrs="{'action':'/list/%s/duplicate' % shopping_list.id}" 
-                method="post">
-                <input class="standalone" type="submit" name="duplicateBtn"
-                  value="Duplicate this list to" />
-                <input type="text" name="newName" value="" />
-              </form>
-            </field>
-      -->
-          </fieldset>
+    
+    <fieldset>
+      <legend>Actions</legend>
+      
+      <field>
+        <form method="post"
+          action="/list/${shopping_list.id}/clear"
+          >
+          <input class="standalone" type="submit" name="clearBtn"
+            value="Clear this list" />
+        </form>
+      </field>
+      
+      <field>
+        <form action="/list/${shopping_list.id}/delete"
+          method="post"
+          py:if="not shopping_list.name == 'Next Trip'">
+          <input class="standalone" type="submit" name="deleteBtn"
+            value="Delete this list" />
+        </form>
+      </field>
+      
+      <field>
+        <form py:if="copyable_lists" name="import_form" onsubmit="return importList()">
+          <input class="standalone" type="submit" name="copyBtn"
+            value="Add contents of" />
+          
+          <select size="1" id="copyFrom" name="copyFrom">
+            <option py:for="other_list in copyable_lists"
+              value="${other_list.id}"
+              py:content="other_list.name">Name</option>
+          </select>
+        </form>
+      </field>
+    </fieldset>
 
 </body>
 </html>

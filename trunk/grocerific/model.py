@@ -13,6 +13,7 @@
 #
 import md5
 from sqlobject import *
+from sqlobject.sqlbuilder import *
 from turbogears.database import PackageHub
 
 #
@@ -100,23 +101,91 @@ class User(SQLObject):
             user_store = UserStore(user=self, store=store)
         return
 
-    
+    def getTagNames(self):
+        """Return unique tag names used by this user.
+        """
+        rows = hub.hub.getConnection().queryAll("""
+        SELECT
+            DISTINCT(tag)
+        FROM
+            shopping_item_tag
+        WHERE
+            user_id = %d
+        ORDER BY
+            tag
+        """ % self.id)
+        return [ r[0]
+                 for r in rows
+                 ]
+
+    def getTagsForItem(self, item):
+        """Returns the tags the user has specified for the item.
+        """
+        if not item:
+            return []
+        all_tags = ShoppingItemTag.selectBy(user=self,
+                                            item=item,
+                                            )
+        return all_tags
+
+    def setTagsForItem(self, item, tagsString):
+        """Set the names of the tags the user has specified
+        for the item.
+        """
+        if not item:
+            return
+
+        #
+        # Figure out what we already know about the item
+        #
+        existing_tags = ShoppingItemTag.selectBy(user=self, item=item)
+        existing_tags_map = {}
+        for t in existing_tags:
+            existing_tags_map[t.tag] = t
+        existing_tag_names = existing_tags_map.keys()
+
+        #
+        # Add new tags
+        #
+        tags = cleanString(tagsString).split(' ')
+        for tag_name in tags:
+            tag_name = tag_name.strip()
+            if not tag_name:
+                continue
+            if tag_name in existing_tag_names:
+                # Already had this one and want to
+                # keep it.  Drop it from the map
+                # so we don't delete it below.
+                try:
+                    del existing_tags_map[tag_name]
+                except KeyError:
+                    pass
+            else:
+                new_tag = ShoppingItemTag(user=self, item=item, tag=tag_name)
+
+        #
+        # Remove tags we weren't given
+        #
+        for tag_name, tag_obj in existing_tags_map.items():
+            tag_obj.destroySelf()
+        return
+
+    def getItemInfo(self, item):
+        """Returns a ShoppingItemInfo for the user and this item.
+        """
+        info_list = ShoppingItemInfo.selectBy(user=self,
+                                              item=item,
+                                              )
+        try:
+            return info_list[0]
+        except IndexError:
+            return ShoppingItemInfo(user=self, item=item)
+        
     
 class ShoppingItem(SQLObject):
     """Items someone can purchase.
     """
     name = StringCol(alternateID=True)
-
-    def getUserInfo(self, user):
-        """Returns a ShoppingItemInfo for the user and this item.
-        """
-        info_list = ShoppingItemInfo.selectBy(user=user,
-                                              item=self,
-                                              )
-        try:
-            return info_list[0]
-        except IndexError:
-            return ShoppingItemInfo(user=user, item=self)
 
     def setAisle(self, store, aisle):
         """Set which aisle an item is in for a store.
@@ -150,7 +219,7 @@ class ShoppingItem(SQLObject):
             response.append(aisle_info)
         return response
 
-    def search(cls, queryString):
+    def search(cls, queryString, user=None):
         """Run a text search for the query string.
         """
         #
@@ -160,7 +229,8 @@ class ShoppingItem(SQLObject):
         #
         clean_query_string = cleanString(queryString)
         words = clean_query_string.split(' ')
-        where_clauses = []
+        name_clauses = []
+        tag_clauses = []
         for word in words:
             word = word.strip()
             if not word:
@@ -171,24 +241,60 @@ class ShoppingItem(SQLObject):
             #
             if len(word) < 3:
                 continue
-            where_clauses.append(ShoppingItem.q.name.contains(word))
+            name_clauses.append(ShoppingItem.q.name.contains(word))
 
+            #
+            # Look for the word as a tag
+            #
+            if user:
+                tag_clauses.append(
+                    IN(word,
+                       Select(ShoppingItemTag.q.tag,
+                              where=AND(ShoppingItemTag.q.userID == user.id,
+                                        #
+                                        # If we use the normal comparison,
+                                        # the subquery reference will be to
+                                        # a separate table reference in the
+                                        # subquery so we use a constant
+                                        # expression here.
+                                        #
+                                        SQLConstant('item_id = shopping_item.id'),
+                                        )
+                              )
+                       )
+                    )
+                
         #
         # Assemble the select string and get the items.
         #
-        if where_clauses:
-            if len(where_clauses) == 0:
-                raise ValueError('Invalid query string')
-            elif len(where_clauses) == 1:
-                select_expr = where_clauses[0]
-            else:
-                where_clauses = tuple(where_clauses)
-                select_expr = AND(*where_clauses)
-            items = ShoppingItem.select(select_expr,
-                                        orderBy='name',
-                                        )
+        name_select = None
+        tag_select = None
+        
+        if len(name_clauses) == 1:
+            name_select = name_clauses[0]
+        elif name_clauses:
+            name_clauses = tuple(name_clauses)
+            name_select = AND(*name_clauses)
+
+        if len(tag_clauses) == 1:
+            tag_select = tag_clauses[0]
+        elif tag_clauses:
+            tag_clauses = tuple(tag_clauses)
+            tag_select = AND(*tag_clauses)
+
+        if name_select and tag_select:
+            select_expr = OR(name_select, tag_select)
+        elif name_select:
+            select_expr = name_select
+        elif tag_select:
+            select_expr = tag_select
         else:
-            items = None
+            return None
+        
+        items = ShoppingItem.select(select_expr,
+                                    orderBy='name',
+                                    )
+        #print items
         return items
     search = classmethod(search)
 
@@ -219,6 +325,29 @@ class ShoppingItem(SQLObject):
             items = None
         return items
     browse = classmethod(browse)
+
+    def getTagNames(self):
+        """Returns the tags any user has specified for the item.
+        """
+        names = []
+        for tag in ShoppingItemTag.selectBy(item=self):
+            if tag.tag not in names:
+                names.append(tag.tag)
+        names.sort()
+        return names
+
+    def getForeignTagNames(self, user):
+        """Returns the tags any user other than the named
+        user has specified for the item.
+        """
+        names = []
+        for tag in ShoppingItemTag.selectBy(item=self):
+            if tag.user == user:
+                continue
+            if tag.tag not in names:
+                names.append(tag.tag)
+        names.sort()
+        return names
     
 
 class ShoppingItemInfo(SQLObject):
@@ -228,11 +357,19 @@ class ShoppingItemInfo(SQLObject):
     item = ForeignKey('ShoppingItem')
     usuallybuy = StringCol(default='1')
 
+
+class ShoppingItemTag(SQLObject):
+    """User-specific classification tag for a shopping item.
+    """
+    user = ForeignKey('User')
+    item = ForeignKey('ShoppingItem')
+    tag = StringCol(notNull=True)
+
     
 class ShoppingList(SQLObject):
     """Lists of things users have indicated that they want to buy.
     """
-    name = StringCol()
+    name = StringCol(notNull=True)
     user = ForeignKey('User')
 
     def add(self, item, quantity=None, haveCoupon=False):
@@ -248,7 +385,7 @@ class ShoppingList(SQLObject):
                                                    )
         if existing_items.count() == 0:
             if quantity is None:
-                user_info = item.getUserInfo(self.user)
+                user_info = self.user.getItemInfo(item)
                 quantity = user_info.usuallybuy
             shopping_list_item = ShoppingListItem(list=self,
                                                   item=item,
@@ -288,7 +425,7 @@ class ShoppingListItem(SQLObject):
     item = ForeignKey('ShoppingItem')
     list = ForeignKey('ShoppingList')
     quantity = StringCol()
-    have_coupon = BoolCol()
+    have_coupon = BoolCol(default=False)
 
     
 class Store(SQLObject):
@@ -329,7 +466,7 @@ class UserStore(SQLObject):
 
         
 class AisleItem(SQLObject):
-    """Which aisle an item appears in.
+    """Which aisle an item appears in for a given store.
     """
     item = ForeignKey('Item')
     store = ForeignKey('Store')

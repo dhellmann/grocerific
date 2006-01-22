@@ -8,12 +8,18 @@
   </head>
 
   <body>
+    <script>
+      function addTag (theTag) {
+        var current_value = document.item_edit.tags.value;
+        var new_value = current_value + " " + theTag;
+        document.item_edit.tags.value = new_value;
+      }
+    </script>
 
     <h2 py:content="shopping_item.name">Item Name</h2>
 
-    <form
-      action="/item/edit"
-      py:attrs="{'action':'/item/%s/edit' % shopping_item.id}"
+    <form name="item_edit"
+      action="/item/${shopping_item.id}/edit"
       method="post">
       <fieldset>
         <legend>Personalize</legend>
@@ -21,14 +27,42 @@
         <field>
           <label for="usuallyBuy">When I buy <span
               py:content="shopping_item.name">this</span>, I usually buy:</label> 
-          <input type="text" name="usuallyBuy" value="1"
-            py:attrs="{'value':shopping_item.getUserInfo(user).usuallybuy}" />
+          <input type="text" name="usuallyBuy"
+            value="${user.getItemInfo(shopping_item).usuallybuy}" />
           <div class="help">For example:
             <ul>
               <li>1/2 gallon</li>
               <li>1 lb</li>
               <li>small bunch</li>
             </ul>
+          </div>
+        </field>
+
+        <field>
+          <label for="tags">Tags:</label> 
+          <input type="text" name="tags" value="$tags" size="80" />
+
+          <?python
+          user_tags = user.getTagNames()
+          ?>
+          <div py:if="not user_tags" class="help">For
+            example: TailGate  baby LowCarb</div>
+
+          <div class="suggestion" py:if="user_tags">
+            <label>Your tags:</label>
+            <span py:for="other_tag in user_tags">
+              <a onclick='addTag("${other_tag}")' py:content="other_tag">Other tag</a>
+            </span>
+          </div>
+
+          <?python
+          foreign_tags = shopping_item.getForeignTagNames(user)
+          ?>
+          <div class="suggestion" py:if="foreign_tags">
+            <label>Popular tags:</label>
+            <span py:for="other_tag in foreign_tags">
+              <a onclick='addTag("${other_tag}")' py:content="other_tag">Other tag</a>
+            </span>
           </div>
         </field>
     </fieldset>
@@ -54,8 +88,9 @@
               <td>
                 <input 
                   type="text"
-                  py:attrs="{'name':'aisle_%s' % aisle_info.store.id,
-                  'value':aisle_info.aisle}" />
+                  name="aisle_${aisle_info.store.id}"
+                  value="${aisle_info.aisle}"
+                  />
               </td>
             </tr>
           </tbody>
@@ -86,8 +121,7 @@
 
     <form action="/item/new_form">
       <field>
-        <input type="hidden" name="name" py:attrs="{'value':shopping_item.name}"
-          value="" />
+        <input type="hidden" name="name" value="${shopping_item.name}" />
         <input class="standalone" type="submit" name="addRelatedBtn"
           value="Define a related item" />
       </field>

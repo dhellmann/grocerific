@@ -393,15 +393,26 @@ field {
 }
 
 div.help {
-background-color: transparent;
-font-weight: normal;
-line-height: normal;
-text-align: left;
-/*width: 16em;*/
-padding: 0.5em;
-color: #888888;
-margin-left: 5em;
+  background-color: transparent;
+  font-weight: normal;
+  line-height: normal;
+  text-align: left;
+  /*width: 16em;*/
+  padding: 0.5em;
+  color: #888888;
+  margin-left: 5em;
 }
+
+div.suggestion { 
+  background-color: transparent;
+  font-weight: normal;
+  line-height: normal;
+  text-align: left;
+  /*width: 16em;*/
+  padding: 0.5em;
+  /*color: #888888;*/
+  margin-left: 5em;
+ }
 
 .error {
 /* Class for error indication in forms */
@@ -634,7 +645,7 @@ background-color: lightgrey;
 .query_results { 
   /* group query results */
 /*  background-color: #cccccc;*/
-  margin: 1em 0;
+  margin: 1em 0 1em 1em;
   padding: 0.5em;
 }
 

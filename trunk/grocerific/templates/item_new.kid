@@ -17,7 +17,7 @@
 
         <field>
           <label for="name">Description</label>
-          <input type="text" name="name" value="" py:attrs="{'value':name}" />
+          <input type="text" name="name" value="$name" />
 
           <div class="help">Provide a description of the new item.  For example:
             <ul>
@@ -32,8 +32,7 @@
         <field py:if="addToList">
           <label>Add to shopping list?</label>
           <input py:if="addToList" type="checkbox" name="addToList" checked="" />
-          <input type="hidden" name="shoppingListId" value=""
-            py:attrs="{'value':addToList}" />
+          <input type="hidden" name="shoppingListId" value="$addToList" />
 
           <div class="help">Should this item be added to your current
             shopping list?

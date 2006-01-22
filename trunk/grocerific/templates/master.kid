@@ -9,6 +9,7 @@
     <!-- AJAX support libraries -->
     <script src="/static/javascript/prototype.js" />
     <script src="/static/javascript/rico.js" />
+    <script src="/static/javascript/MochiKit/MochiKit.js" />
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" media="all"

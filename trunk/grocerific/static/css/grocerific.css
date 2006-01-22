@@ -616,6 +616,7 @@ div.spacer {
   padding-left: 2px;
   padding-right: 2px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 /* Shopping List Print */

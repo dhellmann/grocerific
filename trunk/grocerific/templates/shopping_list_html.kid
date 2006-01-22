@@ -8,22 +8,24 @@
 </head>
 
 <body>
+    <script py:if="editable" src="/static/javascript/query_results.js" />
     <script py:if="editable">
+
+      <!-- Query results manager -->
+      var theQueryResultsManager = new QueryResultsManager();
+
       <!-- Search for items in the database -->
       function findItems() {
-        var queryString = document.findItem.query.value;
-        if (queryString != "") {
-          ajaxEngine.sendRequest('findItems', "queryString="+queryString);
-        }
+        theQueryResultsManager.findItems();
         return false;
       }
       function findItemsByTag(tag) {
-        ajaxEngine.sendRequest('findItems', "queryString="+tag);
+        theQueryResultsManager.findItemsByTag(tag);
         return false;
       }
 
       function browseItems(firstLetter) {
-        ajaxEngine.sendRequest('browseItems', "firstLetter="+firstLetter);
+        theQueryResultsManager.browseItems(firstLetter);
         return false;
       }
 
@@ -87,9 +89,7 @@
 
       function local_onload() {
         <!-- Set up query results -->
-        ajaxEngine.registerRequest('findItems', '/item/search');
-        ajaxEngine.registerRequest('browseItems', '/item/browse');
-        ajaxEngine.registerAjaxElement('query_results');
+        theQueryResultsManager.registerAJAX();
 
         <!-- Set up current shopping list -->
         ajaxEngine.registerRequest('showList', '/list/<span py:replace="shopping_list.id">list id</span>/xml');
@@ -120,7 +120,7 @@
           </fieldset>
         </td>
 
-        <td>
+        <td width="50%">
 
           <fieldset>
             <legend>Search</legend>
@@ -152,6 +152,7 @@
 
             <hr/>
             
+            <div class="active_message" id="query_message"></div>
             <div class="query_results" id="query_results">
               <table><tr><td></td></tr></table>
             </div>

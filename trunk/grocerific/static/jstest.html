@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>JavaScript Test</title>
+    <script src="/static/javascript/MochiKit/MochiKit.js" />
+  </head>
+
+  <body>
+    <SCRIPT>
+      function runme () {
+        swapDOM('swapme', DIV({'id':'swapme'}, 'new body'));
+        return false;
+      }
+    </SCRIPT>
+
+    <h1>JavaScript Test</h1>
+
+    <div id="swapme">Should go</div>
+
+    <p>
+      <a onclick="runme()">Swap</a>
+    </p>
+
+    <hr>
+    <address><a href="mailto:doug@hellfly.net">Doug Hellmann</a></address>
+<!-- Created: Sun Jan 22 15:13:23 EST 2006 -->
+<!-- hhmts start -->
+Last modified: Sun Jan 22 15:27:06 EST 2006
+<!-- hhmts end -->
+  </body>
+</html>

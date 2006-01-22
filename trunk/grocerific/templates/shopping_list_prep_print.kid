@@ -24,6 +24,8 @@
           </field>
         </div>
 
+        <p/>
+
         <input class="standalone" TYPE="submit" NAME="printBtn"
           VALUE="Print" />
 

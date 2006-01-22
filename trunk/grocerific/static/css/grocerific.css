@@ -630,3 +630,10 @@ div.spacer {
   text-decoration: None;
   margin-left: 0.5em;
 }
+
+.print_links { 
+  border: 1px solid #737153; /* dark brown */
+  margin: 1em 1em 0 1em;
+  background-color: #eeeeee;
+  padding: 1em;
+}

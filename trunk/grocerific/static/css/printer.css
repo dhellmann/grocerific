@@ -1,0 +1,480 @@
+/*
+** Based on the Plone style sheet for CSS2-capable browsers.
+** Copyright Alexander Limi, 2002-2003 - http://www.plonesolutions.com
+**
+** Thanks to Geir B\xe6kholt, Stian S\xf8iland for input and guidance.
+**
+** Style sheet documentation can be found at http://plone.org/documentation
+**
+** You should preferrably use ploneCustom.css to add your own CSS classes and to
+** customize your portal, as these are the base fundaments of Plone, and will
+** change and be refined in newer versions. Keeping your changes in
+** ploneCustom.css will make it easier to upgrade.
+**
+** Feel free to use whole or parts of this for your own designs, but give credit
+** where credit is due.
+**
+*/
+
+body {
+  font-size: 75%; /* Resets 1em to 10px */
+  font-family: 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', Tahoma, Sans-Serif;
+
+  background: white;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  font-size: 100%;
+}
+
+a {
+  text-decoration: underline;
+}
+
+table {
+
+}
+
+
+img {
+  border: none;
+  vertical-align: middle;
+}
+
+p {
+  margin: 0.5em 0em 1em 0em;
+  text-align: justify;
+  line-height: 1.5em;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+p img {
+  border: 0;
+  margin: 0;
+}
+
+
+hr {
+  clear: both;
+  height: 1px;
+  color: black;
+  background-color: transparent;
+}
+
+
+h1, h2 { 
+  display: none;
+}
+
+h3, h4, h5, h6 {
+  color: black;
+  clear: left;
+  font: 100% Verdana, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding-top: 0.5em;
+}
+
+ul {
+  line-height: 1.5em;
+  list-style-type: square;
+  margin: 0.5em 0 0 2em;
+  padding:0;
+}
+
+ol {
+  line-height: 1.5em;
+  margin: 0.5em 0 0 2em;
+  padding:0;
+}
+
+ul a, ol a {
+  text-decoration: underline;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+dl {
+}
+
+dt {
+  font-weight: bold;
+}
+
+dt a {
+  text-decoration: underline;
+}
+
+
+dd {
+  line-height: 1.5em;
+  margin-bottom: 1em;
+}
+
+d a {
+  text-decoration: underline;
+}
+
+
+fieldset {
+  margin: 0 1em 0 1em;
+  border-top: 1px solid black;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+legend {
+  color: black;
+  background: transparent;
+  font-size: 150%;
+  text-decoration: underline;
+}
+
+
+form {
+  display: none;
+}
+
+textarea {
+  color: black;
+  background-color: white;
+  width: 88%;
+  padding: 0.1em;
+}
+
+input {
+  font: 100% Verdana, Helvetica, Arial, sans-serif;
+  color: black;
+  background-color: white;
+  vertical-align: middle;
+  margin-bottom: 1px; /* IE bug fix */
+  padding: 0.1em;
+}
+
+select {
+  font: 100% Verdana, Helvetica, Arial, sans-serif;
+  vertical-align: top;
+}
+
+abbr, acronym, .explain {
+  border-bottom: 1px dotted black;
+  color: black;
+  background-color: transparent;
+  cursor: help;
+}
+
+q {
+  font-family: Times, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 120%;
+}
+
+blockquote {
+  font-family: Times, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 120%;
+}
+
+code {
+  font-size: 120%;
+  color: black;
+  background-color: white;
+}
+
+pre {
+  font-size: 120%;
+  padding: 1em;
+  color: black;
+  background-color: white;
+}
+
+.netscape4 {
+  display: none;
+}
+
+/*
+** Structural Elements
+*/
+
+.menu_bar { 
+  display: none;
+}
+
+.menu_bar_l { 
+  text-align: left;
+  margin-left: 1em;
+  font-size: 120%;
+}
+
+.menu_bar_r { 
+  text-align: right;
+  margin-right: 1em;
+  float: right;
+}
+
+div.message {
+  background: orange;
+  color: black;
+  font: bold 80% Verdana, Helvetica, Arial, sans-serif;
+  margin: 2em 0em 1em 0em;
+  padding: 0.5em 1em;
+  vertical-align: middle;
+}
+
+div.message a {
+  color: black;
+  text-decoration: underline;
+}
+
+
+div.flash {
+  display: none;
+}
+
+/*
+** Widgets
+*/
+
+input.standalone {
+  background: #BFBD8A url(/static/images/linkOpaque.gif) 9px 1px no-repeat; /* tan */
+  color: black;
+  cursor: pointer;
+  font-size: 90%;
+  font-weight: normal;
+  padding: 1px 1px 1px 15px;
+  text-transform: lowercase;
+}
+
+
+div.row {
+  clear: both;
+  min-height: 4em;
+  margin: 0em 0em 1em 0em;
+  position: relative;
+}
+
+.group {
+  border: none;
+  margin: 0;
+  padding: 0.5em;
+}
+span.legend {
+  padding: 0.5em;
+  font-weight: bold;
+}
+
+label {
+  font-weight: bold;
+  display: inline;
+  padding-right: 0.5em;
+}
+
+div.field {
+  margin: 0;
+}
+
+field { 
+  margin: 0;
+}
+
+.form_table { 
+  margin-left: 1em;
+}
+
+.form_table thead th { 
+  font-weight: bold;
+  font-size: 110%;
+}
+
+.form_table tbody td { 
+  padding-right: 1em;
+}
+
+div.help {
+  background-color: transparent;
+  font-weight: normal;
+  line-height: normal;
+  text-align: left;
+  padding: 0.5em;
+  color: #888888;
+  margin-left: 5em;
+}
+
+div.suggestion { 
+  background-color: transparent;
+  font-weight: normal;
+  line-height: normal;
+  text-align: left;
+  padding: 0.5em;
+  margin-left: 5em;
+ }
+
+.error {
+  /* Class for error indication in forms */
+  background: orange;
+  padding: 1em;
+  margin: 0;
+  width: 68% !important;
+}
+
+.required {
+  /* Used in addition to class "label" on required elements */
+  background: url(/static/images/required.gif) right no-repeat;
+}
+
+
+table.listing,
+div.stx table {
+  border: 1px solid black;
+  clear: both;
+}
+
+table.listing th,
+div.stx table th {
+  border: 1px dotted black;
+  font-weight: bold;
+  white-space: nowrap;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+table.listing td.top {
+  border: 1px dotted black;
+  text-align: right ! important;
+  /* insane IE row bug workaround */
+  position: relative;
+  left: -1px;
+  top: -1px;
+}
+
+table.listing td,
+div.stx table td {
+  border: 1px dotted black;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+table.listing img {
+  vertical-align: middle;
+}
+
+
+div.spacer {
+  margin: 1em;
+}
+
+.currentNavItem {
+  color: black;
+  font-weight: bold;
+}
+
+.private {
+  color: Black;
+}
+
+.published {
+  color: #74AE0B;
+}
+
+.pending {
+  color: #FFA500;
+}
+
+.syndicated {
+  color: #008000;
+}
+
+.expired {
+  color: Red;
+}
+
+.even {
+  background-color: lightgrey;
+}
+
+.odd {
+  background-color: transparent;
+}
+
+.highlight {
+  background-color: lightgrey;
+}
+
+
+
+
+/* Shopping List stuff */
+
+.shopping_list {
+  margin: 0;
+  padding: 0;
+}
+
+.list_name { 
+  background-color: #008000;
+  color: white;
+  padding: 0.25em;
+  text-align: center;
+}
+
+.list_item { 
+  color: black;
+  padding: 0.1em;
+}
+
+/* Shopping Item stuff */
+
+.find_item { 
+  margin: 0;
+  padding: 1em;
+}
+
+/* Query Results */
+
+.query_results { 
+  margin: 1em 0 1em 1em;
+  padding: 0.5em;
+}
+
+.query_result { 
+  /* one row of a query result */
+  padding: 2px;
+}
+
+.action_link { 
+  text-decoration: None;
+  padding-left: 2px;
+  padding-right: 2px;
+  font-weight: bold;
+}
+
+/* Shopping List Print */
+
+.aisle_list { 
+  padding-bottom: 0.5em;
+}
+
+.aisle_title { 
+  text-decoration: None;
+  font-weight: bold;
+  font-size: 110%;
+  padding-bottom: 0.25em;
+}
+
+.print_item { 
+  text-decoration: None;
+  margin-left: 0.5em;
+}
+
+.print_links { 
+  display: none;
+}

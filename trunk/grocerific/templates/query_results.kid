@@ -4,9 +4,11 @@
 
     <div py:if="shopping_item_count" class="query_result" py:for="shopping_item in shopping_items">
       <a title="Add to list"
-        py:attrs="{'onclick':'addToList(%s)' % shopping_item.id}" 
+        onclick="addToList(${shopping_item.id})"
         py:content="shopping_item.name">Item name
       </a>
+
+      <small><a title="Details" href="/item/${shopping_item.id}">(details)</a></small>
     </div>
 
     <div py:if="not shopping_item_count" class="query_result">

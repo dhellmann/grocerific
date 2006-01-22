@@ -1,24 +1,11 @@
 <ajax-response xmlns:py="http://purl.org/kid/ns#">
-  <response type="element" id="query_results"
+  <response type="object" id="queryResultsManager"
     py:if="session_is_logged_in">
 
-    <div py:if="store_count" class="query_result" py:for="store in stores">
-      <a title="Add to my list" 
-        onclick="addToList(${store.id})"
-        >
-        <span class="chain_name" py:content="store.name">Name</span>
-        (<span class="city" py:content="store.city">City</span>)
-      </a>
-      <small><a href="/store/${store.id}">(details)</a></small>
-    </div>
+    <store py:for="store in stores" 
+      id="${store.id}" description="${store.name}"
+      city="${store.city}"
+      py:content="store.name">Name</store>
 
-    <div py:if="not store_count" class="query_result">
-      No match found
-    </div>
-
-  </response>
-  <response type="element" id="query_results"
-    py:if="not session_is_logged_in">
-    <div class="query_result">Log in to search</div>
   </response>
 </ajax-response>

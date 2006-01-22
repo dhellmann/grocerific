@@ -8,13 +8,15 @@
   </head>
 
   <body>
+    <script src="/static/javascript/store_query_results.js" />
     <script>
+
+      <!-- Query results manager -->
+      var theQueryResultsManager = new StoreQueryResultsManager();
+
       <!-- Search for stores in the database -->
       function findStores() {
-        var queryString = document.findStore.query.value;
-        if (queryString != "") {
-          ajaxEngine.sendRequest('findStores', "queryString="+queryString);
-        }
+        theQueryResultsManager.findStores();
         return false;
       }
 
@@ -44,10 +46,9 @@
 
       function local_onload() {
         <!-- Set up query results -->
-        ajaxEngine.registerRequest('findStores', '/store/search');
-        ajaxEngine.registerAjaxElement('query_results');
+        theQueryResultsManager.registerAJAX();
 
-        <!-- Set up current shopping list -->
+        <!-- Set up the 'my store' list -->
         ajaxEngine.registerRequest('showList', '/store/xml');
         ajaxEngine.registerRequest('addToList', '/store/add');
         ajaxEngine.registerRequest('removeFromList', '/store/remove');
@@ -61,32 +62,42 @@
 
     <h2>My Stores</h2>
 
-    <fieldset>
-      <legend>My Stores</legend>
-      <div id="store_list">Loading...</div>
-    </fieldset>
+    <table width="100%">
+      <tr valign="top">
 
-    <fieldset>
-      <legend>Search by City</legend>
+        <td width="50%">
+          <fieldset>
+            <legend>My Stores</legend>
+            <div id="store_list">Loading...</div>
+          </fieldset>
+        </td>
 
-      <form name="findStore" onsubmit="return findStores()">
-        <field>
-          <input type="text" name="query" value="" />
-          
-          <input class="standalone" type="submit" name="search"
-            value="Search" />
-          
-          <input class="standalone" type="submit" name="new"
-            value="Tell us about a new store"
-            onclick="return goToNewStore()"
-            />
-        </field>
-
-      </form>
+        <td width="50%">
+          <fieldset>
+            <legend>Search by City</legend>
             
-      <div class="query_results" id="query_results">
-      </div>
-    </fieldset>
+            <form name="findStore" onsubmit="return findStores()">
+              <field>
+                <input type="text" name="query" value="" />
+                
+                <input class="standalone" type="submit" name="search"
+                  value="Search" />
+                
+                <input class="standalone" type="submit" name="new"
+                  value="Tell us about a new store"
+                  onclick="return goToNewStore()"
+                  />
+              </field>
+              
+            </form>
+            
+            <div class="active_message" id="query_message"></div>
+            <div class="query_results" id="query_results">
+            </div>
+          </fieldset>
+        </td>
+      </tr>
+    </table>
 
   </body>
 </html>

@@ -16,15 +16,15 @@
           <td>
             <a class="action_link"
               title="Remove from list"
-              py:attrs="{'onclick':'removeFromList(%s)' %
-              item.id}">&#10005;</a>
+              onclick="removeFromList(${item.id})"
+              >&#10005;</a>
             &nbsp;
-            <a py:attrs="{'href':'/item/%s' % item.item.id}"
+            <a href="/item/${item.item.id}"
               py:content="item.item.name">Item Name</a>
           </td>
           <td>&nbsp;<a title="Click to change"
-              py:attrs="{'id':'quantity_%s' % item.id,
-              'onclick':'updateQuantity(%s, &quot;%s&quot;)' % (item.id, item.quantity)}" 
+              id="quantity_${item.id}"
+              onclick='updateQuantity(${item.id}, "${item.quantity}")'
               py:content="item.quantity">Quantity</a>
           </td>
           <td>

@@ -25,20 +25,18 @@
 
           <tr>
             <td> <label for="password">Password:</label></td>
-            <td><input type="password" name="password" value="" 
-                py:attrs="{'value':user.password}" /></td>
+            <td><input type="password" name="password" value="${user.password}" /></td>
           </tr>
 
           <tr>
             <td><label for="email">Email:</label></td>
-            <td><input type="text" name="email" value=""
-                py:attrs="{'value':user.email}"  /></td>
+            <td><input type="text" name="email" value="${user.email}" /></td>
           </tr>
 
           <tr>
             <td><label for="location">City:</label></td>
-            <td><input type="text" name="location" value=""
-                py:attrs="{'value':user.location}"  /></td>
+            <td><input type="text" name="location"
+                value="${user.location}" /></td>
           </tr>
         </table>
 

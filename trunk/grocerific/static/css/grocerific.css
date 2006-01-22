@@ -361,6 +361,10 @@ field {
   margin: 1em;
 }
 
+.public { 
+  background-color: #ebeba2;
+}
+
 .form_table { 
   margin-left: 1em;
 }

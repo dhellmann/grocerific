@@ -17,7 +17,7 @@
 
         <field>
           <label for="name">Description</label>
-          <input type="text" name="name" value="$name" />
+          <input class="public" type="text" name="name" value="$name" />
 
           <div class="help">Provide a description of the new item.  For example:
             <ul>

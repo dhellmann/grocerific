@@ -9,6 +9,7 @@
         <span class="chain_name" py:content="store.name">Name</span>
         (<span class="city" py:content="store.city">City</span>)
       </a>
+      <small><a href="/store/${store.id}">(details)</a></small>
     </div>
 
     <div py:if="not store_count" class="query_result">

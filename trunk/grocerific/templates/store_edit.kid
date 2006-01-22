@@ -24,15 +24,15 @@
           <table class="form_table">
             <tr>
               <td><label for="chain">Chain</label></td>
-              <td><input type="text" size="80" name="chain" value="${store.chain}" /></td>
+              <td><input class="public" type="text" size="80" name="chain" value="${store.chain}" /></td>
             </tr>
             <tr>
               <td><label for="city">City</label></td>
-              <td><input type="text" size="80" name="city" value="${store.city}" /></td>
+              <td><input class="public" type="text" size="80" name="city" value="${store.city}" /></td>
             </tr>
             <tr>
               <td><label for="location">Location</label></td>
-              <td><input type="text" size="80" name="location" value="${store.location}" /></td>
+              <td><input class="public" type="text" size="80" name="location" value="${store.location}" /></td>
             </tr>
           </table>
         </field>

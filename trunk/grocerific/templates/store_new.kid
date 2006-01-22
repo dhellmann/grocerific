@@ -17,7 +17,7 @@
 
         <field>
           <label for="chain">Chain</label>
-          <input type="text" name="chain" value="${chain}" size="80" />
+          <input class="public" type="text" name="chain" value="${chain}" size="80" />
           
           <div class="help">What chain does the store belong to?  For example:
             <ul>
@@ -30,14 +30,14 @@
 
         <field>
           <label for="city">City</label>
-          <input type="text" name="city" value="${city}" size="80" />
+          <input class="public" type="text" name="city" value="${city}" size="80" />
 
           <div class="help">Where is this store?</div>
         </field>
 
         <field>
           <label for="location">Location</label>
-          <input type="text" name="location" value="${location}" size="80" />
+          <input class="public" type="text" name="location" value="${location}" size="80" />
 
           <div class="help">If there is more than one store from the
             same chain in town, where is this specific store?

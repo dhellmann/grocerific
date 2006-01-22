@@ -11,26 +11,16 @@
 
     <h2>My Shopping Lists</h2>
 
-    <table class="listing">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Items</th>
-        </tr>
-      </thead>
+    <ul>
+      
+      <li py:for="i, shopping_list in enumerate(shopping_lists)">
+        <a href="/list/${shopping_list.id}"
+          py:content="shopping_list.name">Name</a>
+        (<span
+          py:content="shopping_list.getItems().count()">Count</span> items)
+      </li>
 
-      <tbody>
-        <tr py:for="i, shopping_list in enumerate(shopping_lists)"
-          py:attrs="{'class':['even', 'odd'][i%2]}"
-          >
-          <td><a href="/list/${shopping_list.id}"
-              py:content="shopping_list.name">Name</a>
-          </td>
-          <td py:content="shopping_list.getItems().count()">Count</td>
-        </tr>
-      </tbody>
-
-    </table>
+    </ul>
 
     <form action="/list/new" method="post">
       <fieldset>

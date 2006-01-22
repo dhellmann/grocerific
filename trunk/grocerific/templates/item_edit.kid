@@ -87,6 +87,7 @@
               </td>
               <td>
                 <input 
+                  class="public"
                   type="text"
                   name="aisle_${aisle_info.store.id}"
                   value="${aisle_info.aisle}"

@@ -10,11 +10,13 @@
 
   <body>
 
-    <h2><div py:replace="store.chain">store chain</div> 
-      @ <div py:replace="store.location">location</div>
+    <h2>
+      <div py:replace="store.name">store name</div>
+      <div py:strip="True" py:if="store.city">-</div>
+      <div py:replace="store.city">city</div>
     </h2>
 
-    <fieldset>
+    <fieldset py:if="editable">
       <legend>Edit Store</legend>
 
       <form method="post"
@@ -43,6 +45,28 @@
             value="Cancel" onclick="return handleCancel()" />
         </field>
       </form>
+
+    </fieldset>
+
+    <fieldset py:if="not editable">
+      <legend>Store Details</legend>
+
+      <field>
+        <table class="form_table">
+          <tr>
+            <td><label for="chain">Chain</label></td>
+            <td py:content="store.chain">Chain</td>
+            </tr>
+            <tr>
+              <td><label for="city">City</label></td>
+              <td py:content="store.city">City</td>
+            </tr>
+            <tr>
+              <td><label for="location">Location</label></td>
+              <td py:content="store.location">Location</td>
+            </tr>
+          </table>
+        </field>
 
     </fieldset>
 

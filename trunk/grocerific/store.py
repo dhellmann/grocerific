@@ -46,13 +46,18 @@ class StoreController(RESTResource):
 
 
     
-    @requiresLogin()
+    @usesLogin()
     @turbogears.expose(html="grocerific.templates.store_edit")
     def index(self, store=None, user=None, **kwds):
         """Show information about a store.
         """
+        if user:
+            editable = True
+        else:
+            editable = False
         return makeTemplateArgs(user=user,
                                 store=store,
+                                editable=editable,
                                 )
     index.expose_resource = True
 

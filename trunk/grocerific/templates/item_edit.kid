@@ -86,9 +86,7 @@
                 <tbody>
                   <tr py:for="aisle_info in shopping_item.getAisles(user)">
                     <td>
-                      <span class="chain_name" py:replace="aisle_info.store.chain">Chain Name</span> 
-                      @ 
-                <span class="location" py:replace="aisle_info.store.location">Location</span>
+                      <span class="chain_name" py:replace="aisle_info.store.name">Name</span> 
                     </td>
                     <td>
                       <input 

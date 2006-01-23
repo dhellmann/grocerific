@@ -142,6 +142,7 @@
 
               <field>
                 <a py:for="letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'" 
+                  style="margin-left: -1px;"
                   onclick='browseItems("$letter")'
                      py:content="letter"
                      class="action_link">
@@ -152,21 +153,21 @@
 
             <hr/>
             
-            <div class="active_message" id="query_message"></div>
-            <div class="query_results" id="query_results">
-              <table><tr><td></td></tr></table>
-            </div>
+            <div class="active_message" id="query_message">&nbsp;</div>
+            <div id="query_results"></div>
 
             <hr/>
 
             <field>
-              <span py:for="tag in user.getTagNames()">
-                <a class="tag_link"
-                  onclick='findItemsByTag("$tag")'
-                  py:content="tag"
-                  >Tag
-                </a>
-              </span>
+              <div class="tag_group">
+                <span py:for="tag in user.getTagNames()">
+                  <a class="tag_link"
+                    onclick='findItemsByTag("$tag")'
+                    py:content="tag"
+                    >Tag
+                  </a>
+                </span>
+              </div>
             </field>
             
           </fieldset>

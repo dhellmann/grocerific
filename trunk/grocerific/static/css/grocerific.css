@@ -643,3 +643,19 @@ div.spacer {
   background-color: #eeeeee;
   padding: 1em;
 }
+
+.active_message { 
+  color: grey;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tag_link { 
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tag_group { 
+  margin-left: 1em;
+  margin-right: 1em;
+}

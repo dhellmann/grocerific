@@ -44,8 +44,7 @@ QueryResultsManager.prototype = {
 									   'id':'query_message'}, 
 								   'No match found'));
 
-	  swapDOM('query_results', DIV({'class':'query_results',
-									   'id':'query_results'},
+	  swapDOM('query_results', DIV({'id':'query_results'},
 								   ''));
 	}
   },

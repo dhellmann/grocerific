@@ -162,6 +162,7 @@ class User(SQLObject):
                     pass
             else:
                 new_tag = ShoppingItemTag(user=self, item=item, tag=tag_name)
+                existing_tag_names.append(tag_name)
 
         #
         # Remove tags we weren't given

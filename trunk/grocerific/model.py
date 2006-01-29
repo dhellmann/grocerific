@@ -483,7 +483,7 @@ class UserStore(SQLObject):
 class AisleItem(SQLObject):
     """Which aisle an item appears in for a given store.
     """
-    item = ForeignKey('Item')
+    item = ForeignKey('ShoppingItem')
     store = ForeignKey('Store')
     aisle = StringCol()
     

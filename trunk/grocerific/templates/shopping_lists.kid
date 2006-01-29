@@ -25,7 +25,7 @@
                 <a href="/list/${shopping_list.id}"
                   py:content="shopping_list.name">Name</a>
                 (<span
-                  py:content="shopping_list.getItems().count()">Count</span> items)
+                  py:content="shopping_list.getItemCount()">Count</span> items)
               </li>
               
             </ul>

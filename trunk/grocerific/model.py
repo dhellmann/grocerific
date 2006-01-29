@@ -421,6 +421,9 @@ class ShoppingList(SQLObject):
             clauseTables=['shopping_item'],
             )
 
+    def getItemCount(self):
+        return ShoppingListItem.selectBy(list=self).count()
+
     def clearContents(self):
         """Clear all of the items from the list.
         """

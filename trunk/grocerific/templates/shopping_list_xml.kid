@@ -1,10 +1,10 @@
 <ajax-response xmlns:py="http://purl.org/kid/ns#">
   <response type="element" id="shopping_list" py:if="session_is_logged_in">
 
-    <center py:if="not shopping_list_items.count()">(Empty)</center>
+    <center py:if="not shopping_list_item_count">(Empty)</center>
     
     <table class="form_table" valign="top"
-      py:if="shopping_list_items.count()">
+      py:if="shopping_list_item_count">
       <thead>
         <th>Item</th>
         <th>Quantity</th>

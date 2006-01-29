@@ -90,7 +90,7 @@ class ShoppingListController(RESTResource):
             for other_list in user.getShoppingLists():
                 if other_list.id == shoppingList.id:
                     continue
-                if other_list.getItems().count() == 0:
+                if other_list.getItemCount() == 0:
                     continue
                 copyable_lists.append(other_list)
 
@@ -157,6 +157,7 @@ class ShoppingListController(RESTResource):
         """
         return makeTemplateArgs(shopping_list=shoppingList, 
                                 shopping_list_items=shoppingList.getItems(),
+                                shopping_list_item_count=shoppingList.getItemCount(),
                                 )
     xml.expose_resource = True
 

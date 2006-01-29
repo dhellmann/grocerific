@@ -28,6 +28,19 @@ from turbogears.database import PackageHub
 hub = PackageHub("grocerific")
 __connection__ = hub
 
+#
+# Force table creation order
+#
+soClasses = ( 'User', 
+	      'ShoppingItem', 
+	      'ShoppingItemInfo', 
+	      'ShoppingItemTag', 
+	      'ShoppingList', 
+	      'ShoppingListItem', 
+	      'Store', 
+	      'UserStore', 
+	      'AisleItem', 
+	    )
 
 def cleanString(s):
     """Clean up a string to make it safe to pass to SQLObject

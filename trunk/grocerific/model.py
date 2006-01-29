@@ -322,7 +322,9 @@ class ShoppingItem(SQLObject):
         clean_first_letter = cleanString(firstLetter)
         if clean_first_letter == '#':
             for i in range(0, 10):
-                where_clauses.append(ShoppingItem.q.name.startswith(str(i)))
+                where_clauses.append(OR(ShoppingItem.q.name.startswith(str(i).lower()),
+                                        ShoppingItem.q.name.startswith(str(i).upper()),
+                                        ))
         elif clean_first_letter:
             where_clauses.append(ShoppingItem.q.name.startswith(clean_first_letter))
 

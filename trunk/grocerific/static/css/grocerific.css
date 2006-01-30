@@ -412,9 +412,24 @@ div.suggestion {
   background: url(/static/images/required.gif) right no-repeat;
 }
 
+.printable_list { 
+  font-size: 110%;
+  margin: 0 0 1em 1em;
+  clear: both;
+}
 
-table.listing,
-div.stx table {
+.printable_list td { 
+  border: 1px solid black;
+  padding: 0 1em 0 1em;
+}
+
+.printable_list th { 
+  white-space: nowrap;
+  text-align: left;
+  padding: 0 1em 0 1em;
+}
+
+table.listing {
   border-collapse: collapse;
   border-left: 1px solid black;
   border-bottom: 1px solid black;
@@ -423,8 +438,7 @@ div.stx table {
   clear: both;
 }
 
-table.listing th,
-div.stx table th {
+table.listing th {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
@@ -456,8 +470,7 @@ table.listing tr.even {
   background: lightgrey;
 }
 
-table.listing td,
-div.stx table td {
+table.listing td {
   border: 1px solid black;
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -622,6 +635,11 @@ div.spacer {
 /* Shopping List Print */
 
 .aisle_list { 
+}
+
+.aisle_list tr th { 
+  text-align: right;
+  vertical-align: top;
   padding-bottom: 0.5em;
 }
 
@@ -635,6 +653,7 @@ div.spacer {
 .print_item { 
   text-decoration: None;
   margin-left: 0.5em;
+  white-space: nowrap;
 }
 
 .print_links { 

@@ -332,14 +332,12 @@ div.suggestion {
 }
 
 
-table.listing,
-div.stx table {
+table.listing {
   border: 1px solid black;
   clear: both;
 }
 
-table.listing th,
-div.stx table th {
+table.listing th {
   border: 1px dotted black;
   font-weight: bold;
   white-space: nowrap;
@@ -356,8 +354,7 @@ table.listing td.top {
   top: -1px;
 }
 
-table.listing td,
-div.stx table td {
+table.listing td {
   border: 1px dotted black;
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -458,6 +455,23 @@ div.spacer {
 }
 
 /* Shopping List Print */
+
+.printable_list { 
+  font-size: 110%;
+  margin: 0 0 1em 1em;
+  clear: both;
+}
+
+.printable_list td { 
+  border: 1px solid black;
+  padding: 0 1em 0 1em;
+}
+
+.printable_list th { 
+  white-space: nowrap;
+  text-align: left;
+  padding: 0 1em 0 1em;
+}
 
 .aisle_list { 
   padding-bottom: 0.5em;

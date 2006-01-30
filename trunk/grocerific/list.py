@@ -179,6 +179,7 @@ class ShoppingListController(RESTResource):
         to_update.quantity = new_quantity
         return makeTemplateArgs(shopping_list=shoppingList, 
                                 shopping_list_items=shoppingList.getItems(),
+                                shopping_list_item_count=shoppingList.getItemCount(),
                                 )
     update.expose_resource = True
 

@@ -25,7 +25,7 @@ def mp_setup():
 #    cherrypy.config.update(file="dev.cfg")
 #else:
 #    cherrypy.config.update(file="prod.cfg")
-cherrypy.config.update(file=os.path.join(os.path.dirname(__file__), 'homer_dev.cfg'))
+cherrypy.config.update(file=join(dirname(__file__), 'homer_dev.cfg'))
 
 from grocerific.controllers import Root
 

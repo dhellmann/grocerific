@@ -1,4 +1,0 @@
-SetHandler mod_python
-PythonHandler mpcp
-PythonDebug On
-PythonOption cherrysetup grocerific_start.py::mp_setup

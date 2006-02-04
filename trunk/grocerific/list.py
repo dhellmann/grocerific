@@ -28,6 +28,12 @@ from rest_resource import RESTResource
 
 NEXT_TRIP = 'Next Trip'
 
+def makeListTemplateArgs(shoppingList):
+    return makeTemplateArgs(
+        shopping_list=shoppingList, 
+        shopping_list_items=shoppingList.getItems(),
+        shopping_list_item_count=shoppingList.getItemCount(),
+        )
 
 class ShoppingListController(RESTResource):
     """Controller for shopping list-related functions.
@@ -155,10 +161,7 @@ class ShoppingListController(RESTResource):
     def xml(self, shoppingList, user=None, **kwds):
         """Returns an AJAX-ready XML version of the list contents.
         """
-        return makeTemplateArgs(shopping_list=shoppingList, 
-                                shopping_list_items=shoppingList.getItems(),
-                                shopping_list_item_count=shoppingList.getItemCount(),
-                                )
+        return makeListTemplateArgs(shoppingList)
     xml.expose_resource = True
 
 
@@ -177,10 +180,7 @@ class ShoppingListController(RESTResource):
         new_quantity = new_quantity.replace("'", '')
         
         to_update.quantity = new_quantity
-        return makeTemplateArgs(shopping_list=shoppingList, 
-                                shopping_list_items=shoppingList.getItems(),
-                                shopping_list_item_count=shoppingList.getItemCount(),
-                                )
+        return makeListTemplateArgs(shoppingList)
     update.expose_resource = True
 
 
@@ -199,9 +199,7 @@ class ShoppingListController(RESTResource):
             to_update.have_coupon = False
         else:
             raise ValueError('Do not know how to respond when haveCoupon="%s"' % haveCoupon)
-        return makeTemplateArgs(shopping_list=shoppingList, 
-                                shopping_list_items=shoppingList.getItems(),
-                                )
+        return makeListTemplateArgs(shoppingList)
     coupon.expose_resource = True
 
 

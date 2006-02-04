@@ -93,16 +93,16 @@
                         <input type="checkbox"
                           name="store_${aisle_info.store.id}" 
                           checked=""
-                          py:if="shopping_item.getStoreInfo(user, aisle_info.store).buy_here"
+                          py:if="aisle_info.store.id in active_store_ids"
                           />
                         <input type="checkbox"
                           name="store_${aisle_info.store.id}" 
-                          py:if="not shopping_item.getStoreInfo(user, aisle_info.store).buy_here"
+                          py:if="not aisle_info.store.id in active_store_ids"
                           />
                       </td>
                     <td>
                       <input 
-                  class="public"
+                        class="public"
                         type="text"
                         name="aisle_${aisle_info.store.id}"
                         value="${aisle_info.aisle}"

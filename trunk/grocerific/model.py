@@ -196,6 +196,71 @@ class User(SQLObject):
         except IndexError:
             return ShoppingItemInfo(user=self, item=item)
         
+
+    def getStoreInfoForItem(self, store, item):
+        """Returns the StoreItem for the item and
+        this user.
+        """
+        existing_store_info = StoreItem.selectBy(store=store,
+                                                 item=item,
+                                                 user=self,
+                                                 )
+        if existing_store_info.count() != 0:
+            store_info = existing_store_info[0]
+        else:
+            store_info = StoreItem(store=store, item=self, user=self)
+        return store_info
+
+    def getStoreIdsForItem(self, item):
+        """Returns a list of stores the user might go to
+        when shopping for the item.
+        """
+        store_items = StoreItem.selectBy(item=item,
+                                         user=self,
+                                         buy_here=True,
+                                         )
+        store_ids = [ store_item.store.id
+                      for store_item in store_items
+                      ]
+        return store_ids
+
+    def setStoresForItem(self, item, storeIds):
+        """Given a list of store ids, mark those stores
+        as being places the user will buy the item.
+        Mark the other stores in the user's My Stores
+        list as places the user will not buy the item.
+        """
+        print 'SET STORES FOR', item.name, 'TO', storeIds
+        for user_store in self.getStores():
+
+            store = user_store.store
+
+            store_info = self.getStoreInfoForItem(store, item)
+            print 'STORE', store.Name(), 'HAS', store_info,
+            
+            #
+            # A place they will buy the item
+            #
+            if ( (store.id in storeIds)
+                 and
+                 (not store_info.buy_here)
+                 ):
+                store_info.buy_here = True
+                print 'SET TRUE',
+                
+            #
+            # A place they will not buy the item
+            #
+            if ( (store_info.store.id not in storeIds)
+                 and
+                 (store_info.buy_here)
+                 ):
+                store_info.buy_here = False
+                print 'SET FALSE',
+
+            print
+
+        return
     
 class ShoppingItem(SQLObject):
     """Items someone can purchase.
@@ -204,6 +269,15 @@ class ShoppingItem(SQLObject):
 
     def __cmp__(self, other):
         return cmp(self.name, other.name)
+
+    def setAislesByStoreIds(self, aislesByStore):
+        """Given a mapping of store id to aisle string,
+        update the database.
+        """
+        for store_id, aisle in aislesByStore.items():
+            store = Store.get(store_id)
+            self.setAisle(store, aisle)
+        return
 
     def setAisle(self, store, aisle):
         """Set which aisle an item is in for a store.
@@ -214,7 +288,8 @@ class ShoppingItem(SQLObject):
                                                  )
         if existing_aisle_info.count() != 0:
             aisle_info = existing_aisle_info[0]
-            aisle_info.aisle = aisle
+            if aisle_info.aisle != aisle:
+                aisle_info.aisle = aisle
         else:
             aisle_info = AisleItem(store=store, item=self, aisle=aisle)
         return aisle_info
@@ -236,21 +311,6 @@ class ShoppingItem(SQLObject):
                 aisle_info = self.setAisle(store, None)
             response.append(aisle_info)
         return response
-
-    def getStoreInfo(self, user, store):
-        """Returns a sequence of StoreItem instances
-        for the stores which are members of the user's
-        "My Stores" list.
-        """
-        existing_store_info = StoreItem.selectBy(store=store,
-                                                 item=self,
-                                                 user=user,
-                                                 )
-        if existing_store_info.count() != 0:
-            store_info = existing_store_info[0]
-        else:
-            store_info = StoreItem(store=store, item=self, user=user)
-        return store_info
 
     def search(cls, queryString, user=None):
         """Run a text search for the query string.

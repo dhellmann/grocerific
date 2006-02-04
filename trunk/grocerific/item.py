@@ -59,11 +59,18 @@ class ItemManager(RESTResource):
         else:
             tag_names = []
             editable = False
+
+        #
+        # Determine which stores the user might go to when
+        # shopping for this item.
+        #
+        active_store_ids = user.getStoreIdsForItem(shoppingItem)
         
         response = makeTemplateArgs(shopping_item=shoppingItem,
                                     user=user,
                                     tags=' '.join(tag_names),
                                     editable=editable,
+                                    active_store_ids=active_store_ids,
                                     )
         return response
     index.expose_resource = True
@@ -88,33 +95,26 @@ class ItemManager(RESTResource):
         #
         # Assign the aisle and store information for this item.
         #
-        found_stores = []
+        aisles_by_store = {}
+        active_stores = []
         for key, value in args.items():
-            if key.startswith('aisle_'):
-                store_id = key[6:]
-                store = Store.get(store_id)
-                shoppingItem.setAisle(store, value)
-            elif key.startswith('store_'):
-                store_id = key[6:]
-                found_stores.append(int(store_id))
-                store = Store.get(store_id)
-                info = shoppingItem.getStoreInfo(user, store)
-                if not info.buy_here:
-                    info.buy_here = True
 
-        #
-        # Update the settings for any stores
-        # *not* found in the input (meaning
-        # the checkbox was turned off.
-        #
-        all_store_info = StoreItem.selectBy(item=shoppingItem,
-                                            user=user,
-                                            )
-        for store_info in all_store_info:
-            if store_info.store.id in found_stores:
-                continue
-            if store_info.buy_here:
-                store_info.buy_here = False
+            if key.startswith('aisle_'):
+                try:
+                    store_id = int(key[6:])
+                except ValueError:
+                    continue
+                aisles_by_store[store_id] = value
+                
+            elif key.startswith('store_'):
+                try:
+                    store_id = int(key[6:])
+                except ValueError:
+                    continue
+                active_stores.append(store_id)
+
+        shoppingItem.setAislesByStoreIds(aisles_by_store)
+        user.setStoresForItem(shoppingItem, active_stores)
 
         controllers.flash('Changes saved')
         

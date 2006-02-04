@@ -1,9 +1,9 @@
 <ajax-response xmlns:py="http://purl.org/kid/ns#">
   <response type="element" id="store_list" py:if="session_is_logged_in">
 
-    <div py:if="not stores.count()">(None selected)</div>
+    <div py:if="not store_count">(None selected)</div>
 
-    <table py:if="stores.count()">
+    <table py:if="store_count">
 
       <tr py:for="store in stores">
 

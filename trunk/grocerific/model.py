@@ -89,20 +89,27 @@ class User(SQLObject):
                                      orderBy='name',
                                      )
 
-    def getStores(self):
+    def getStores(self, ordered=True):
         """Return the stores frequented by the user.
         """
+        if ordered:
+            orderby = """
+            ORDER BY
+              store.chain,
+              store.city,
+              store.location
+            """
+        else:
+            orderby = ''
+            
         return UserStore.select(
             """
             user_store.user_id = %s
             AND
             user_store.store_id = store.id
-            
-            ORDER BY
-              store.chain,
-              store.city,
-              store.location
-            """ % self.id,
+
+            %s
+            """ % (self.id, orderby),
             clauseTables=['store'],
             )
 
@@ -777,7 +784,8 @@ class Store(SQLObject):
         #
         clean_query_string = cleanString(city)
         if clean_query_string:
-            select_expr = Store.q.city.contains(clean_query_string)
+            select_expr = SQLConstant("LOWER(store.city) LIKE '%%%s%%'" % \
+                                      clean_query_string)
             stores = Store.select(select_expr,
                                   orderBy=(Store.q.chain,
                                            Store.q.city,

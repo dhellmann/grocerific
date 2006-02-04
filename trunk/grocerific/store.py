@@ -153,8 +153,10 @@ class StoreController(RESTResource):
         """Show all of a user's stores.
         """
         stores = user.getStores()
+        store_count = user.getStores(False).count()
         return makeTemplateArgs(user=user,
                                 stores=stores,
+                                store_count=store_count,
                                 )
 
     
@@ -167,8 +169,10 @@ class StoreController(RESTResource):
         """Returns an AJAX-ready XML version of the list of stores.
         """
         stores = user.getStores()
+        store_count = user.getStores(False).count()
         return makeTemplateArgs(user=user,
                                 stores=stores,
+                                store_count=store_count,
                                 )
 
 

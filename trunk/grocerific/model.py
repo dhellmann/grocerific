@@ -43,6 +43,7 @@ soClasses = ( 'User',
               'StoreItem',
               )
 
+    
 def cleanString(s):
     """Clean up a string to make it safe to pass to SQLObject
     as a query.
@@ -52,9 +53,11 @@ def cleanString(s):
     for bad, good in [ ("'", ''),
                        ('"', ''),
                        (';', ''),
+                       ('%', '%%'),
                        ]:
         s = s.replace(bad, good)
     return s
+
 
 
 class User(SQLObject):
@@ -337,15 +340,22 @@ class ShoppingItem(SQLObject):
             #
             if len(word) < 3:
                 continue
-            name_clauses.append(ShoppingItem.q.name.contains(word))
+
+            #
+            # Use case-insensitive comparison
+            #
+            name_clauses.append(
+                SQLConstant("LOWER(shopping_item.name) LIKE '%%%s%%'" % \
+                            word.lower())
+                )
 
             #
             # Look for the word as a tag
             #
             if user:
                 tag_clauses.append(
-                    IN(word,
-                       Select(ShoppingItemTag.q.tag,
+                    IN(word.lower(),
+                       Select(SQLConstant("LOWER(shopping_item_tag.tag)"),
                               where=AND(ShoppingItemTag.q.userID == user.id,
                                         #
                                         # If we use the normal comparison,
@@ -390,7 +400,7 @@ class ShoppingItem(SQLObject):
         items = ShoppingItem.select(select_expr,
                                     orderBy='name',
                                     )
-        #print items
+        print items
         return items
     search = classmethod(search)
 

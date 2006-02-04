@@ -152,11 +152,6 @@
             </form>
 
             <hr/>
-            
-            <div class="active_message" id="query_message">&nbsp;</div>
-            <div id="query_results"></div>
-
-            <hr/>
 
             <field>
               <div class="tag_group">
@@ -169,6 +164,11 @@
                 </span>
               </div>
             </field>
+
+            <hr/>
+            
+            <div class="active_message" id="query_message">&nbsp;</div>
+            <div id="query_results"></div>
             
           </fieldset>
 

@@ -208,7 +208,7 @@ class User(SQLObject):
         if existing_store_info.count() != 0:
             store_info = existing_store_info[0]
         else:
-            store_info = StoreItem(store=store, item=self, user=self)
+            store_info = StoreItem(store=store, item=item, user=self)
         return store_info
 
     def getStoreIdsForItem(self, item):
@@ -221,6 +221,7 @@ class User(SQLObject):
                                          )
         store_ids = [ store_item.store.id
                       for store_item in store_items
+                      #if store_item.buy_here
                       ]
         return store_ids
 
@@ -230,13 +231,11 @@ class User(SQLObject):
         Mark the other stores in the user's My Stores
         list as places the user will not buy the item.
         """
-        print 'SET STORES FOR', item.name, 'TO', storeIds
         for user_store in self.getStores():
 
             store = user_store.store
 
             store_info = self.getStoreInfoForItem(store, item)
-            print 'STORE', store.Name(), 'HAS', store_info,
             
             #
             # A place they will buy the item
@@ -246,7 +245,6 @@ class User(SQLObject):
                  (not store_info.buy_here)
                  ):
                 store_info.buy_here = True
-                print 'SET TRUE',
                 
             #
             # A place they will not buy the item
@@ -256,9 +254,6 @@ class User(SQLObject):
                  (store_info.buy_here)
                  ):
                 store_info.buy_here = False
-                print 'SET FALSE',
-
-            print
 
         return
     
@@ -300,8 +295,9 @@ class ShoppingItem(SQLObject):
         "My Stores" list.
         """
         response = []
-        stores = user.getStores()
-        for store in stores:
+        user_stores = user.getStores()
+        for user_store in user_stores:
+            store = user_store.store
             existing_aisle_info = AisleItem.selectBy(store=store,
                                                      item=self,
                                                      )

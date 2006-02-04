@@ -693,6 +693,11 @@ class ShoppingList(SQLObject):
                AND
                aisle_item.aisle <> ''
                )
+
+        ORDER BY
+
+          shopping_item.name
+          
         """ % { 'user_id':self.user.id,
                 'shopping_list_id':self.id,
                 'store_ids':str(tuple(storeIdsToInclude)),

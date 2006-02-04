@@ -347,69 +347,24 @@ class ShoppingListController(RESTResource):
         if not stores_to_include:
             controllers.flash('Please select at least one store')
             raise cherrypy.HTTPRedirect('/list/%s/prepare_print' % shoppingList.id)
-            
 
         #
-        # All of the items in the list
+        # Organize the items in printable structure
         #
-        all_items = shoppingList.getItems()
+        items_with_aisles, items_without_aisles = shoppingList.getPrintableItems(stores_to_include)
 
         #
-        # Group items by store, then aisle.
+        # Put together a list of the stores for this trip
         #
-        items_without_aisles = []
-        items_by_stores = {}
-        for item_info in all_items:
-            aisles = item_info.item.getAisles(user)
-            found_aisle = False
-            for aisle_info in aisles:
-                if aisle_info.aisle:
-                    items_by_aisle = items_by_stores.setdefault(aisle_info.store.id, {})
-                    aisle_contents = items_by_aisle.setdefault(aisle_info.aisle, [])
-                    aisle_contents.append(item_info)
-                    found_aisle = True
-            if not found_aisle:
-                # This item didn't have any aisle info,
-                # so put it in the "Unknown" store.
-                items_without_aisles.append(item_info)
-
-        #
-        # Convert the items_by_stores data structure into
-        # nested ordered lists that is easier to use in the
-        # template.
-        #
-        grouped_items = []
         user_stores = [ (s.store.Name(), s.store.id)
                         for s in user.getStores()
                         if s.id in stores_to_include
                         ]
         user_stores.sort()
-        for store_name, store_id in user_stores:
-            items_by_aisles = items_by_stores.get(store_id, {}).items()
-            if not items_by_aisles:
-                continue
-            sortable_items_by_aisles = []
-            for aisle, items in items_by_aisles:
-                try:
-                    aisle_int = int(aisle)
-                except (TypeError,ValueError):
-                    aisle_int = None
-                sortable_items_by_aisles.append((aisle_int, aisle, items))
-            sortable_items_by_aisles.sort()
-            items_by_aisles = [ (aisle, items)
-                                for (aisle_int, aisle, items)
-                                in sortable_items_by_aisles
-                                ]
-            grouped_items.append((store_name, items_by_aisles))
-
-        #
-        # Sort now so the template doesn't need to
-        #
-        items_without_aisles.sort()
-                    
+        
         return makeTemplateArgs(shopping_list=shoppingList,
                                 items_without_aisles=items_without_aisles,
-                                items_in_stores=grouped_items,
+                                items_with_aisles=items_with_aisles,
                                 user=user,
                                 stores=[ s[0] for s in user_stores ],
                                 )

@@ -537,9 +537,10 @@ class ShoppingList(SQLObject):
           store,
           user_store,
           shopping_list_item,
-          store_item,
           shopping_item,
-          aisle_item
+          aisle_item LEFT OUTER JOIN
+            (select * from store_item where user_id = %(user_id)s and buy_here) store_item
+            ON aisle_item.item_id = store_item.item_id
           
         WHERE
 
@@ -565,14 +566,14 @@ class ShoppingList(SQLObject):
           AND
           
           -- stores where the user buys this item
-          store_item.item_id = shopping_item.id
-          AND
-          store_item.store_id = store.id
-          AND
-          store_item.user_id = siteuser.id
-          AND
-          store_item.buy_here
-
+          (store_item.id is null
+           OR
+           (store_item.item_id = shopping_item.id
+            AND
+            store_item.store_id = store.id
+           )
+          )
+          
           AND
 
           -- stores where there is a known aisle for this item
@@ -679,16 +680,13 @@ class ShoppingList(SQLObject):
           shopping_item.id not in
             (SELECT
                aisle_item.item_id
+               
              FROM
-               aisle_item,
-               store_item
+               aisle_item LEFT OUTER JOIN
+                (select * from store_item where user_id = %(user_id)s and buy_here) store_item
+                ON aisle_item.item_id = store_item.item_id
+                
              WHERE
-               aisle_item.item_id = store_item.item_id
-               AND
-               store_item.user_id = %(user_id)s
-               AND
-               store_item.buy_here
-               AND
                aisle_item.store_id in %(store_ids)s
                AND
                aisle_item.aisle is not null

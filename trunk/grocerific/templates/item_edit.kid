@@ -79,6 +79,7 @@
                 <thead>
                   <tr>
                     <th>Store</th>
+                      <th>&nbsp;</th>
                     <th>Aisle</th>
                   </tr>
                 </thead>
@@ -88,6 +89,17 @@
                     <td>
                       <span class="chain_name" py:replace="aisle_info.store.name">Name</span> 
                     </td>
+                      <td>
+                        <input type="checkbox"
+                          name="store_${aisle_info.store.id}" 
+                          checked=""
+                          py:if="shopping_item.getStoreInfo(user, aisle_info.store).buy_here"
+                          />
+                        <input type="checkbox"
+                          name="store_${aisle_info.store.id}" 
+                          py:if="not shopping_item.getStoreInfo(user, aisle_info.store).buy_here"
+                          />
+                      </td>
                     <td>
                       <input 
                   class="public"

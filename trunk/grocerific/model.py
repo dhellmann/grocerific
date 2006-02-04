@@ -32,15 +32,16 @@ __connection__ = hub
 # Force table creation order
 #
 soClasses = ( 'User', 
-	      'ShoppingItem', 
-	      'ShoppingItemInfo', 
-	      'ShoppingItemTag', 
-	      'ShoppingList', 
-	      'ShoppingListItem', 
-	      'Store', 
-	      'UserStore', 
-	      'AisleItem', 
-	    )
+              'ShoppingItem', 
+              'ShoppingItemInfo', 
+              'ShoppingItemTag', 
+              'ShoppingList', 
+              'ShoppingListItem', 
+              'Store', 
+              'UserStore', 
+              'AisleItem',
+              'StoreItem',
+              )
 
 def cleanString(s):
     """Clean up a string to make it safe to pass to SQLObject
@@ -235,6 +236,21 @@ class ShoppingItem(SQLObject):
                 aisle_info = self.setAisle(store, None)
             response.append(aisle_info)
         return response
+
+    def getStoreInfo(self, user, store):
+        """Returns a sequence of StoreItem instances
+        for the stores which are members of the user's
+        "My Stores" list.
+        """
+        existing_store_info = StoreItem.selectBy(store=store,
+                                                 item=self,
+                                                 user=user,
+                                                 )
+        if existing_store_info.count() != 0:
+            store_info = existing_store_info[0]
+        else:
+            store_info = StoreItem(store=store, item=self, user=user)
+        return store_info
 
     def search(cls, queryString, user=None):
         """Run a text search for the query string.
@@ -504,4 +520,13 @@ class AisleItem(SQLObject):
     item = ForeignKey('ShoppingItem')
     store = ForeignKey('Store')
     aisle = StringCol()
+    
+        
+class StoreItem(SQLObject):
+    """Which stores a user might shop in for an item.
+    """
+    item = ForeignKey('ShoppingItem')
+    store = ForeignKey('Store')
+    user = ForeignKey('User')
+    buy_here = BoolCol(default=True)
     

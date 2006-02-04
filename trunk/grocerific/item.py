@@ -86,13 +86,35 @@ class ItemManager(RESTResource):
         user.setTagsForItem(shoppingItem, tags)
 
         #
-        # Assign the aisle information for this item.
+        # Assign the aisle and store information for this item.
         #
+        found_stores = []
         for key, value in args.items():
             if key.startswith('aisle_'):
                 store_id = key[6:]
                 store = Store.get(store_id)
                 shoppingItem.setAisle(store, value)
+            elif key.startswith('store_'):
+                store_id = key[6:]
+                found_stores.append(int(store_id))
+                store = Store.get(store_id)
+                info = shoppingItem.getStoreInfo(user, store)
+                if not info.buy_here:
+                    info.buy_here = True
+
+        #
+        # Update the settings for any stores
+        # *not* found in the input (meaning
+        # the checkbox was turned off.
+        #
+        all_store_info = StoreItem.selectBy(item=shoppingItem,
+                                            user=user,
+                                            )
+        for store_info in all_store_info:
+            if store_info.store.id in found_stores:
+                continue
+            if store_info.buy_here:
+                store_info.buy_here = False
 
         controllers.flash('Changes saved')
         

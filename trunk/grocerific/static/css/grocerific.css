@@ -678,3 +678,8 @@ div.spacer {
   margin-left: 1em;
   margin-right: 1em;
 }
+
+.coupon_link { 
+  cursor: pointer;
+  text-decoration: None;
+}

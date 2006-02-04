@@ -217,12 +217,19 @@ class User(SQLObject):
         """
         store_items = StoreItem.selectBy(item=item,
                                          user=self,
-                                         buy_here=True,
+                                         #buy_here=True,
                                          )
         store_ids = [ store_item.store.id
                       for store_item in store_items
-                      #if store_item.buy_here
+                      if store_item.buy_here
                       ]
+        if (not store_ids) and (not store_items.count()):
+            #
+            # Assume they might buy in any store
+            #
+            store_ids = [ store_info.store.id
+                          for store_info in self.getStores()
+                          ]
         return store_ids
 
     def setStoresForItem(self, item, storeIds):
@@ -511,6 +518,213 @@ class ShoppingList(SQLObject):
         SQLObject.destroySelf(self)
         return
 
+    def _getItemsWithAisles(self, storeIdsToInclude):
+        """Return a sequence of nested lists organized by:
+
+        [ (store, [(aisle, [items])]) ]
+        """
+        sql = """
+        SELECT
+          store.chain || ' @ ' || store.location,
+          aisle_item.aisle,
+          shopping_item.id,
+          shopping_item.name,
+          shopping_list_item.quantity,
+          shopping_list_item.have_coupon
+          
+        FROM
+          siteuser,
+          store,
+          user_store,
+          shopping_list_item,
+          store_item,
+          shopping_item,
+          aisle_item
+          
+        WHERE
+
+          -- limits based on parameters
+          shopping_list_item.list_id = %(shopping_list_id)s
+          AND
+          siteuser.id = %(user_id)s
+          AND
+          store.id in %(store_ids)s
+
+          AND
+
+          -- items in the list
+          shopping_item.id = shopping_list_item.item_id
+
+          AND
+
+          -- stores frequented by the user
+          user_store.user_id = siteuser.id
+          AND
+          user_store.store_id = store.id
+
+          AND
+          
+          -- stores where the user buys this item
+          store_item.item_id = shopping_item.id
+          AND
+          store_item.store_id = store.id
+          AND
+          store_item.user_id = siteuser.id
+          AND
+          store_item.buy_here
+
+          AND
+
+          -- stores where there is a known aisle for this item
+          aisle_item.item_id = shopping_item.id
+          AND
+          aisle_item.store_id = store.id
+          AND
+          aisle_item.aisle is not null
+          AND
+          aisle_item.aisle <> ''
+
+        ORDER BY
+          store.chain,
+          store.location,
+          aisle_item.aisle,
+          shopping_item.name
+        """ % { 'user_id':self.user.id,
+                'shopping_list_id':self.id,
+                'store_ids':str(tuple(storeIdsToInclude)),
+                }
+        conn = hub.getConnection()
+        results = conn.queryAll(sql)
+
+        #
+        # Organize the results
+        #
+        items_by_stores = {}
+        for row in results:
+            store = row[0]
+            items_by_aisles = items_by_stores.setdefault(store, {})
+
+            aisle = row[1]
+            items = items_by_aisles.setdefault(aisle, [])
+
+            items.append(PrintableItem(*tuple(row[2:])))
+
+        #
+        # Convert to nested lists
+        # and resort the aisles 
+        # to get the numbered aisles
+        # in the right order.
+        #
+        items_with_aisles = []
+        for store, items_by_aisles in items_by_stores.items():
+            sortable_items_by_aisles = []
+            for aisle, items in items_by_aisles.items():
+                try:
+                    sortable_aisle = int(aisle)
+                except ValueError:
+                    sortable_aisle = aisle
+                #
+                # Sort in the aisle
+                #
+                items.sort()
+                
+                sortable_items_by_aisles.append((sortable_aisle, items))
+
+            #
+            # Sort the aisles
+            #
+            sortable_items_by_aisles.sort()
+            items_by_aisles = [ (str(aisle), items)
+                                for aisle, items in sortable_items_by_aisles
+                                ]
+            items_with_aisles.append((store, items_by_aisles))
+
+        #
+        # Sort by store
+        #
+        items_with_aisles.sort()
+
+        return items_with_aisles
+
+    def _getItemsWithoutAisles(self, storeIdsToInclude):
+        """Produce a list of the items that do not have
+        aisle information.
+        """
+        sql = """
+        SELECT
+          shopping_item.id,
+          shopping_item.name,
+          shopping_list_item.quantity,
+          shopping_list_item.have_coupon
+          
+        FROM
+          siteuser,
+          shopping_list_item,
+          shopping_item
+          
+        WHERE
+
+          -- limits based on parameters
+          shopping_list_item.list_id = %(shopping_list_id)s
+          AND
+          siteuser.id = %(user_id)s
+
+          AND
+
+          -- items in the list
+          shopping_item.id = shopping_list_item.item_id
+
+          AND
+
+          shopping_item.id not in
+            (SELECT
+               aisle_item.item_id
+             FROM
+               aisle_item,
+               store_item
+             WHERE
+               aisle_item.item_id = store_item.item_id
+               AND
+               store_item.user_id = %(user_id)s
+               AND
+               store_item.buy_here
+               AND
+               aisle_item.store_id in %(store_ids)s
+               AND
+               aisle_item.aisle is not null
+               AND
+               aisle_item.aisle <> ''
+               )
+        """ % { 'user_id':self.user.id,
+                'shopping_list_id':self.id,
+                'store_ids':str(tuple(storeIdsToInclude)),
+                }
+        conn = hub.getConnection()
+        results = conn.queryAll(sql)
+
+        items_without_aisles = [ PrintableItem(*tuple(row))
+                                 for row in results
+                                 ]
+        
+        return items_without_aisles
+
+    def getPrintableItems(self, storeIdsToInclude):
+        items_with_aisles = self._getItemsWithAisles(storeIdsToInclude)
+        items_without_aisles = self._getItemsWithoutAisles(storeIdsToInclude)
+        return (items_with_aisles, items_without_aisles)
+
+class PrintableItem:
+    """Just used for returning printable list.
+    """
+    def __init__(self, id, name, quantity, haveCoupon):
+        self.id = id
+        self.name = name
+        self.quantity = quantity
+        self.have_coupon = haveCoupon
+        return
+
+    def __cmp__(self, other):
+        return cmp(self.name, other.name)
     
 class ShoppingListItem(SQLObject):
     """Items someone has indicated that they may buy.

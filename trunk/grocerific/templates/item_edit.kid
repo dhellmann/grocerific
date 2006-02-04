@@ -118,7 +118,14 @@
                   <li>Pharmacy</li>
                   <li>Bakery</li>
                 </ul>
-                If an item is not available in a store, leave the aisle blank.
+
+                <p>If an item is not available in a store, leave the
+                aisle blank.</p>
+
+                <p>If you do not buy this item at a store in the list,
+                disable the store by unchecking the box next to the
+                name of the store.</p>
+
               </div>
             </fieldset>
             

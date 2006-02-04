@@ -29,10 +29,10 @@
           </td>
           <td>
             <div py:strip="True" py:if="not item.have_coupon">
-              <a title="Click if you have a coupon" onclick="updateCoupon($item.id, 'yes')">&#10063;</a>
+              <a class="coupon_link" title="Click if you have a coupon" onclick="updateCoupon($item.id, 'yes')">&#10063;</a>
             </div>
             <div py:strip="True" py:if="item.have_coupon">
-              <a title="Click if you do not have a coupon" onclick="updateCoupon($item.id, 'no')">&#9986;</a>
+              <a class="coupon_link" title="Click if you do not have a coupon" onclick="updateCoupon($item.id, 'no')">&#9986;</a>
             </div>
           </td>
         </tr>

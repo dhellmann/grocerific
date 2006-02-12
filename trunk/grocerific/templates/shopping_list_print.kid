@@ -24,7 +24,7 @@
                 py:content="item.name">Item</a>
               (<span py:content="item.quantity">Quantity</span>)
               <span py:if="item.have_coupon">&#9986;</span>
-              <span py:if="aisle == 'Unknown'">______</span>
+              <span py:if="aisle == 'Unknown'"><u>_____</u></span>
             </span>
           </td>
         </tr>

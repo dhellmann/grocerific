@@ -351,7 +351,7 @@ class ShoppingListController(RESTResource):
         #
         # Organize the items in printable structure
         #
-        items_with_aisles, items_without_aisles = shoppingList.getPrintableItems(stores_to_include)
+        items_by_store_and_aisle = shoppingList.getPrintableItems(stores_to_include)
 
         #
         # Put together a list of the stores for this trip
@@ -363,8 +363,7 @@ class ShoppingListController(RESTResource):
         user_stores.sort()
         
         return makeTemplateArgs(shopping_list=shoppingList,
-                                items_without_aisles=items_without_aisles,
-                                items_with_aisles=items_with_aisles,
+                                items_by_store_and_aisle=items_by_store_and_aisle,
                                 user=user,
                                 stores=[ s[0] for s in user_stores ],
                                 )

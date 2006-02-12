@@ -542,7 +542,11 @@ class ShoppingList(SQLObject):
         """
         sql = """
         SELECT
-          store.chain || ' @ ' || store.location,
+	      CASE store.location
+            WHEN '' THEN store.chain
+            WHEN NULL THEN store.chain
+            ELSE store.chain || ' @ ' || store.location 
+          END as store_fullname,
           aisle_item.aisle,
           shopping_item.id,
           shopping_item.name,
@@ -603,8 +607,7 @@ class ShoppingList(SQLObject):
           aisle_item.aisle <> ''
 
         ORDER BY
-          store.chain,
-          store.location,
+          store_fullname,
           aisle_item.aisle,
           shopping_item.name
         """ % { 'user_id':self.user.id,
@@ -665,11 +668,17 @@ class ShoppingList(SQLObject):
         return items_with_aisles
 
     def _getItemsWithoutAisles(self, storeIdsToInclude):
-        """Produce a list of the items that do not have
-        aisle information.
+        """Produce a mapping of the items that do not have
+        aisle information, keyed by the name of the store
+        where the user expects to buy those items.
         """
         sql = """
         SELECT
+	      CASE store.location
+            WHEN '' THEN store.chain
+            WHEN NULL THEN store.chain
+            ELSE store.chain || ' @ ' || store.location 
+          END as store_fullname,
           shopping_item.id,
           shopping_item.name,
           shopping_list_item.quantity,
@@ -677,8 +686,14 @@ class ShoppingList(SQLObject):
           
         FROM
           siteuser,
+          store,
+          user_store,
           shopping_list_item,
-          shopping_item
+          shopping_item LEFT OUTER JOIN
+            (select * from store_item where user_id = %(user_id)s
+              and store_id in %(store_ids)s
+			 and buy_here) store_item
+            ON shopping_item.id = store_item.item_id
           
         WHERE
 
@@ -694,13 +709,35 @@ class ShoppingList(SQLObject):
 
           AND
 
+          -- stores used by the shopper for this trip
+          user_store.user_id = siteuser.id
+          AND
+          user_store.store_id = store.id
+		  AND
+		  user_store.store_id in %(store_ids)s
+
+          AND
+          
+          -- stores where the user buys this item
+          (store_item.id is null
+           OR
+           (store_item.item_id = shopping_item.id
+            AND
+            store_item.store_id = store.id
+           )
+          )
+
+          AND
+
+          -- No aisle
           shopping_item.id not in
             (SELECT
                aisle_item.item_id
                
              FROM
                aisle_item LEFT OUTER JOIN
-                (select * from store_item where user_id = %(user_id)s and buy_here) store_item
+                (select * from store_item where user_id = %(user_id)s
+				 and buy_here) store_item
                 ON aisle_item.item_id = store_item.item_id
                 
              WHERE
@@ -713,8 +750,8 @@ class ShoppingList(SQLObject):
 
         ORDER BY
 
-          shopping_item.name
-          
+          store_fullname,
+		  shopping_item.name
         """ % { 'user_id':self.user.id,
                 'shopping_list_id':self.id,
                 'store_ids':str(tuple(storeIdsToInclude)),
@@ -722,16 +759,33 @@ class ShoppingList(SQLObject):
         conn = hub.getConnection()
         results = conn.queryAll(sql)
 
-        items_without_aisles = [ PrintableItem(*tuple(row))
-                                 for row in results
-                                 ]
-        
+        #
+        # Organize the results by store
+        #
+        items_without_aisles = {}
+        for row in results:
+            store_name = row[0]
+            item = PrintableItem(*tuple(row[1:]))
+            items = items_without_aisles.setdefault(store_name, [])
+            items.append(item)
+
         return items_without_aisles
 
     def getPrintableItems(self, storeIdsToInclude):
         items_with_aisles = self._getItemsWithAisles(storeIdsToInclude)
         items_without_aisles = self._getItemsWithoutAisles(storeIdsToInclude)
-        return (items_with_aisles, items_without_aisles)
+
+        #
+        # Merge the 2 sets of data
+        #
+        items = []
+        for store_name, items_by_aisle in items_with_aisles:
+            store_no_aisle = items_without_aisles.get(store_name)
+            if store_no_aisle:
+                items_by_aisle.insert(0, ('Unknown', store_no_aisle))
+            items.append( (store_name, items_by_aisle) )
+        
+        return items
 
 class PrintableItem:
     """Just used for returning printable list.

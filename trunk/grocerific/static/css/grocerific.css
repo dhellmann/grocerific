@@ -266,14 +266,14 @@ pre {
   clear: left;
   font: 180% Verdana, Helvetica, Arial, sans-serif;
   margin: 0 0.5em 0 0;
-  padding: 0 0.5em 0 0.5em;
+  padding: 0 1em 0 1em;
   float: left;
-  line-height: 40px;
+  line-height: 50px;
 }
 
 .menu_bar { 
   background-color: #9EBF8A; /* light olive */
-  line-height: 40px;
+  line-height: 50px;
 }
 
 .menu_bar_l { 

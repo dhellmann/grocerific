@@ -131,10 +131,10 @@
               <field>
                 <input type="text" name="query" value="" />
                   
-                <input class="standalone" type="submit" name="search"
+                <input class="search_button" type="submit" name="search"
                   value="Search" />
                 
-                <input class="standalone" type="submit" name="new"
+                <input class="add_button" type="submit" name="new"
                   value="Define new item"
                   onclick="return goToNewItem()"
                   />
@@ -179,48 +179,48 @@
       </tr>
     </table>
     
-    <fieldset py:if="editable">
-      <legend>Actions</legend>
-      
-      <field>
-        <form method="post"
+    <div py:if="editable">
+      <p/>
+
+      <form action="/list/${shopping_list.id}/prepare_print"
+        method="get">
+        <field>
+          <input class="icon_button print_list_btn" type="submit" name="printBtn"
+            value="Print this list" />
+        </field>
+      </form>
+
+      <form method="post"
           action="/list/${shopping_list.id}/clear"
           >
-          <input class="standalone" type="submit" name="clearBtn"
+        <field>
+          <input class="icon_button clear_list_btn" type="submit" name="clearBtn"
             value="Clear this list" />
-        </form>
-      </field>
-      
-      <field>
-        <form action="/list/${shopping_list.id}/delete"
-          method="post"
-          py:if="not shopping_list.name == 'Next Trip'">
-          <input class="standalone" type="submit" name="deleteBtn"
+        </field>
+      </form>
+
+      <form action="/list/${shopping_list.id}/delete"
+        method="post"
+        py:if="not shopping_list.name == 'Next Trip'">
+        <field>
+          <input class="icon_button delete_list_btn" type="submit" name="deleteBtn"
             value="Delete this list" />
-        </form>
-      </field>
-      
-      <field>
-        <form py:if="copyable_lists" name="import_form" onsubmit="return importList()">
-          <input class="standalone" type="submit" name="copyBtn"
+        </field>
+      </form>
+
+      <form py:if="copyable_lists" name="import_form" onsubmit="return importList()">
+        <field>
+          <input class="icon_button add_list_btn" type="submit" name="copyBtn"
             value="Add contents of" />
-          
           <select size="1" id="copyFrom" name="copyFrom">
             <option py:for="other_list in copyable_lists"
               value="${other_list.id}"
               py:content="other_list.name">Name</option>
           </select>
-        </form>
-      </field>
-      
-      <field>
-        <form action="/list/${shopping_list.id}/prepare_print"
-          method="get">
-          <input class="standalone" type="submit" name="printBtn"
-            value="Print this list" />
-        </form>
-      </field>
-    </fieldset>
+        </field>
+      </form>
+
+    </div>
 
     <fieldset py:if="not editable">
       <legend>Contents</legend>

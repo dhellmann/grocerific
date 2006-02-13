@@ -8,7 +8,10 @@
       <tr py:for="store in stores">
 
         <td>
-          <a class="action_link" onclick="removeFromList(${store.id})">&#10005;</a>
+          <a class="action_img" onclick="removeFromList(${store.id})"
+            alt="&#10005;">
+            <img src="/static/images/icons/cancel.png" />
+          </a>
           <a href="/store/${store.store.id}">
             <span class="chain_name" py:content="store.store.name"> Name</span>
             (<span class="city" py:content="store.store.city">City</span>)

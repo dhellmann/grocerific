@@ -373,6 +373,65 @@ input.standalone {
   text-transform: lowercase;
 }
 
+input.icon_button { 
+  color: black;
+  cursor: pointer;
+  font-size: 90%;
+  font-weight: normal;
+  padding: 2px 2px 2px 16px;
+  text-transform: lowercase;
+}
+
+input.clear_list_btn {
+  background: #BFBD8A url(/static/images/icons/page_white.png) 1px 1px no-repeat; /* tan */
+}
+
+input.delete_list_btn {
+  background: #BFBD8A url(/static/images/icons/page_white_delete.png) 1px 1px no-repeat; /* tan */
+}
+
+input.add_list_btn {
+  background: #BFBD8A url(/static/images/icons/page_white_get.png) 1px 1px no-repeat; /* tan */
+}
+
+input.print_list_btn {
+  background: #BFBD8A url(/static/images/icons/printer.png) 1px 1px no-repeat; /* tan */
+}
+
+input.save_btn {
+  background: #BFBD8A url(/static/images/icons/page_save.png) 1px 1px no-repeat; /* tan */
+}
+
+input.add_button {
+  background: #BFBD8A url(/static/images/icons/add.png) 1px 1px no-repeat; /* tan */
+  color: black;
+  cursor: pointer;
+  font-size: 90%;
+  font-weight: normal;
+  padding: 2px 2px 2px 16px;
+  text-transform: lowercase;
+}
+
+input.cancel_button { 
+  background: #BFBD8A url(/static/images/icons/cancel.png) 1px 1px no-repeat; /* tan */
+  color: black;
+  cursor: pointer;
+  font-size: 90%;
+  font-weight: normal;
+  padding: 2px 2px 2px 16px;
+  text-transform: lowercase;
+}
+
+input.search_button { 
+  background: #BFBD8A url(/static/images/icons/find.png) 1px 1px no-repeat; /* tan */
+  color: black;
+  cursor: pointer;
+  font-size: 90%;
+  font-weight: normal;
+  padding: 2px 2px 2px 16px;
+  text-transform: lowercase;
+}
+
 
 div.row {
   clear: both;
@@ -673,6 +732,16 @@ div.spacer {
   padding-right: 2px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.action_img { 
+  text-decoration: None;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.chain_name { 
+  white-space: nowrap;
 }
 
 /* Shopping List Print */

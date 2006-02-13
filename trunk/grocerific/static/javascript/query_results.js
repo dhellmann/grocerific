@@ -9,8 +9,12 @@ QueryResultsManager.prototype = {
 	var icon = '\u2190';
 
 	return DIV({'class':'query_result'}, 
-			   A({'title':'Add to list', 'class':'action_link',
-					 'onclick':'addToList(' + id + ')'}, icon),
+			   A({'title':'Add to list', 
+					 'class':'action_img',
+					 'onclick':'addToList(' + id + ')',
+					 'alt':icon}, 
+				 IMG({'src':'/static/images/icons/arrow_left.png'})
+				 ),
 			   ' ',
 			   A({'title':'Details', 'href':'/item/' + id}, desc)
 			   );

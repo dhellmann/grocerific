@@ -44,7 +44,7 @@
               <field>
                 <label for="name">Name</label>
                 <input type="text" name="name" value="" />
-                <input class="standalone" TYPE="submit" NAME="newBtn"
+                <input class="add_button" TYPE="submit" NAME="newBtn"
                   VALUE="New" />
                 <div class="help">Provide a descriptive name for the new
                   list.  For example:

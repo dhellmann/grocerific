@@ -65,7 +65,7 @@
           <input class="standalone" TYPE="submit" NAME="addBtn"
             VALUE="Add" />
 
-          <input class="standalone" TYPE="submit" NAME="cancelBtn"
+          <input class="cancel_button" TYPE="submit" NAME="cancelBtn"
             VALUE="Cancel" onclick="return handleCancel()" />
         </field>
       </fieldset>

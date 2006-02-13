@@ -82,10 +82,10 @@
               <field>
                 <input type="text" name="query" value="" />
                 
-                <input class="standalone" type="submit" name="search"
+                <input class="search_button" type="submit" name="search"
                   value="Search" />
                 
-                <input class="standalone" type="submit" name="new"
+                <input class="add_button" type="submit" name="new"
                   value="Tell us about a new store"
                   onclick="return goToNewStore()"
                   />

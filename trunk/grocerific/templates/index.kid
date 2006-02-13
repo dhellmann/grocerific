@@ -31,7 +31,7 @@
                   <td COLSPAN="2">
                     <input class="standalone" TYPE="submit" NAME="loginBtn"
                       VALUE="Login" />
-                    <input class="standalone" TYPE="submit" NAME="cancelBtn"
+                    <input class="cancel_button" TYPE="submit" NAME="cancelBtn"
                       VALUE="Cancel" onclick="return handleCancel()" />
                   </td>
                 </tr>

@@ -77,66 +77,80 @@
             <fieldset>
               <legend>Stores</legend>
               
-              <table class="form_table">
-                <thead>
-                  <tr>
-                    <th>Store</th>
-                      <th>&nbsp;</th>
-                    <th>Aisle</th>
-                  </tr>
-                </thead>
-                
-                <tbody>
-                  <tr py:for="aisle_info in shopping_item.getAisles(user)">
-                    <td>
-                      <span class="chain_name" py:replace="aisle_info.store.name">Name</span> 
-                    </td>
-                      <td>
-                        <input type="checkbox"
-                          name="store_${aisle_info.store.id}" 
-                          checked=""
-                          py:if="aisle_info.store.id in active_store_ids"
-                          />
-                        <input type="checkbox"
-                          name="store_${aisle_info.store.id}" 
-                          py:if="not aisle_info.store.id in active_store_ids"
-                          />
-                      </td>
-                    <td>
-                      <input 
-                        class="public"
-                        type="text"
-                        name="aisle_${aisle_info.store.id}"
-                        value="${aisle_info.aisle}"
-                        />
-              </td>
-                  </tr>
-                </tbody>
+              <table>
+                <tr valign="top">
+                  <td>
+                    <table width="100%" class="form_table">
+                      <thead>
+                        <tr>
+                          <th>Store</th>
+                          <th>&nbsp;</th>
+                          <th>Aisle</th>
+                        </tr>
+                      </thead>
+                      
+                      <tbody>
+                        <tr py:for="aisle_info in shopping_item.getAisles(user)">
+                          <td>
+                            <span class="chain_name"
+                              py:content="aisle_info.store.name">
+                              Name
+                            </span> 
+                          </td>
+                          <td>
+                            <input type="checkbox"
+                              name="store_${aisle_info.store.id}" 
+                              checked=""
+                              py:if="aisle_info.store.id in active_store_ids"
+                              />
+                            <input type="checkbox"
+                              name="store_${aisle_info.store.id}" 
+                              py:if="not aisle_info.store.id in active_store_ids"
+                              />
+                          </td>
+                          <td>
+                            <input 
+                              class="public"
+                              type="text"
+                              name="aisle_${aisle_info.store.id}"
+                              value="${aisle_info.aisle}"
+                              />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td>
+                    <div class="help" style="float: right;">
+                      In what aisle is the item found in each
+                      store?  For example:
+                      <ul>
+                        <li>1</li>
+                        <li>Pharmacy</li>
+                        <li>Bakery</li>
+                      </ul>
+                      
+                      <p>If an item is not available in a store, leave the
+                        aisle blank.</p>
+                      
+                      <p>If you do not buy this item at a store in the list,
+                        disable the store by unchecking the box next to the
+                        name of the store.</p>
+                      
+                    </div>
+                    
+                  </td>
+                </tr>
               </table>
-              <div class="help">In what aisle is the item found in each
-                store?  For example:
-                <ul>
-                  <li>1</li>
-                  <li>Pharmacy</li>
-                  <li>Bakery</li>
-                </ul>
 
-                <p>If an item is not available in a store, leave the
-                aisle blank.</p>
-
-                <p>If you do not buy this item at a store in the list,
-                disable the store by unchecking the box next to the
-                name of the store.</p>
-
-              </div>
             </fieldset>
             
             <p/>
             
             <field>
-              <input class="standalone" TYPE="submit" NAME="editBtn" VALUE="Edit" />
+              <input class="icon_button save_btn" TYPE="submit" NAME="editBtn" VALUE="Save" />
               
-              <input class="standalone" TYPE="submit" NAME="cancelBtn"
+              <input class="cancel_button" TYPE="submit" NAME="cancelBtn"
                 VALUE="Cancel" onclick="return handleCancel()" />
             </field>
             
@@ -161,7 +175,7 @@
           <form action="/item/new_form" py:if="editable">
             <field>
               <input type="hidden" name="name" value="${shopping_item.name}" />
-              <input class="standalone" type="submit" name="addRelatedBtn"
+              <input class="add_button" type="submit" name="addRelatedBtn"
                 value="Define a related item" />
             </field>
           </form>

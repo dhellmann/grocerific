@@ -11,17 +11,17 @@
   <body>
 
     <h2>
-      <div py:replace="store.Name()">store name</div>
+      <div py:replace="store.name">store name</div>
     </h2>
 
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 
-    <fieldset py:if="editable">
-      <legend>Edit Store</legend>
-
-      <form method="post"
-        action="/store/${store.id}/edit"
-        >
+    <form method="post"
+      action="/store/${store.id}/edit"
+      >
+      
+      <fieldset py:if="editable">
+        <legend>Store Details</legend>
         <field>
           <table class="form_table">
             <tr>
@@ -38,15 +38,16 @@
             </tr>
           </table>
         </field>
-        
-        <field>
-          <input class="standalone" type="submit" name="editBtn" value="Save" />
-          <input class="standalone" type="submit" name="cancelBtn"
-            value="Cancel" onclick="return handleCancel()" />
-        </field>
-      </form>
 
-    </fieldset>
+      </fieldset>
+    </form>
+
+    <p/>
+    <field>
+      <input class="icon_button save_btn" type="submit" name="editBtn" value="Save" />
+      <input class="cancel_button" TYPE="submit" NAME="cancelBtn"
+        VALUE="Cancel" onclick="return handleCancel()" />
+    </field>
 
     <fieldset py:if="not editable">
       <legend>Store Details</legend>

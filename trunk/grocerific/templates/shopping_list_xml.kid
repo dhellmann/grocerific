@@ -14,10 +14,11 @@
       <tbody>
         <tr valign="top" class="list_item" py:for="item in shopping_list_items">
           <td>
-            <a class="action_link"
+            <a class="action_img"
               title="Remove from list"
               onclick="removeFromList(${item.id})"
-              >&#10005;</a>
+              alt="&#10005;"
+              ><img src="/static/images/icons/cancel.png"/></a>
             &nbsp;
             <a href="/item/${item.item.id}"
               py:content="item.item.name">Item Name</a>
@@ -32,7 +33,12 @@
               <a class="coupon_link" title="Click if you have a coupon" onclick="updateCoupon($item.id, 'yes')">&#10063;</a>
             </div>
             <div py:strip="True" py:if="item.have_coupon">
-              <a class="coupon_link" title="Click if you do not have a coupon" onclick="updateCoupon($item.id, 'no')">&#9986;</a>
+              <a class="action_img"
+                title="Click if you do not have a coupon"
+                onclick="updateCoupon($item.id, 'no')"
+                alt="&#9986;">
+                <img src="/static/images/icons/cut.png" />
+              </a>
             </div>
           </td>
         </tr>

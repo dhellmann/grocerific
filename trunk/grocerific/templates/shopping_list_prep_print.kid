@@ -11,11 +11,11 @@
 
     <h2 py:content="shopping_list.name">List Name</h2>
 
-    <fieldset>
-      <legend>Stores</legend>
-
-      <form action="printable" method="get">
-
+    <form action="printable" method="get">
+      
+      <fieldset>
+        <legend>Stores</legend>
+        
         <div py:for="store in stores">
           <field>
             <input type="checkbox" name="store_${store.id}" />
@@ -23,18 +23,20 @@
               Name</label>
           </field>
         </div>
-
-        <p/>
-
-        <input class="standalone" TYPE="submit" NAME="printBtn"
+        
+      </fieldset>
+        
+      <p/>
+      
+      <field>
+        <input class="icon_button print_list_btn" TYPE="submit" NAME="printBtn"
           VALUE="Generate Printable List" />
-
-        <input class="standalone" TYPE="submit" NAME="cancelBtn"
+        
+        <input class="cancel_button" TYPE="submit" NAME="cancelBtn"
           VALUE="Cancel" onclick="return handleCancel()" />
+      </field>
 
-      </form>
+    </form>
 
-    </fieldset>
-
-</body>
+  </body>
 </html>

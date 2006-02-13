@@ -29,9 +29,6 @@
 
       var onloads = new Array();
       function bodyOnLoad() {
-        /* UI effects we want for every page */
-        new Rico.Effect.Round('h1', null, null);
-        new Rico.Effect.Round('h2', null, null);
 
         /* Call the registered onload callbacks */
         while ( onloads.length > 0 ) {
@@ -41,36 +38,39 @@
       }
     </script>
 
-    <h1>Grocerific</h1>
-
     <div class="menu_bar" py:if="session_is_logged_in">
+      <span class="sitename">Grocerific</span>
+
       <div class="menu_bar_r">
         <span py:content="session_user">Username</span> |
         <a href="/user/prefs">Preferences</a> |
         <a href="/user/logout">Logout</a>
       </div>
-      <p/>
+
       <div class="menu_bar_l">
-        <a href="/">Home</a> |
-        <a href="/list">Next Trip</a> |
-        <a href="/list/lists">My Lists</a> |
-        <a href="/store/my">My Stores</a>
+        <a class="menu_item" href="/">Home</a>
+        <a class="menu_item" href="/list">Next Trip</a>
+        <a class="menu_item" href="/list/lists">My Lists</a>
+        <a class="last_menu_item" href="/store/my">My Stores</a>
       </div>
-      <p/>
     </div>
 
     <div class="menu_bar" py:if="not session_is_logged_in">
+      <span class="sitename">Grocerific</span>
+
       <div class="menu_bar_r">
         <a href="/user/login_form">Login</a>
       </div>
-      <p/>
+
       <div class="menu_bar_l">
-        <a href="/">Home</a>
+        <a class="last_menu_item" href="/">Home</a>
       </div>
     </div>
-
-    <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
     
     <div py:replace="item[:]"/>
+
+    <div class="footer">
+    </div>
+
   </body>
 </html>

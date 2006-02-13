@@ -11,6 +11,8 @@
 
     <h2>Define New Item</h2>
 
+    <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
+
     <form action="/item/add" method="post">
       <fieldset>
         <legend>Parameters</legend>

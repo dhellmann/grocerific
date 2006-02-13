@@ -108,6 +108,8 @@
 
     <h2 py:content="shopping_list.name">List Name</h2>
 
+    <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
+
     <table py:if="editable">
       <tr valign="top">
 

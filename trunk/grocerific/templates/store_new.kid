@@ -11,6 +11,8 @@
 
     <h2>Define New Store</h2>
 
+    <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
+
     <form action="/store/new" method="post">
       <fieldset>
         <legend>Parameters</legend>

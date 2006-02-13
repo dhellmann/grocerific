@@ -17,11 +17,6 @@
 */
 
 body {
-/* original plone */
-/* font: 65% Verdana, Helvetica, Arial, sans-serif;*/
-
-/* altered plone */
-/* font: Verdana, Helvetica, Arial, sans-serif;*/
 
 /* from lesscode.org */
   font-size: 75%; /* Resets 1em to 10px */
@@ -29,7 +24,7 @@ body {
 
   background: white;
   color: black;
-  margin: 1em;
+  margin: 0;
   padding: 0;
 }
 
@@ -86,7 +81,7 @@ hr {
 
 
 h1, h2, h3, h4, h5, h6 {
-  color: black;
+/*  color: black;*/
   clear: left;
   font: 100% Verdana, Helvetica, Arial, sans-serif;
   margin: 0;
@@ -96,13 +91,15 @@ h1, h2, h3, h4, h5, h6 {
 h1 { 
   color: white;
   background-color: #5F7353; /* dark olive */
-  text-align: center;
+/*  text-align: center;*/
 }
 
 h2 { 
-  color: black;
-  background-color: #9EBF8A; /* light olive */
+  color: #5F7353; /* dark olive */
+  /*color: #9EBF8A; /* light olive */
+  background-color: white;
   text-align: center;
+  padding-bottom: 0.5em;
 }
 
 h1 a,
@@ -263,21 +260,62 @@ pre {
 ** Structural Elements
 */
 
+.sitename { 
+  color: white;
+  background-color: #5F7353; /* dark olive */
+  clear: left;
+  font: 180% Verdana, Helvetica, Arial, sans-serif;
+  margin: 0 0.5em 0 0;
+  padding: 0 0.5em 0 0.5em;
+  float: left;
+  line-height: 40px;
+}
+
 .menu_bar { 
-  margin-top: 1em;
+  background-color: #9EBF8A; /* light olive */
+  line-height: 40px;
 }
 
 .menu_bar_l { 
   text-align: left;
   margin-left: 1em;
-  margin-bottom: 0.25em;
-  font-size: 120%;
+  font-size: 14px;
+}
+
+.menu_item {  /* menu items */
+  border-right: 1px solid white;
+  background-color: #9EBF8A; /* light olive */
+  text-decoration: none;
+  padding: 0.2em 1em;
+  color: white;
+}
+
+.last_menu_item { 
+  background-color: #9EBF8A; /* light olive */
+  text-decoration: none;
+  padding: 0.2em 1em;
+  color: white;
+}
+
+.menu_bar_l a:hover { 
+  background-color: #5F7353; /* dark olive */
 }
 
 .menu_bar_r { 
   text-align: right;
   margin-right: 1em;
   float: right;
+  font-size: 11px;
+  color: white;
+}
+
+.menu_bar_r a { 
+  color: white;
+  text-decoration: none;
+}
+
+.menu_bar_r a:hover { 
+  background-color: #5F7353; /* dark olive */
 }
 
 div.message {
@@ -288,6 +326,11 @@ div.message {
   margin: 2em 0em 1em 0em;
   padding: 0.5em 1em;
   vertical-align: middle;
+}
+
+.footer { 
+  background-color: #9EBF8A; /* light olive */
+  line-height: 40px;
 }
 
 div.message a {
@@ -301,7 +344,7 @@ div.flash {
   border: 1px solid black;
   color: black;
   font: bold Verdana, Helvetica, Arial, sans-serif;
-  margin: 2em 0em 1em 0em;
+/*  margin: 2em 0em 1em 0em;*/
   padding: 0.5em 1em;
   vertical-align: middle;
 }

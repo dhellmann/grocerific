@@ -11,10 +11,10 @@
   <body>
 
     <h2>
-      <div py:replace="store.name">store name</div>
-      <div py:strip="True" py:if="store.city">-</div>
-      <div py:replace="store.city">city</div>
+      <div py:replace="store.Name()">store name</div>
     </h2>
+
+    <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 
     <fieldset py:if="editable">
       <legend>Edit Store</legend>
@@ -29,12 +29,12 @@
               <td><input class="public" type="text" size="80" name="chain" value="${store.chain}" /></td>
             </tr>
             <tr>
-              <td><label for="city">City</label></td>
-              <td><input class="public" type="text" size="80" name="city" value="${store.city}" /></td>
-            </tr>
-            <tr>
               <td><label for="location">Location</label></td>
               <td><input class="public" type="text" size="80" name="location" value="${store.location}" /></td>
+            </tr>
+            <tr>
+              <td><label for="city">City</label></td>
+              <td><input class="public" type="text" size="80" name="city" value="${store.city}" /></td>
             </tr>
           </table>
         </field>

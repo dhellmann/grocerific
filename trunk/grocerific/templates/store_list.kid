@@ -62,6 +62,8 @@
 
     <h2>My Stores</h2>
 
+    <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
+
     <table width="100%">
       <tr valign="top">
 

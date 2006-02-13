@@ -18,6 +18,8 @@
 
     <h2 py:content="shopping_item.name">Item Name</h2>
 
+    <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
+
     <table width="100%">
 
       <tr valign="top">

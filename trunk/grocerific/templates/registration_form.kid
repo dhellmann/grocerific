@@ -9,6 +9,10 @@
 
   <body>
 
+    <h2>Register</h2>
+
+    <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
+
     <form action="/user/register" method="post">
       <fieldset>
         <legend>Create an Account</legend>

@@ -1,0 +1,2 @@
+db_module=grocerific.model
+history_dir=$base/grocerific/sqlobject-history

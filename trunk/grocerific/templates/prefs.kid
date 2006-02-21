@@ -43,7 +43,7 @@
         </table>
 
         <field>
-          <input class="standalone" TYPE="submit" NAME="editBtn" VALUE="Save" />
+          <input class="icon_button save_btn" TYPE="submit" NAME="editBtn" VALUE="Save" />
 
           <input class="cancel_button" TYPE="submit" NAME="cancelBtn"
             VALUE="Cancel" onclick="return handleCancel()" />

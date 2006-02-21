@@ -23,8 +23,23 @@ from grocerific.model import hub
 # Module
 #
 
+class IndexCounter:
+    def __init__(self):
+        self.current = 0
+        return
+
+    def __getattr__(self, name):
+        if name == 'next':
+            self.current += 1
+            return self.current
+        raise AttributeError(name)
+
+    
+
 def makeTemplateArgs(**kwds):
     d = dict(**kwds)
+
+    d['tabindex'] = IndexCounter()
 
     username = cherrypy.session.get('username')
     if username:

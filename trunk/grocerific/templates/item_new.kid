@@ -8,18 +8,31 @@
   </head>
 
   <body>
+    <script>
+      function addTag (theTag) {
+        var current_value = document.item_add.tags.value;
+        var new_value = current_value + " " + theTag;
+        document.item_add.tags.value = new_value;
+      }
+
+      function initialFocus() {
+        document.item_add.name.focus();
+      }
+      onloads.push(initialFocus);
+    </script>
 
     <h2>Define New Item</h2>
 
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 
-    <form action="/item/add" method="post">
+    <form name="item_add" action="/item/add" method="post">
       <fieldset>
         <legend>Parameters</legend>
         
         <field>
           <label for="name">Description</label>
-          <input class="public" type="text" name="name" value="$name" />
+          <input class="public" type="text" name="name" value="$name" 
+            tabindex="${tabindex.next}" />
           
           <div class="help">Provide a description of the new item.  For example:
             <ul>
@@ -36,7 +49,9 @@
         
         <field py:if="addToList">
           <label>Add to shopping list?</label>
-          <input py:if="addToList" type="checkbox" name="addToList" checked="" />
+          <input py:if="addToList" type="checkbox" name="addToList"
+            checked="" 
+            tabindex="${tabindex.next}" />
           <input type="hidden" name="shoppingListId" value="$addToList" />
           
           <div class="help">Should this item be added to your current
@@ -46,7 +61,8 @@
         
         <field>
           <label for="usuallyBuy">When I buy this, I usually buy:</label> 
-          <input type="text" name="usuallyBuy" value="1" />
+          <input type="text" name="usuallyBuy" value="1"
+            tabindex="${tabindex.next}" />
           <div class="help">For example:
             <ul>
               <li>1/2 gallon</li>
@@ -56,90 +72,93 @@
           </div>
         </field>
               
-              <field>
-                
-                <label for="tags">Tags:</label> 
-                <input type="text" name="tags" value="" size="70" />
-                
-                <?python
-                user_tags = user.getTagNames()
-                ?>
-                <div class="suggestion" py:if="user_tags">
-                  <label>Your tags:</label>
-                  <span py:for="other_tag in user_tags">
-                    <a onclick='addTag("${other_tag}")' py:content="other_tag">Other tag</a>
-                  </span>
-                </div>
-                
-              </field>
+        <field>
+          
+          <label for="tags">Tags:</label> 
+          <input type="text" name="tags" value="" size="70"
+            tabindex="${tabindex.next}" />
+          
+          <?python
+          user_tags = user.getTagNames()
+          ?>
+          <div class="suggestion" py:if="user_tags">
+            <label>Your tags:</label>
+            <span py:for="other_tag in user_tags">
+              <a onclick='addTag("${other_tag}")' py:content="other_tag">Other tag</a>
+            </span>
+          </div>
+          
+        </field>
       </fieldset>
             
-            <fieldset>
-              <legend>Stores</legend>
-              
-              <table>
-                <tr valign="top">
-                  <td>
-                    <table width="100%" class="form_table">
-                      <thead>
-                        <tr>
-                          <th>Store</th>
-                          <th>&nbsp;</th>
-                          <th>Aisle</th>
-                        </tr>
-                      </thead>
-                      
-                      <tbody>
-                        <tr py:for="store_info in user.getStores()">
-                          <td>
-                            <span class="chain_name"
-                              py:content="store_info.store.name">
-                              Name
-                            </span> 
-                          </td>
-                          <td>
-                            <input type="checkbox"
-                              name="store_${store_info.store.id}" 
-                              checked=""
-                              />
-                          </td>
-                          <td>
-                            <input 
-                              class="public"
-                              type="text"
-                              name="aisle_${store_info.store.id}"
-                              value=""
-                              />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                  <td>
-                    <div class="help" style="float: right;">
-                      In what aisle is the item found in each
-                      store?  For example:
-                      <ul>
-                        <li>1</li>
-                        <li>Pharmacy</li>
-                        <li>Bakery</li>
-                      </ul>
-                      
-                      <p>If an item is not available in a store, leave the
-                        aisle blank.</p>
-                      
-                      <p>If you do not buy this item at a store in the list,
-                        disable the store by unchecking the box next to the
-                        name of the store.</p>
-                      
-                    </div>
-                    
-                  </td>
-                </tr>
+      <fieldset>
+        <legend>Stores</legend>
+        
+        <table>
+          <tr valign="top">
+            <td>
+              <table width="100%" class="form_table">
+                <thead>
+                  <tr>
+                    <th>Store</th>
+                    <th>&nbsp;</th>
+                    <th>Aisle</th>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  <tr py:for="store_info in user.getStores()">
+                    <td>
+                      <span class="chain_name"
+                        py:content="store_info.store.name">
+                        Name
+                      </span> 
+                    </td>
+                    <td>
+                      <input type="checkbox"
+                        name="store_${store_info.store.id}" 
+                        checked=""
+                        tabindex="${tabindex.next}"
+                        />
+                    </td>
+                    <td>
+                      <input 
+                        class="public"
+                        type="text"
+                        name="aisle_${store_info.store.id}"
+                        value=""
+                        tabindex="${tabindex.next}"
+                        />
+                    </td>
+                  </tr>
+                </tbody>
               </table>
-
-            </fieldset>
-
+            </td>
+            <td>
+              <div class="help" style="float: right;">
+                In what aisle is the item found in each
+                store?  For example:
+                <ul>
+                  <li>1</li>
+                  <li>Pharmacy</li>
+                  <li>Bakery</li>
+                </ul>
+                
+                <p>If an item is not available in a store, leave the
+                  aisle blank.</p>
+                
+                <p>If you do not buy this item at a store in the list,
+                  disable the store by unchecking the box next to the
+                  name of the store.</p>
+                
+              </div>
+              
+            </td>
+          </tr>
+        </table>
+        
+      </fieldset>
+      
       <p/>
 
         <field>

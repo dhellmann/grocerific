@@ -10,6 +10,10 @@
 <body>
     <script py:if="editable" src="/static/javascript/query_results.js" />
     <script py:if="editable">
+      function initialFocus() {
+        document.findItem.query.focus();
+      }
+      onloads.push(initialFocus);
 
       <!-- Query results manager -->
       var theQueryResultsManager = new QueryResultsManager();

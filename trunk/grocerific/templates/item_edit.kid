@@ -14,6 +14,11 @@
         var new_value = current_value + " " + theTag;
         document.item_edit.tags.value = new_value;
       }
+
+      function initialFocus() {
+        document.item_edit.name.focus();
+      }
+      onloads.push(initialFocus);
     </script>
 
     <h2 py:content="shopping_item.name">Item Name</h2>
@@ -33,7 +38,9 @@
               
               <field>
                 <label for="name">Description</label>
-                <input class="public" type="text" name="name" value="${shopping_item.name}" />
+                <input class="public" type="text" name="name"
+                  value="${shopping_item.name}"
+                  tabindex="${tabindex.next}" />
                 
                 <div class="help">Provide a description of the item.  For example:
                   <ul>
@@ -50,7 +57,8 @@
               <field>
                 <label for="usuallyBuy">When I buy this item, I usually buy:</label> 
                 <input type="text" name="usuallyBuy"
-                  value="${user.getItemInfo(shopping_item).usuallybuy}" />
+                  value="${user.getItemInfo(shopping_item).usuallybuy}" 
+                  tabindex="${tabindex.next}" />
                 <div class="help">For example:
                   <ul>
                     <li>1/2 gallon</li>
@@ -63,7 +71,8 @@
               <field>
                 
                 <label for="tags">Tags:</label> 
-                <input type="text" name="tags" value="$tags" size="70" />
+                <input type="text" name="tags" value="$tags" size="70"
+                  tabindex="${tabindex.next}" />
                 
                 <?python
                 user_tags = user.getTagNames()
@@ -118,11 +127,11 @@
                               name="store_${aisle_info.store.id}" 
                               checked=""
                               py:if="aisle_info.store.id in active_store_ids"
-                              />
+                              tabindex="${tabindex.next}" />
                             <input type="checkbox"
                               name="store_${aisle_info.store.id}" 
                               py:if="not aisle_info.store.id in active_store_ids"
-                              />
+                              tabindex="${tabindex.current}" />
                           </td>
                           <td>
                             <input 
@@ -130,6 +139,7 @@
                               type="text"
                               name="aisle_${aisle_info.store.id}"
                               value="${aisle_info.aisle}"
+                              tabindex="${tabindex.next}" 
                               />
                           </td>
                         </tr>

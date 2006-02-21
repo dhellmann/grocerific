@@ -8,6 +8,12 @@
 </head>
 
 <body>
+    <script>
+      function initialFocus() {
+        document.create_list.name.focus();
+      }
+      onloads.push(initialFocus);
+    </script>
 
     <h2>My Shopping Lists</h2>
 
@@ -37,7 +43,7 @@
 
         <td width="100%">
 
-          <form action="/list/new" method="post">
+          <form name="create_list" action="/list/new" method="post">
             <fieldset>
               <legend>Create List</legend>
               

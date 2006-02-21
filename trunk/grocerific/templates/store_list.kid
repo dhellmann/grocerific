@@ -10,6 +10,10 @@
   <body>
     <script src="/static/javascript/store_query_results.js" />
     <script>
+      function initialFocus() {
+        document.findStore.query.focus();
+      }
+      onloads.push(initialFocus);
 
       <!-- Query results manager -->
       var theQueryResultsManager = new StoreQueryResultsManager();

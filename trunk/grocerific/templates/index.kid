@@ -8,24 +8,30 @@
 </head>
 
 <body>
+    <script>
+      function initialFocus() {
+        document.login.username.focus();
+      }
+      onloads.push(initialFocus);
+    </script>
 
     <table py:if="not session_is_logged_in">
       <tr valign="top">
         
         <td width="20%">
 
-          <form action="/user/login" method="post">
+          <form name="login" action="/user/login" method="post">
             <fieldset>
               <legend>Login</legend>
               
               <TABLE class="form_table">
                 <tr>
                   <td><label for="username">Username:</label></td>
-                  <td><input type="text" name="username" value="" /></td>
+                  <td><input type="text" name="username" value="" tabindex="${tabindex.next}" /></td>
                 </tr>
                 <tr>
                   <td><label for="password">Password:</label></td>
-                  <td><input type="password" name="password" value="" /></td>
+                  <td><input type="password" name="password" value="" tabindex="${tabindex.next}" /></td>
                 </tr>
                 <tr>
                   <td COLSPAN="2">

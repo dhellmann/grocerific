@@ -514,7 +514,7 @@ class ShoppingList(SQLObject):
             shopping_list_item.list_id = %s
             AND
             shopping_list_item.item_id = shopping_item.id
-            ORDER BY shopping_item.name
+            ORDER BY LOWER(shopping_item.name)
             """ % self.id,
             clauseTables=['shopping_item'],
             )

@@ -79,9 +79,14 @@ class ItemManager(RESTResource):
     @turbogears.expose()
     @requiresLogin()
     @usesTransaction()
-    def edit(self, shoppingItem=None, user=None, usuallyBuy=None, tags='', **args):
+    def edit(self, shoppingItem=None, user=None, usuallyBuy=None, tags='', name=None, **args):
         """Change an item in the database.
         """
+        #
+        # The user might have changed the name of this thing
+        #
+        if name is not None:
+            shoppingItem.name = name
 
         #
         # Change the per-user information
@@ -92,9 +97,16 @@ class ItemManager(RESTResource):
 
         user.setTagsForItem(shoppingItem, tags)
 
-        #
-        # Assign the aisle and store information for this item.
-        #
+        self._setAislesForItem(shoppingItem, user, **args)
+
+        controllers.flash('Changes saved')
+        
+        raise cherrypy.HTTPRedirect('/item/%s' % shoppingItem.id)
+    edit.expose_resource = True
+
+    def _setAislesForItem(self, shoppingItem, user, **args):
+        """Assign the aisle and store information for this item.
+        """
         aisles_by_store = {}
         active_stores = []
         for key, value in args.items():
@@ -115,12 +127,7 @@ class ItemManager(RESTResource):
 
         shoppingItem.setAislesByStoreIds(aisles_by_store)
         user.setStoresForItem(shoppingItem, active_stores)
-
-        controllers.flash('Changes saved')
-        
-        raise cherrypy.HTTPRedirect('/item/%s' % shoppingItem.id)
-    edit.expose_resource = True
-
+        return
     
     @turbogears.expose(html="grocerific.templates.item_new")
     @requiresLogin()
@@ -128,6 +135,7 @@ class ItemManager(RESTResource):
         """Form to add an item to the database.
         """
         return makeTemplateArgs(name=name,
+                                user=user,
                                 addToList=addToList,
                                 )
 
@@ -182,7 +190,7 @@ class ItemManager(RESTResource):
     @turbogears.expose()
     @requiresLogin()
     @usesTransaction()
-    def add(self, user=None, name='', addToList=False, shoppingListId=None, usuallyBuy=None, **args):
+    def add(self, user=None, name='', tags='', addToList=False, shoppingListId=None, usuallyBuy=None, **args):
         """Add an item to the database.
         """
         name = name.strip()
@@ -210,6 +218,10 @@ class ItemManager(RESTResource):
         if usuallyBuy:
             info = user.getItemInfo(item)
             info.usuallybuy = usuallyBuy
+
+        user.setTagsForItem(item, tags)
+
+        self._setAislesForItem(item, user, **args)
 
         #
         # Add the item to the shopping list.

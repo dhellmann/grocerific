@@ -28,11 +28,27 @@
             action="/item/${shopping_item.id}/edit"
             method="post"  py:if="editable">
             <fieldset>
-              <legend>Personalize</legend>
+              <legend>Parameters</legend>
+              
               
               <field>
-                <label for="usuallyBuy">When I buy <span
-                    py:content="shopping_item.name">this</span>, I usually buy:</label> 
+                <label for="name">Description</label>
+                <input class="public" type="text" name="name" value="${shopping_item.name}" />
+                
+                <div class="help">Provide a description of the item.  For example:
+                  <ul>
+                    <li>Milk, skim, gallon</li>
+                    <li>Flour, All-purpose</li>
+                    <li>Tomatoes, canned, crushed, MyBrand</li>
+                  </ul>
+                </div>
+              </field>
+            </fieldset>
+            
+            <fieldset>
+              <legend>Personalize</legend>
+              <field>
+                <label for="usuallyBuy">When I buy this item, I usually buy:</label> 
                 <input type="text" name="usuallyBuy"
                   value="${user.getItemInfo(shopping_item).usuallybuy}" />
                 <div class="help">For example:

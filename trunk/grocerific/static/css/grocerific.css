@@ -343,8 +343,8 @@ div.flash {
   background: orange;
   border: 1px solid black;
   color: black;
-  font: bold Verdana, Helvetica, Arial, sans-serif;
-/*  margin: 2em 0em 1em 0em;*/
+/*  font: bold Verdana, Helvetica, Arial, sans-serif;*/
+  margin: 0em 2em 0em 2em;
   padding: 0.5em 1em;
   vertical-align: middle;
 }
@@ -595,7 +595,6 @@ div.box h4 {
 }
 
 div.box h5 {
-  background: ;
   border: 1px solid black;
   border-style: solid solid none solid;
   color: black;

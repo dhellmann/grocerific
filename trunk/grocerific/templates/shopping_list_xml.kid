@@ -20,7 +20,7 @@
               alt="&#10005;"
               ><img src="/static/images/icons/cancel.png"/></a>
             &nbsp;
-            <a href="/item/${item.item.id}"
+            <a href="/item/${item.item.id}" target="_blank"
               py:content="item.item.name">Item Name</a>
           </td>
           <td>&nbsp;<a title="Click to change"

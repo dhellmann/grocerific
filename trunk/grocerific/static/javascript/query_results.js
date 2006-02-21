@@ -16,7 +16,8 @@ QueryResultsManager.prototype = {
 				 IMG({'src':'/static/images/icons/arrow_left.png'})
 				 ),
 			   ' ',
-			   A({'title':'Details', 'href':'/item/' + id}, desc)
+			   A({'title':'Details', 'href':'/item/' + id,
+					 'target':'_blank'}, desc)
 			   );
   },
 

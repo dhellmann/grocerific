@@ -21,6 +21,7 @@
             <span class="print_item" py:for="item in items">
               &#10063;
               <a href="/item/${item.id}"
+                target="_blank"
                 py:content="item.name">Item</a>
               (<span py:content="item.quantity">Quantity</span>)
               <span py:if="item.have_coupon">&#9986;</span>

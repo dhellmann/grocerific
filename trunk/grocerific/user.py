@@ -12,6 +12,7 @@
 # Import system modules
 #
 import cherrypy
+import md5
 from sqlobject import *
 import turbogears
 from turbogears import controllers
@@ -184,7 +185,10 @@ class UserManager:
         #
         # Check the password
         #
-        if userobj.password != password:
+        m = md5.md5()
+        m.update(password)
+        encrypted = m.hexdigest()
+        if userobj.password != encrypted:
             controllers.flash('Invalid username or password')
             raise cherrypy.HTTPRedirect('login_form')
 
@@ -230,8 +234,11 @@ class UserManager:
     def register(self, username, password, email=None, location=None, **kwds):
         """Register a new user.
         """
+        m = md5.md5()
+        m.update(password)
+        encrypted = m.hexdigest()
         new_user = User(username=username,
-                        password=password,
+                        password=encrypted,
                         email=email,
                         location=location,
                         )

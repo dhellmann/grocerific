@@ -35,8 +35,11 @@
           <tr>
             <td COLSPAN="2">
               <input class="standalone" TYPE="submit" NAME="loginBtn"
+                tabindex="${tabindex.next}"
                 VALUE="Login" />
-              <input class="cancel_button" TYPE="submit" NAME="cancelBtn"
+              <input class="cancel_button" TYPE="submit"
+                NAME="cancelBtn"
+                tabindex="${tabindex.next}"
                 VALUE="Cancel" onclick="return handleCancel()" />
             </td>
           </tr>

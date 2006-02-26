@@ -174,9 +174,13 @@
             <p/>
             
             <field>
-              <input class="icon_button save_btn" TYPE="submit" NAME="editBtn" VALUE="Save" />
+              <input class="icon_button save_btn" TYPE="submit"
+                NAME="editBtn" 
+                tabindex="${tabindex.next}"
+                VALUE="Save" />
               
               <input class="cancel_button" TYPE="submit" NAME="cancelBtn"
+                tabindex="${tabindex.next}"
                 VALUE="Cancel" onclick="return handleCancel()" />
             </field>
             
@@ -201,7 +205,9 @@
           <form action="/item/new_form" py:if="editable">
             <field>
               <input type="hidden" name="name" value="${shopping_item.name}" />
-              <input class="add_button" type="submit" name="addRelatedBtn"
+              <input class="add_button" type="submit"
+                name="addRelatedBtn"
+                tabindex="${tabindex.next}"
                 value="Define a related item" />
             </field>
           </form>

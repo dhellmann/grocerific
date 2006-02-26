@@ -745,6 +745,10 @@ div.spacer {
 
 /* Shopping List Print */
 
+.store_lists { 
+  vertical-align: top;
+}
+
 .aisle_list { 
 }
 

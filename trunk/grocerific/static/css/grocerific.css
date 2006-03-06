@@ -497,6 +497,15 @@ div.help {
   margin-left: 5em;
 }
 
+div.table_help {
+  background-color: transparent;
+  font-weight: normal;
+  line-height: normal;
+  text-align: left;
+  padding: 0.5em;
+  color: #888888;
+}
+
 div.suggestion { 
   background-color: transparent;
   font-weight: normal;

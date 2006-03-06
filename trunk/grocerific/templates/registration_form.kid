@@ -20,7 +20,8 @@
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 
     <form action="/user/register" method="post" name="register">
-      <fieldset>
+      <center>
+      <fieldset style="width: 50%">
         <legend>Create an Account</legend>
 
         <TABLE class="form_table">
@@ -38,10 +39,13 @@
                 tabindex="${tabindex.next}" /></td>
           </tr>
           
-          <tr>
+          <tr valign="top">
             <td><label for="location">City:</label></td>
             <td><input type="text" name="location" value=""
-                tabindex="${tabindex.next}" /> </td>
+                tabindex="${tabindex.next}" /> 
+              <div class="table_help">This information is used to find
+                stores near you.</div>
+            </td>
           </tr>
           
           <tr>
@@ -57,6 +61,7 @@
         </TABLE>
 
       </fieldset>
+      </center>
     </form>
     
   </body>

@@ -20,7 +20,8 @@
     <div py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 
     <form name="login" action="/user/login" method="post">
-      <fieldset>
+      <center>
+      <fieldset style="width: 50%">
         <legend>Login</legend>
         
         <TABLE class="form_table">
@@ -49,6 +50,7 @@
             href="/user/registration_form">Sign up here</a></p>
         
       </fieldset>
+      </center>
     </form>
     
   </body>

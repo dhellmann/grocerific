@@ -15,48 +15,48 @@
       onloads.push(initialFocus);
     </script>
 
-    <table py:if="not session_is_logged_in">
-      <tr valign="top">
-        
-        <td width="20%">
+    <div  py:if="not session_is_logged_in">
 
-          <form name="login" action="/user/login" method="post">
-            <fieldset>
-              <legend>Login</legend>
-              
-              <TABLE class="form_table">
-                <tr>
-                  <td><label for="username">Username:</label></td>
-                  <td><input type="text" name="username" value="" tabindex="${tabindex.next}" /></td>
-                </tr>
-                <tr>
-                  <td><label for="password">Password:</label></td>
-                  <td><input type="password" name="password" value="" tabindex="${tabindex.next}" /></td>
-                </tr>
-                <tr>
-                  <td COLSPAN="2">
-                    <input class="standalone" TYPE="submit" NAME="loginBtn"
-                      VALUE="Login" />
-                    <input class="cancel_button" TYPE="submit" NAME="cancelBtn"
-                      VALUE="Cancel" onclick="return handleCancel()" />
-                  </td>
-                </tr>
-              </TABLE>
-              
-              <p>Not already a member?  <a
-                  href="/user/registration_form">Register here</a></p>
-              
-            </fieldset>
-          </form>
-        </td>
+      <h2>Create a Shopping List You Can Access From Anywhere</h2>
+      <h3>Organize it, print it, and shop more quickly</h3>
 
-        <td>
-          <div py:if="not session_is_logged_in">
-            Site welcome message and description goes here.
-          </div>
-        </td>
-      </tr>
-    </table>
+      <p/>
+
+      <table class="home_table">
+        <tr valign="top">
+          <td width="50%">
+            <center><img class="screenshot" width="380" height="320" src="/static/images/screenshot05.png"/></center>
+            
+            <div class="signup_box">
+              <div class="signup"><a href="/user/registration_form">Sign Up Here, It's Free!</a></div>
+            </div>
+              
+          </td>
+
+          <td width="50%">
+
+            <h4>Organize</h4>
+
+            <p style="padding-left: 2em;">Maintain your list as you
+            run out of items.  Create separate lists for special
+            occasions, recipies, or recurring items.</p>
+            
+            <h4>Print</h4>
+
+            <p style="padding-left: 2em;">Produce a separate list for
+            each store where you shop.  Highlight any coupon
+            items.</p>
+
+            <h4>Shop</h4>
+
+            <p style="padding-left: 2em;">Get in and out of the store
+            more quickly.  Only visit aisles you need to.</p>
+
+          </td>
+        </tr>
+      </table>
+
+    </div>
 
     <div py:if="session_is_logged_in">
       Need logged-in content here.

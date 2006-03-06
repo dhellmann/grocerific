@@ -60,7 +60,8 @@
       <span class="sitename">Grocerific</span>
 
       <div class="menu_bar_r">
-        <a href="/user/login_form">Login</a>
+        <a href="/user/login_form">Login</a> |
+        <a href="/user/registration_form">Signup</a>
       </div>
 
       <div class="menu_bar_l">

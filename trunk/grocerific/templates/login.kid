@@ -46,7 +46,7 @@
         </TABLE>
         
         <p>Not already a member?  <a
-            href="/user/registration_form">Register here</a></p>
+            href="/user/registration_form">Sign up here</a></p>
         
       </fieldset>
     </form>

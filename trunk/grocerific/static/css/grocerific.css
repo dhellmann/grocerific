@@ -809,6 +809,11 @@ div.spacer {
   margin: 0.5em;
 }
 
+.screenshot { 
+  background: #dddddd;
+  padding: 10px;
+}
+
 .signup_box { 
   border: 1px solid #737153; /* dark brown */
   background-color: #eeeeee;

@@ -299,9 +299,16 @@ class ShoppingItem(SQLObject):
                                                  item=self,
                                                  )
         if existing_aisle_info.count() != 0:
-            aisle_info = existing_aisle_info[0]
-            if aisle_info.aisle != aisle:
-                aisle_info.aisle = aisle
+            try:
+                aisle_info = existing_aisle_info[0]
+            except IndexError:
+                aisle_info = AisleItem(store=store,
+                                       item=self,
+                                       aisle=aisle,
+                                       )
+            else:
+                if aisle_info.aisle != aisle:
+                    aisle_info.aisle = aisle
         else:
             aisle_info = AisleItem(store=store, item=self, aisle=aisle)
         return aisle_info
@@ -407,7 +414,7 @@ class ShoppingItem(SQLObject):
         items = ShoppingItem.select(select_expr,
                                     orderBy='name',
                                     )
-        print items
+        #print items
         return items
     search = classmethod(search)
 
@@ -540,6 +547,15 @@ class ShoppingList(SQLObject):
 
         [ (store, [(aisle, [items])]) ]
         """
+        if len(storeIdsToInclude) < 1:
+            raise ValueError('Please specify at least one store')
+        elif len(storeIdsToInclude) == 1:
+            store_ids = storeIdsToInclude[0]
+            store_id_test = '='
+        else:
+            store_ids = str(tuple(storeIdsToInclude))
+            store_id_test = 'IN'
+            
         sql = """
         SELECT
 	      CASE store.location
@@ -570,7 +586,7 @@ class ShoppingList(SQLObject):
           AND
           siteuser.id = %(user_id)s
           AND
-          store.id in %(store_ids)s
+          store.id %(store_id_test)s %(store_ids)s
 
           AND
 
@@ -612,7 +628,8 @@ class ShoppingList(SQLObject):
           shopping_item.name
         """ % { 'user_id':self.user.id,
                 'shopping_list_id':self.id,
-                'store_ids':str(tuple(storeIdsToInclude)),
+                'store_ids':store_ids,
+                'store_id_test':store_id_test,
                 }
         conn = hub.getConnection()
         results = conn.queryAll(sql)
@@ -672,6 +689,15 @@ class ShoppingList(SQLObject):
         aisle information, keyed by the name of the store
         where the user expects to buy those items.
         """
+        if len(storeIdsToInclude) < 1:
+            raise ValueError('Please specify at least one store')
+        elif len(storeIdsToInclude) == 1:
+            store_ids = storeIdsToInclude[0]
+            store_id_test = '='
+        else:
+            store_ids = str(tuple(storeIdsToInclude))
+            store_id_test = 'IN'
+            
         sql = """
         SELECT
 	      CASE store.location
@@ -691,7 +717,7 @@ class ShoppingList(SQLObject):
           shopping_list_item,
           shopping_item LEFT OUTER JOIN
             (select * from store_item where user_id = %(user_id)s
-              and store_id in %(store_ids)s
+              and store_id %(store_id_test)s %(store_ids)s
 			 and buy_here) store_item
             ON shopping_item.id = store_item.item_id
           
@@ -714,7 +740,7 @@ class ShoppingList(SQLObject):
           AND
           user_store.store_id = store.id
 		  AND
-		  user_store.store_id in %(store_ids)s
+		  user_store.store_id %(store_id_test)s %(store_ids)s
 
           AND
           
@@ -741,7 +767,7 @@ class ShoppingList(SQLObject):
                 ON aisle_item.item_id = store_item.item_id
                 
              WHERE
-               aisle_item.store_id in %(store_ids)s
+               aisle_item.store_id %(store_id_test)s %(store_ids)s
                AND
                aisle_item.aisle is not null
                AND
@@ -754,7 +780,8 @@ class ShoppingList(SQLObject):
 		  shopping_item.name
         """ % { 'user_id':self.user.id,
                 'shopping_list_id':self.id,
-                'store_ids':str(tuple(storeIdsToInclude)),
+                'store_ids':store_ids,
+                'store_id_test':store_id_test,
                 }
         conn = hub.getConnection()
         results = conn.queryAll(sql)

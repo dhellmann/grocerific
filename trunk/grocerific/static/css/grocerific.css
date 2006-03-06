@@ -48,7 +48,7 @@ img {
 
 p {
   margin: 0.5em 0em 1em 0em;
-  text-align: justify;
+/*  text-align: justify;*/
   line-height: 1.5em;
 }
 
@@ -82,6 +82,8 @@ hr {
 
 h1, h2, h3, h4, h5, h6 {
 /*  color: black;*/
+  color: #5F7353; /* dark olive */
+  background-color: white;
   clear: left;
   font: 100% Verdana, Helvetica, Arial, sans-serif;
   margin: 0;
@@ -95,11 +97,15 @@ h1 {
 }
 
 h2 { 
-  color: #5F7353; /* dark olive */
   /*color: #9EBF8A; /* light olive */
+  text-align: center;
+}
+
+h3 { 
+  color: #5F7353; /* dark olive */
   background-color: white;
   text-align: center;
-  padding-bottom: 0.5em;
+  padding-top: 0;
 }
 
 h1 a,
@@ -772,9 +778,7 @@ div.spacer {
 }
 
 .print_links { 
-  border: 1px solid #737153; /* dark brown */
   margin: 1em 1em 0 1em;
-  background-color: #eeeeee;
   padding: 1em;
 }
 
@@ -797,4 +801,27 @@ div.spacer {
 .coupon_link { 
   cursor: pointer;
   text-decoration: None;
+}
+
+/* HOME PAGE */
+
+.home_table { 
+  margin: 0.5em;
+}
+
+.signup_box { 
+  border: 1px solid #737153; /* dark brown */
+  background-color: #eeeeee;
+  margin: 1em;
+  padding: 1em;
+}
+
+.signup { 
+  text-align: center;
+  font-size: 150%;
+}
+
+.signup a { 
+  text-decoration: none;
+  color: #5F7353; /* dark olive */
 }

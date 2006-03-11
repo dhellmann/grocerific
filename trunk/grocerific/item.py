@@ -57,15 +57,16 @@ class ItemManager(RESTResource):
             tag_names = [ tag.tag for tag in tags ]
             tag_names.sort()
             editable = True
+
+            #
+            # Determine which stores the user might go to when
+            # shopping for this item.
+            #
+            active_store_ids = user.getStoreIdsForItem(shoppingItem)
         else:
             tag_names = []
             editable = False
-
-        #
-        # Determine which stores the user might go to when
-        # shopping for this item.
-        #
-        active_store_ids = user.getStoreIdsForItem(shoppingItem)
+            active_store_ids = []
         
         response = makeTemplateArgs(shopping_item=shoppingItem,
                                     user=user,

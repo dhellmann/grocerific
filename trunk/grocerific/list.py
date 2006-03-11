@@ -225,6 +225,7 @@ class ShoppingListController(RESTResource):
 
     
     @requiresLogin()
+    @usesTransaction()
     @turbogears.expose(format="xml",
                        content_type="text/xml")
     def add(self, shoppingList, itemId=None, user=None, **kwds):

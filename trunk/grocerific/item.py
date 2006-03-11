@@ -47,6 +47,7 @@ class ItemManager(RESTResource):
 
 
     @turbogears.expose(html="grocerific.templates.item_edit")
+    @usesTransaction()
     @usesLogin()
     def index(self, shoppingItem=None, user=None, **kwds):
         """Form to edit an item in the database.

@@ -279,6 +279,13 @@ class ShoppingItem(SQLObject):
     """
     name = StringCol(alternateID=True)
 
+##    def _create(self, id, **kw):
+##        m = md5.new()
+##        m.update(str(id))
+##        self.hash = m.hexdigest()[:10]
+##        print 'NEW %s: %s => %s' % (self.__class__.__name__, id, self.hash)
+##        return SQLObject._create(self, id, **kw)
+
     def __cmp__(self, other):
         return cmp(self.name, other.name)
 

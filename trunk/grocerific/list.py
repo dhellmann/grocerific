@@ -44,7 +44,7 @@ class ShoppingListController(RESTResource):
         """
         try:
             return ShoppingList.get(listId)
-        except SQLObjectNotFound:
+        except (ValueError, SQLObjectNotFound):
             return None
 
     def REST_create(self, *args, **kwds):

@@ -1,7 +1,7 @@
 <ajax-response xmlns:py="http://purl.org/kid/ns#">
   <response type="element" id="shopping_list" py:if="session_is_logged_in">
 
-    <center py:if="not shopping_list_item_count">(Empty)</center>
+    <center class="active_message" py:if="not shopping_list_item_count">(Empty)</center>
     
     <table class="form_table" valign="top"
       py:if="shopping_list_item_count">

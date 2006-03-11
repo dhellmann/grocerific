@@ -204,7 +204,7 @@
           
           <form action="/item/new_form" py:if="editable">
             <field>
-              <input type="hidden" name="name" value="${shopping_item.name}" />
+              <input type="hidden" name="sourceId" value="${shopping_item.id}" />
               <input class="add_button" type="submit"
                 name="addRelatedBtn"
                 tabindex="${tabindex.next}"

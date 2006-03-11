@@ -132,10 +132,25 @@ class ItemManager(RESTResource):
     
     @turbogears.expose(html="grocerific.templates.item_new")
     @requiresLogin()
-    def new_form(self, user=None, name='', addToList=False, **args):
+    def new_form(self, user=None, sourceId=None, name='', addToList=False, **args):
         """Form to add an item to the database.
         """
+        if sourceId:
+            source_obj = ShoppingItem.get(sourceId)
+            name = source_obj.name
+            tags = ' '.join([ t.tag for t in user.getTagsForItem(source_obj) ])
+            aisles = source_obj.getAisles(user)
+            active_store_ids = user.getStoreIdsForItem(source_obj)
+        else:
+            name = name or ''
+            tags = ''
+            aisles = []
+            active_store_ids = []
+            
         return makeTemplateArgs(name=name,
+                                tags=tags,
+                                aisles=aisles,
+                                active_store_ids=active_store_ids,
                                 user=user,
                                 addToList=addToList,
                                 )

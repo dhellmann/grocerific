@@ -75,7 +75,7 @@
         <field>
           
           <label for="tags">Tags:</label> 
-          <input type="text" name="tags" value="" size="70"
+          <input type="text" name="tags" value="$tags" size="70"
             tabindex="${tabindex.next}" />
           
           <?python
@@ -106,7 +106,7 @@
                   </tr>
                 </thead>
                 
-                <tbody>
+                <tbody py:if="not aisles">
                   <tr py:for="store_info in user.getStores()">
                     <td>
                       <span class="chain_name"
@@ -128,6 +128,37 @@
                         name="aisle_${store_info.store.id}"
                         value=""
                         tabindex="${tabindex.next}"
+                        />
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tbody py:if="aisles">
+                  <tr py:for="aisle_info in aisles">
+                    <td>
+                      <span class="chain_name"
+                        py:content="aisle_info.store.name">
+                        Name
+                      </span> 
+                    </td>
+                    <td>
+                      <input type="checkbox"
+                        name="store_${aisle_info.store.id}" 
+                        checked=""
+                        py:if="aisle_info.store.id in active_store_ids"
+                        tabindex="${tabindex.next}" />
+                      <input type="checkbox"
+                        name="store_${aisle_info.store.id}" 
+                        py:if="not aisle_info.store.id in active_store_ids"
+                        tabindex="${tabindex.current}" />
+                    </td>
+                    <td>
+                      <input 
+                        class="public"
+                        type="text"
+                        name="aisle_${aisle_info.store.id}"
+                        value="${aisle_info.aisle}"
+                        tabindex="${tabindex.next}" 
                         />
                     </td>
                   </tr>

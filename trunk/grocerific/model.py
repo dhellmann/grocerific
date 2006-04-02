@@ -278,6 +278,7 @@ class ShoppingItem(SQLObject):
     """Items someone can purchase.
     """
     name = StringCol(alternateID=True)
+    upc = StringCol()
 
 ##    def _create(self, id, **kw):
 ##        m = md5.new()
@@ -424,6 +425,13 @@ class ShoppingItem(SQLObject):
         #print items
         return items
     search = classmethod(search)
+
+    def upcLookup(self, upc, user=None):
+        items = ShoppingItem.selectBy(upc=upc,
+                                      orderBy='name',
+                                      )
+        return items
+    upcLookup = classmethod(upcLookup)
 
     def browse(cls, firstLetter):
         """Produce a list of ShoppingItems that start with firstLetter.

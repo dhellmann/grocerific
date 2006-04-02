@@ -23,6 +23,7 @@ QueryResultsManager.prototype = {
 
   registerAJAX: function () {
 	ajaxEngine.registerRequest('findItems', '/item/search');
+	ajaxEngine.registerRequest('findItemsByUPC', '/item/upcLookup');
 	ajaxEngine.registerRequest('browseItems', '/item/browse');
 	ajaxEngine.registerAjaxElement('query_results');
 	ajaxEngine.registerAjaxObject('queryResultsManager', this);
@@ -69,6 +70,14 @@ QueryResultsManager.prototype = {
 	if (queryString != "") {
 	  this.setMessage('loading...');
 	  ajaxEngine.sendRequest('findItems', "queryString="+queryString);
+	}
+  },
+  
+  findItemsByUPC: function() {
+	var queryString = document.findUPC.upc.value;
+	if (queryString != "") {
+	  this.setMessage('loading...');
+	  ajaxEngine.sendRequest('findItemsByUPC', "upc="+queryString);
 	}
   },
 

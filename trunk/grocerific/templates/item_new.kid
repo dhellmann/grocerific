@@ -31,7 +31,8 @@
         
         <field>
           <label for="name">Description</label>
-          <input class="public" type="text" name="name" value="$name" 
+          <input class="public" type="text" name="name" value="$name"
+            size="80"
             tabindex="${tabindex.next}" />
           
           <div class="help">Provide a description of the new item.  For example:
@@ -41,6 +42,15 @@
               <li>Tomatoes, canned, crushed, MyBrand</li>
             </ul>
           </div>
+        </field>
+        
+        <field>
+          <label for="name">UPC</label>
+          <input class="public" type="text" name="upc"
+            value="$upc"
+            tabindex="${tabindex.next}" />
+          
+          <div class="help">What is the UPC code for the item?</div>
         </field>
       </fieldset>
       

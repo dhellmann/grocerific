@@ -27,6 +27,10 @@
         theQueryResultsManager.findItemsByTag(tag);
         return false;
       }
+      function findItemsByUPC() {
+        theQueryResultsManager.findItemsByUPC();
+        return false;
+      }
 
       function browseItems(firstLetter) {
         theQueryResultsManager.browseItems(firstLetter);
@@ -54,8 +58,21 @@
       <!-- Pass the search parameters to the item add form. -->
       function goToNewItem() {
         var queryString = document.findItem.query.value;
-        document.location.href = "/item/new_form?addToList=" + <span
-        py:replace="shopping_list.id">list id</span> + unescape("&amp;") + "name=" + queryString;
+        document.location.href = "/item/new_form?addToList=" + 
+        <span py:replace="shopping_list.id">list id</span> +
+        unescape("&amp;") + 
+        "name=" + 
+        queryString;
+      }
+
+      <!-- Pass the search parameters to the item add form. -->
+      function goToNewItemByUPC() {
+        var upc = document.findUPC.upc.value;
+        document.location.href = "/item/new_form?addToList=" + 
+        <span py:replace="shopping_list.id">list id</span> +
+        unescape("&amp;") + 
+        "upc=" + 
+        upc;
       }
 
       <!-- Change the quantity of an item in the list -->
@@ -143,20 +160,20 @@
                   onclick="return goToNewItem()"
                   />
               </field>
-
-              <p/>
-
-              <field>
-                <a py:for="letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'" 
-                  style="margin-left: -1px;"
-                  onclick='browseItems("$letter")'
-                     py:content="letter"
-                     class="action_link">
-                    Letter
-                  </a>
-              </field>
             </form>
 
+            <p/>
+            
+            <field>
+              <a py:for="letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'" 
+                style="margin-left: -1px;"
+                onclick='browseItems("$letter")'
+                py:content="letter"
+                class="action_link">
+                Letter
+              </a>
+            </field>
+            
             <hr/>
 
             <field>
@@ -175,6 +192,21 @@
             
             <div class="active_message" id="query_message">&nbsp;</div>
             <div id="query_results"></div>
+
+            <hr/>
+
+            <form name="findUPC" onsubmit="return findItemsByUPC()">
+              <field>
+                <input type="text" name="upc" value="" />
+                
+                <input class="search_button" type="submit" name="search"
+                  value="UPC" />
+                <input class="add_button" type="submit" name="new"
+                  value="Define new item"
+                  onclick="return goToNewItemByUPC()"
+                  />
+              </field>
+            </form>
             
           </fieldset>
 

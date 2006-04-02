@@ -13,6 +13,7 @@
 #
 import turbogears
 from turbogears import controllers
+import xmlrpclib
 
 #
 # Import Local modules
@@ -133,7 +134,7 @@ class ItemManager(RESTResource):
     
     @turbogears.expose(html="grocerific.templates.item_new")
     @requiresLogin()
-    def new_form(self, user=None, sourceId=None, name='', addToList=False, **args):
+    def new_form(self, user=None, sourceId=None, name='', upc='', addToList=False, **args):
         """Form to add an item to the database.
         """
         if sourceId:
@@ -147,8 +148,19 @@ class ItemManager(RESTResource):
             tags = ''
             aisles = []
             active_store_ids = []
+
+        if upc and not name:
+            try:
+                s = xmlrpclib.Server('http://www.upcdatabase.com/rpc')
+                info = s.lookupUPC(upc)
+                print info
+                if info['found']:
+                    name = info['description']
+            except Exception, err:
+                print 'Error with UPC lookup: %s' % str(err)
             
         return makeTemplateArgs(name=name,
+                                upc=upc,
                                 tags=tags,
                                 aisles=aisles,
                                 active_store_ids=active_store_ids,
@@ -177,6 +189,29 @@ class ItemManager(RESTResource):
         return makeTemplateArgs(shopping_items=items,
                                 shopping_item_count=item_count,
                                 query_string=queryString,
+                                )
+
+    
+    @turbogears.expose(format="xml",
+                       template="grocerific.templates.query_results",
+                       content_type="text/xml",
+                       )
+    @usesLogin()
+    def upcLookup(self, upc=None, user=None, **args):
+        """Search for items in the database by UPC code.
+        """
+        items = ShoppingItem.upcLookup(upc, user)
+        if items is not None:
+            item_count = items.count()
+        else:
+            items = []
+            item_count = 0
+        #
+        # Format the response table
+        #
+        return makeTemplateArgs(shopping_items=items,
+                                shopping_item_count=item_count,
+                                upc=upc,
                                 )
     
     @turbogears.expose(format="xml",
@@ -207,7 +242,7 @@ class ItemManager(RESTResource):
     @turbogears.expose()
     @requiresLogin()
     @usesTransaction()
-    def add(self, user=None, name='', tags='', addToList=False, shoppingListId=None, usuallyBuy=None, **args):
+    def add(self, user=None, name='', tags='', upc='', addToList=False, shoppingListId=None, usuallyBuy=None, **args):
         """Add an item to the database.
         """
         name = name.strip()
@@ -227,7 +262,9 @@ class ItemManager(RESTResource):
             item = ShoppingItem.byName(name)
         except SQLObjectNotFound:
             # Insert the new item
-            item = ShoppingItem(name=name)
+            item = ShoppingItem(name=name,
+                                upc=upc,
+                                )
 
         #
         # Update the usuallybuy info

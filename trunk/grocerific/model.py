@@ -15,6 +15,7 @@ import md5
 from sqlobject import *
 from sqlobject.sqlbuilder import *
 from turbogears.database import PackageHub
+import xmlrpclib
 
 #
 # Import Local modules
@@ -426,10 +427,29 @@ class ShoppingItem(SQLObject):
         return items
     search = classmethod(search)
 
+    def getUPCInfo(cls, upc):
+        s = xmlrpclib.Server('http://www.upcdatabase.com/rpc')
+        info = s.lookupUPC(upc)
+        return info
+    getUPCInfo = classmethod(getUPCInfo)
+    
     def upcLookup(self, upc, user=None):
         items = ShoppingItem.selectBy(upc=upc,
                                       orderBy='name',
                                       )
+
+        if not items.count():
+            try:
+                info = ShoppingItem.getUPCInfo(upc)
+                if info['found']:
+                    name = info['description']
+                    new_item = ShoppingItem(name=name,
+                                            upc=upc,
+                                            )
+                    items = [ new_item ]
+            except Exception, err:
+                pass
+            
         return items
     upcLookup = classmethod(upcLookup)
 

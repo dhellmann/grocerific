@@ -13,7 +13,6 @@
 #
 import turbogears
 from turbogears import controllers
-import xmlrpclib
 
 #
 # Import Local modules
@@ -151,9 +150,7 @@ class ItemManager(RESTResource):
 
         if upc and not name:
             try:
-                s = xmlrpclib.Server('http://www.upcdatabase.com/rpc')
-                info = s.lookupUPC(upc)
-                print info
+                info = ShoppingItem.getUPCInfo(upc)
                 if info['found']:
                     name = info['description']
             except Exception, err:
@@ -202,7 +199,10 @@ class ItemManager(RESTResource):
         """
         items = ShoppingItem.upcLookup(upc, user)
         if items is not None:
-            item_count = items.count()
+            try:
+                item_count = items.count()
+            except (TypeError, AttributeError):
+                item_count = len(items)
         else:
             items = []
             item_count = 0

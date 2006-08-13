@@ -279,7 +279,8 @@ class ShoppingItem(SQLObject):
     """
     name = StringCol(alternateID=True)
     upc = StringCol()
-    _defaultOrder = 'name'
+    class sqlmeta:
+        defaultOrder = 'name'
 
 ##    def _create(self, id, **kw):
 ##        m = md5.new()
@@ -521,7 +522,8 @@ class ShoppingList(SQLObject):
     """
     name = StringCol(notNull=True)
     user = ForeignKey('User')
-    _defaultOrder = 'name'
+    class sqlmeta:
+        defaultOrder = 'name'
 
     def add(self, item, quantity=None, haveCoupon=False):
         """Add an item to a shopping list, if it does

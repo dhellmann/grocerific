@@ -4,6 +4,7 @@
 	longer supports orderBy as an argument to selectBy()?  Set the
 	_defaultOrder value for classes that used to have explicit orderBy
 	arguments in queries.
+	(ShoppingItem and ShoppingList): move _defaultOrder to sqlmeta.defaultOrder.
 
 	* dev.cfg (staticFilter.dir): Make staticFilter.dir point to a
 	fully qualified directory name.

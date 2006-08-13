@@ -15,52 +15,44 @@
       onloads.push(initialFocus);
     </script>
 
-    <div  py:if="not session_is_logged_in">
+    <h2>Create a Shopping List You Can Access From Anywhere</h2>
+    <h3>Organize it, print it, and shop more quickly</h3>
 
-      <h2>Create a Shopping List You Can Access From Anywhere</h2>
-      <h3>Organize it, print it, and shop more quickly</h3>
+    <p/>
 
-      <p/>
-
-      <table class="home_table">
-        <tr valign="top">
-          <td width="50%">
-            <center><img class="screenshot" width="380" height="320" src="/static/images/screenshot05.png"/></center>
-            
-            <div class="signup_box">
-              <div class="signup"><a href="/user/registration_form">Sign Up Here, It's Free!</a></div>
-            </div>
-              
-          </td>
-
-          <td width="50%">
-
-            <h4>Organize</h4>
-
-            <p style="padding-left: 2em;">Maintain your list as you
+    <table class="home_table">
+      <tr valign="top">
+        <td width="50%">
+          <center><img class="screenshot" width="380" height="320" src="/static/images/screenshot05.png"/></center>
+          
+          <div class="signup_box">
+            <div class="signup"><a href="/user/registration_form">Sign Up Here, It's Free!</a></div>
+          </div>
+          
+        </td>
+        
+        <td width="50%">
+          
+          <h4>Organize</h4>
+          
+          <p style="padding-left: 2em;">Maintain your list as you
             run out of items.  Create separate lists for special
             occasions, recipies, or recurring items.</p>
-            
-            <h4>Print</h4>
-
-            <p style="padding-left: 2em;">Produce a separate list for
+          
+          <h4>Print</h4>
+          
+          <p style="padding-left: 2em;">Produce a separate list for
             each store where you shop.  Highlight any coupon
             items.</p>
-
-            <h4>Shop</h4>
-
-            <p style="padding-left: 2em;">Get in and out of the store
+          
+          <h4>Shop</h4>
+          
+          <p style="padding-left: 2em;">Get in and out of the store
             more quickly.  Only visit aisles you need to.</p>
-
-          </td>
-        </tr>
-      </table>
-
-    </div>
-
-    <div py:if="session_is_logged_in">
-      Need logged-in content here.
-    </div>
+          
+        </td>
+      </tr>
+    </table>
     
 </body>
 </html>

@@ -204,12 +204,12 @@ class UserManager:
         #
         if not cherrypy.request.simpleCookie.get('rememberme'):
             cherrypy.response.simpleCookie['rememberme'] = userobj.getRememberMeCookieValue()
-            cherrypy.response.simpleCookie['rememberme']['path'] = '/'
+            cherrypy.response.simpleCookie['rememberme']['path'] = '/list'
         
         #
         # Go back to the page that sent us here
         #
-        go_back_to = cherrypy.session.get('login_came_from', '/')
+        go_back_to = cherrypy.session.get('login_came_from', '/list')
         try:
             del cherrypy.session['login_came_from']
         except KeyError:

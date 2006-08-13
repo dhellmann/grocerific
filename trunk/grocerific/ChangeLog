@@ -1,0 +1,5 @@
+2006-08-13  Doug Hellmann  <doug@hellfly.net>
+
+	* user.py (UserManager.login): On login, redirect to '/list' to go
+	to the "Next List" for the user.
+

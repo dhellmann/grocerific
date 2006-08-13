@@ -1,0 +1,11 @@
+2006-08-13  Doug Hellmann  <dhellmann@racemi.com>
+
+	* dev.cfg (staticFilter.dir): Make staticFilter.dir point to a
+	fully qualified directory name.
+
+	* grocerific/templates/index.kid: Drop the different views for
+	logged in vs. not logged in.
+
+	* grocerific/user.py (UserManager.login): On login, redirect to
+	'/list' to go to the "Next List" for the user.
+

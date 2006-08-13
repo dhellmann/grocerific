@@ -1,5 +1,0 @@
-2006-08-13  Doug Hellmann  <doug@hellfly.net>
-
-	* index.kid: Drop the different views for logged in vs. not logged
-	in.
-

@@ -87,7 +87,6 @@ class User(SQLObject):
         """Return the ShoppingLists owned by this user.
         """
         return ShoppingList.selectBy(user=self,
-                                     orderBy='name',
                                      )
 
     def getStores(self, ordered=True):
@@ -280,6 +279,7 @@ class ShoppingItem(SQLObject):
     """
     name = StringCol(alternateID=True)
     upc = StringCol()
+    _defaultOrder = 'name'
 
 ##    def _create(self, id, **kw):
 ##        m = md5.new()
@@ -420,9 +420,7 @@ class ShoppingItem(SQLObject):
         else:
             return None
         
-        items = ShoppingItem.select(select_expr,
-                                    orderBy='name',
-                                    )
+        items = ShoppingItem.select(select_expr)
         #print items
         return items
     search = classmethod(search)
@@ -434,9 +432,7 @@ class ShoppingItem(SQLObject):
     getUPCInfo = classmethod(getUPCInfo)
     
     def upcLookup(self, upc, user=None):
-        items = ShoppingItem.selectBy(upc=upc,
-                                      orderBy='name',
-                                      )
+        items = ShoppingItem.selectBy(upc=upc)
 
         if not items.count():
             try:
@@ -475,9 +471,7 @@ class ShoppingItem(SQLObject):
                 where_clauses = tuple(where_clauses)
                 select_expr = OR(*where_clauses)
 
-            items = ShoppingItem.select(select_expr,
-                                        orderBy='name',
-                                        )
+            items = ShoppingItem.select(select_expr)
         else:
             items = None
         return items
@@ -527,6 +521,7 @@ class ShoppingList(SQLObject):
     """
     name = StringCol(notNull=True)
     user = ForeignKey('User')
+    _defaultOrder = 'name'
 
     def add(self, item, quantity=None, haveCoupon=False):
         """Add an item to a shopping list, if it does

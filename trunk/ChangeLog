@@ -1,5 +1,10 @@
 2006-08-13  Doug Hellmann  <dhellmann@racemi.com>
 
+	* grocerific/model.py (ShoppingItem): It appears that SQLObject no
+	longer supports orderBy as an argument to selectBy()?  Set the
+	_defaultOrder value for classes that used to have explicit orderBy
+	arguments in queries.
+
 	* dev.cfg (staticFilter.dir): Make staticFilter.dir point to a
 	fully qualified directory name.
 
